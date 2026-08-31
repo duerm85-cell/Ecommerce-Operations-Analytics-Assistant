@@ -1,0 +1,14 @@
+{
+  "seed": 20260801,
+  "generated_at": "2026-08-01",
+  "currency": "TWD",
+  "timezone": "Asia/Taipei",
+  "rows": {
+    "products": 800,
+    "users": 12000,
+    "orders": 60000,
+    "ads": 2190,
+    "calendar": 365
+  },
+  "classification": "100% synthetic; source URLs are non-production example.com placeholders"
+}

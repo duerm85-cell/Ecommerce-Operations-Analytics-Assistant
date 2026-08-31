@@ -1,0 +1,51 @@
+﻿product_id,product_name,category,price,sold_count,rating,review_count,shop_name,location,crawl_time,source_url,data_source_type,hot_score,opportunity_score
+P00001,Makeup Essential 0001,Makeup,353,45,4.68,6,Sample Shop 073,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/1,synthetic_compliant_sample,38.74,22.37
+P00002,Skincare Essential 0002,Skincare,294,59,4.43,7,Sample Shop 035,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/2,synthetic_compliant_sample,38.07,33.11
+P00003,Fashion Accessories Essential 0003,Fashion Accessories,574,77,4.63,4,Sample Shop 014,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/3,synthetic_compliant_sample,40.71,41.56
+P00004,Fashion Accessories Essential 0004,Fashion Accessories,1333,55,4.68,6,Sample Shop 035,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/4,synthetic_compliant_sample,40.62,40.6
+P00005,Fashion Accessories Essential 0005,Fashion Accessories,482,116,4.53,11,Sample Shop 010,Taichung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/5,synthetic_compliant_sample,48.81,56.14
+P00006,Wellness Essential 0006,Wellness,1241,153,4.76,10,Sample Shop 095,Taichung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/6,synthetic_compliant_sample,54.62,53.8
+P00007,Feminine Care Essential 0007,Feminine Care,114,438,4.65,32,Sample Shop 008,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/7,synthetic_compliant_sample,70.19,67.84
+P00008,Skincare Essential 0008,Skincare,545,120,4.84,17,Sample Shop 028,Taichung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/8,synthetic_compliant_sample,56.93,32.15
+P00009,Wellness Essential 0009,Wellness,600,153,4.79,9,Sample Shop 116,Tainan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/9,synthetic_compliant_sample,54.47,53.32
+P00010,Feminine Care Essential 0010,Feminine Care,242,163,4.26,21,Sample Shop 020,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/10,synthetic_compliant_sample,51.67,57.83
+P00011,Makeup Essential 0011,Makeup,186,29,4.73,4,Sample Shop 007,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/11,synthetic_compliant_sample,33.22,20.17
+P00012,Makeup Essential 0012,Makeup,326,260,4.96,31,Sample Shop 041,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/12,synthetic_compliant_sample,70.1,44.1
+P00013,Hair Care Essential 0013,Hair Care,475,50,4.47,4,Sample Shop 064,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/13,synthetic_compliant_sample,34.03,44.77
+P00014,Fashion Accessories Essential 0014,Fashion Accessories,485,469,4.55,54,Sample Shop 049,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/14,synthetic_compliant_sample,72.62,75.1
+P00015,Feminine Care Essential 0015,Feminine Care,307,189,4.62,15,Sample Shop 108,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/15,synthetic_compliant_sample,56.84,65.74
+P00016,Skincare Essential 0016,Skincare,276,42,4.03,2,Sample Shop 117,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/16,synthetic_compliant_sample,21.76,25.43
+P00017,Makeup Essential 0017,Makeup,364,322,4.26,37,Sample Shop 091,Taichung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/17,synthetic_compliant_sample,61.81,46.7
+P00018,Fashion Accessories Essential 0018,Fashion Accessories,631,69,4.17,3,Sample Shop 112,Other,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/18,synthetic_compliant_sample,30.64,39.55
+P00019,Skincare Essential 0019,Skincare,963,55,4.56,3,Sample Shop 064,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/19,synthetic_compliant_sample,34.9,18.28
+P00020,Feminine Care Essential 0020,Feminine Care,340,241,4.45,11,Sample Shop 068,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/20,synthetic_compliant_sample,54.44,66.23
+P00021,Fashion Accessories Essential 0021,Fashion Accessories,476,163,4.48,19,Sample Shop 052,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/21,synthetic_compliant_sample,54.64,61.46
+P00022,Feminine Care Essential 0022,Feminine Care,303,69,4.86,9,Sample Shop 032,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/22,synthetic_compliant_sample,48.09,55.29
+P00023,Fashion Accessories Essential 0023,Fashion Accessories,266,95,4.8,4,Sample Shop 104,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/23,synthetic_compliant_sample,45.48,56.39
+P00024,Makeup Essential 0024,Makeup,405,119,4.49,14,Sample Shop 095,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/24,synthetic_compliant_sample,49.89,33.98
+P00025,Skincare Essential 0025,Skincare,410,137,4.96,16,Sample Shop 071,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/25,synthetic_compliant_sample,59.77,38.1
+P00026,Hair Care Essential 0026,Hair Care,946,46,4.72,2,Sample Shop 048,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/26,synthetic_compliant_sample,33.92,44.66
+P00027,Fashion Accessories Essential 0027,Fashion Accessories,329,169,5.0,16,Sample Shop 035,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/27,synthetic_compliant_sample,62.42,60.93
+P00028,Wellness Essential 0028,Wellness,265,93,4.84,10,Sample Shop 074,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/28,synthetic_compliant_sample,51.22,62.05
+P00029,Feminine Care Essential 0029,Feminine Care,163,120,4.84,17,Sample Shop 004,Other,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/29,synthetic_compliant_sample,56.93,54.36
+P00030,Feminine Care Essential 0030,Feminine Care,283,216,4.44,20,Sample Shop 009,Other,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/30,synthetic_compliant_sample,56.99,59.86
+P00031,Skincare Essential 0031,Skincare,1030,262,4.7,34,Sample Shop 039,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/31,synthetic_compliant_sample,66.51,41.79
+P00032,Makeup Essential 0032,Makeup,219,151,4.77,19,Sample Shop 070,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/32,synthetic_compliant_sample,58.67,40.32
+P00033,Skincare Essential 0033,Skincare,562,17,4.58,2,Sample Shop 084,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/33,synthetic_compliant_sample,22.45,7.66
+P00034,Fashion Accessories Essential 0034,Fashion Accessories,712,88,4.99,4,Sample Shop 013,Taichung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/34,synthetic_compliant_sample,47.87,42.63
+P00035,Makeup Essential 0035,Makeup,471,26,4.24,4,Sample Shop 046,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/35,synthetic_compliant_sample,24.18,16.36
+P00036,Makeup Essential 0036,Makeup,624,22,4.84,3,Sample Shop 039,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/36,synthetic_compliant_sample,30.99,21.34
+P00037,Makeup Essential 0037,Makeup,355,27,4.28,3,Sample Shop 030,Tainan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/37,synthetic_compliant_sample,23.69,15.52
+P00038,Skincare Essential 0038,Skincare,413,49,4.75,3,Sample Shop 082,Kaohsiung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/38,synthetic_compliant_sample,36.93,22.56
+P00039,Fashion Accessories Essential 0039,Fashion Accessories,572,48,4.7,2,Sample Shop 002,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/39,synthetic_compliant_sample,33.99,35.21
+P00040,Fashion Accessories Essential 0040,Fashion Accessories,447,198,4.73,15,Sample Shop 040,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/40,synthetic_compliant_sample,59.09,61.89
+P00041,Wellness Essential 0041,Wellness,769,90,4.37,10,Sample Shop 089,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/41,synthetic_compliant_sample,43.2,49.56
+P00042,Hair Care Essential 0042,Hair Care,418,311,4.38,40,Sample Shop 045,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/42,synthetic_compliant_sample,63.95,70.08
+P00043,Skincare Essential 0043,Skincare,874,102,4.47,15,Sample Shop 033,Taichung,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/43,synthetic_compliant_sample,48.53,30.25
+P00044,Wellness Essential 0044,Wellness,366,41,3.85,6,Sample Shop 113,Other,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/44,synthetic_compliant_sample,24.26,49.36
+P00045,Wellness Essential 0045,Wellness,549,281,4.33,15,Sample Shop 044,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/45,synthetic_compliant_sample,55.86,60.59
+P00046,Makeup Essential 0046,Makeup,215,158,4.3,7,Sample Shop 095,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/46,synthetic_compliant_sample,45.25,36.02
+P00047,Fashion Accessories Essential 0047,Fashion Accessories,498,273,4.8,39,Sample Shop 104,New Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/47,synthetic_compliant_sample,69.43,69.13
+P00048,Fashion Accessories Essential 0048,Fashion Accessories,546,61,4.0,4,Sample Shop 082,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/48,synthetic_compliant_sample,28.19,39.71
+P00049,Skincare Essential 0049,Skincare,243,61,4.22,7,Sample Shop 057,Taoyuan,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/49,synthetic_compliant_sample,34.94,33.37
+P00050,Skincare Essential 0050,Skincare,392,75,4.4,6,Sample Shop 065,Taipei,2026-08-01 10:00:00+08:00,https://example.com/compliant-sample/product/50,synthetic_compliant_sample,38.94,28.78

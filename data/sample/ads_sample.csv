@@ -1,0 +1,51 @@
+﻿date,campaign_id,campaign_name,channel,impressions,clicks,spend,conversions,attributed_revenue,currency,data_source_type
+2025-01-01,C01,Brand Search,Search Ads,2990,115,901.4,6,5665.28,TWD,synthetic
+2025-01-01,C02,Category Search,Search Ads,2623,69,714.52,6,4377.38,TWD,synthetic
+2025-01-01,C03,Prospecting Video,Social Ads,3747,43,290.21,0,0.0,TWD,synthetic
+2025-01-01,C04,Retargeting,Social Ads,2484,73,563.22,4,3149.12,TWD,synthetic
+2025-01-01,C05,Creator Review,Affiliate,2698,96,548.45,5,3677.14,TWD,synthetic
+2025-01-01,C06,Member Reactivation,CRM,2698,151,674.61,17,15154.08,TWD,synthetic
+2025-01-02,C01,Brand Search,Search Ads,3523,128,1264.37,9,8605.98,TWD,synthetic
+2025-01-02,C02,Category Search,Search Ads,2498,62,771.71,2,1317.92,TWD,synthetic
+2025-01-02,C03,Prospecting Video,Social Ads,2203,28,239.94,1,486.95,TWD,synthetic
+2025-01-02,C04,Retargeting,Social Ads,2559,44,381.17,5,4224.82,TWD,synthetic
+2025-01-02,C05,Creator Review,Affiliate,2618,73,487.94,4,2526.02,TWD,synthetic
+2025-01-02,C06,Member Reactivation,CRM,4674,302,1162.96,33,20259.51,TWD,synthetic
+2025-01-03,C01,Brand Search,Search Ads,3628,142,1148.34,15,12344.02,TWD,synthetic
+2025-01-03,C02,Category Search,Search Ads,2896,67,791.39,6,4211.52,TWD,synthetic
+2025-01-03,C03,Prospecting Video,Social Ads,4005,67,478.09,3,1252.05,TWD,synthetic
+2025-01-03,C04,Retargeting,Social Ads,2391,39,348.58,4,2616.54,TWD,synthetic
+2025-01-03,C05,Creator Review,Affiliate,3027,107,699.51,7,4599.39,TWD,synthetic
+2025-01-03,C06,Member Reactivation,CRM,2028,130,497.7,13,9044.7,TWD,synthetic
+2025-01-04,C01,Brand Search,Search Ads,4058,163,1746.53,19,15589.75,TWD,synthetic
+2025-01-04,C02,Category Search,Search Ads,2568,76,1012.56,4,2790.27,TWD,synthetic
+2025-01-04,C03,Prospecting Video,Social Ads,2346,24,183.09,0,0.0,TWD,synthetic
+2025-01-04,C04,Retargeting,Social Ads,2884,69,567.65,4,3478.36,TWD,synthetic
+2025-01-04,C05,Creator Review,Affiliate,2592,69,536.01,2,1094.71,TWD,synthetic
+2025-01-04,C06,Member Reactivation,CRM,2478,162,582.53,20,15976.45,TWD,synthetic
+2025-01-05,C01,Brand Search,Search Ads,2422,76,726.33,5,4636.58,TWD,synthetic
+2025-01-05,C02,Category Search,Search Ads,3413,89,997.6,6,4505.05,TWD,synthetic
+2025-01-05,C03,Prospecting Video,Social Ads,3519,43,326.09,2,1028.64,TWD,synthetic
+2025-01-05,C04,Retargeting,Social Ads,4081,78,586.74,6,4297.6,TWD,synthetic
+2025-01-05,C05,Creator Review,Affiliate,3353,105,632.18,6,4793.35,TWD,synthetic
+2025-01-05,C06,Member Reactivation,CRM,2831,185,734.7,13,10136.16,TWD,synthetic
+2025-01-06,C01,Brand Search,Search Ads,3364,126,1165.31,11,8179.66,TWD,synthetic
+2025-01-06,C02,Category Search,Search Ads,3813,97,1049.66,11,7454.56,TWD,synthetic
+2025-01-06,C03,Prospecting Video,Social Ads,3278,45,366.89,2,1037.93,TWD,synthetic
+2025-01-06,C04,Retargeting,Social Ads,3901,87,724.67,6,4670.79,TWD,synthetic
+2025-01-06,C05,Creator Review,Affiliate,3023,101,660.27,4,2180.15,TWD,synthetic
+2025-01-06,C06,Member Reactivation,CRM,2798,148,522.44,15,12010.89,TWD,synthetic
+2025-01-07,C01,Brand Search,Search Ads,5033,175,1519.39,9,6909.87,TWD,synthetic
+2025-01-07,C02,Category Search,Search Ads,3387,100,1125.33,4,3042.8,TWD,synthetic
+2025-01-07,C03,Prospecting Video,Social Ads,4543,54,402.02,1,620.89,TWD,synthetic
+2025-01-07,C04,Retargeting,Social Ads,5263,118,1063.55,14,12324.46,TWD,synthetic
+2025-01-07,C05,Creator Review,Affiliate,2923,97,536.78,4,2534.01,TWD,synthetic
+2025-01-07,C06,Member Reactivation,CRM,2588,160,624.64,19,12636.27,TWD,synthetic
+2025-01-08,C01,Brand Search,Search Ads,2620,92,754.93,6,6776.13,TWD,synthetic
+2025-01-08,C02,Category Search,Search Ads,3131,73,821.62,5,4133.83,TWD,synthetic
+2025-01-08,C03,Prospecting Video,Social Ads,5243,83,632.76,2,1184.89,TWD,synthetic
+2025-01-08,C04,Retargeting,Social Ads,2936,56,474.09,5,4314.06,TWD,synthetic
+2025-01-08,C05,Creator Review,Affiliate,3081,101,709.36,9,4431.17,TWD,synthetic
+2025-01-08,C06,Member Reactivation,CRM,3091,195,658.96,18,13837.82,TWD,synthetic
+2025-01-09,C01,Brand Search,Search Ads,2991,96,832.15,11,9399.43,TWD,synthetic
+2025-01-09,C02,Category Search,Search Ads,2985,72,830.94,4,2610.08,TWD,synthetic

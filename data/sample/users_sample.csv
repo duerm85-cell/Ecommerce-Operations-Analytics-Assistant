@@ -1,0 +1,51 @@
+﻿user_id,age_group,region,register_date,acquisition_channel,repeat_propensity,data_source_type
+U000001,25-34,Tainan,2023-05-25,Social Ads,0.5462,synthetic
+U000002,45-54,Taichung,2023-05-30,Organic,0.2192,synthetic
+U000003,25-34,Taipei,2023-02-27,Organic,0.1569,synthetic
+U000004,45-54,Taipei,2023-11-15,CRM,0.3024,synthetic
+U000005,25-34,Taipei,2023-08-10,Search Ads,0.2737,synthetic
+U000006,18-24,Taoyuan,2024-02-25,Social Ads,0.1706,synthetic
+U000007,35-44,Taoyuan,2023-05-14,Organic,0.2506,synthetic
+U000008,25-34,Other,2024-08-02,Search Ads,0.1702,synthetic
+U000009,25-34,New Taipei,2023-03-23,CRM,0.6302,synthetic
+U000010,35-44,Taichung,2024-04-14,CRM,0.2797,synthetic
+U000011,35-44,New Taipei,2024-10-16,Social Ads,0.3551,synthetic
+U000012,25-34,Taoyuan,2024-02-21,Organic,0.5925,synthetic
+U000013,18-24,Taichung,2024-06-11,Organic,0.2316,synthetic
+U000014,25-34,Taoyuan,2023-03-17,CRM,0.195,synthetic
+U000015,25-34,Taipei,2023-08-26,Affiliate,0.0546,synthetic
+U000016,35-44,New Taipei,2024-09-24,Organic,0.1466,synthetic
+U000017,25-34,Taipei,2023-03-03,Affiliate,0.1118,synthetic
+U000018,35-44,Taipei,2023-01-20,Social Ads,0.2572,synthetic
+U000019,18-24,New Taipei,2023-04-07,Affiliate,0.1041,synthetic
+U000020,18-24,Kaohsiung,2023-12-19,Affiliate,0.2089,synthetic
+U000021,35-44,New Taipei,2024-08-21,Search Ads,0.5113,synthetic
+U000022,25-34,Taipei,2023-10-30,CRM,0.3103,synthetic
+U000023,25-34,New Taipei,2023-04-18,CRM,0.3337,synthetic
+U000024,25-34,Taipei,2024-07-28,Social Ads,0.0429,synthetic
+U000025,35-44,Taipei,2023-11-15,Organic,0.3812,synthetic
+U000026,25-34,Kaohsiung,2023-05-07,Organic,0.0947,synthetic
+U000027,45-54,Taoyuan,2023-08-19,Search Ads,0.5742,synthetic
+U000028,25-34,Taoyuan,2024-04-25,Search Ads,0.1752,synthetic
+U000029,35-44,Taichung,2023-03-27,Social Ads,0.1547,synthetic
+U000030,45-54,Tainan,2024-07-20,Affiliate,0.1743,synthetic
+U000031,55+,Other,2023-11-26,Search Ads,0.0567,synthetic
+U000032,25-34,Tainan,2023-04-01,Search Ads,0.2922,synthetic
+U000033,25-34,New Taipei,2024-04-27,Organic,0.1532,synthetic
+U000034,35-44,New Taipei,2023-06-23,Search Ads,0.3266,synthetic
+U000035,25-34,Taoyuan,2023-12-01,Social Ads,0.2709,synthetic
+U000036,25-34,New Taipei,2024-03-12,CRM,0.2634,synthetic
+U000037,25-34,Kaohsiung,2024-05-01,Organic,0.4416,synthetic
+U000038,35-44,New Taipei,2024-12-24,CRM,0.7504,synthetic
+U000039,45-54,Kaohsiung,2024-12-14,Social Ads,0.2172,synthetic
+U000040,25-34,Taipei,2024-12-26,Organic,0.4363,synthetic
+U000041,25-34,Other,2024-05-10,Organic,0.7525,synthetic
+U000042,25-34,New Taipei,2024-05-31,Affiliate,0.102,synthetic
+U000043,18-24,New Taipei,2023-04-15,Search Ads,0.3107,synthetic
+U000044,45-54,Taichung,2024-10-30,Search Ads,0.3973,synthetic
+U000045,25-34,New Taipei,2024-05-15,Social Ads,0.5734,synthetic
+U000046,35-44,New Taipei,2023-01-10,Affiliate,0.1708,synthetic
+U000047,35-44,Taipei,2024-01-08,Social Ads,0.1777,synthetic
+U000048,45-54,Taipei,2023-03-07,Social Ads,0.4457,synthetic
+U000049,25-34,Taichung,2024-11-07,Organic,0.5885,synthetic
+U000050,35-44,Taichung,2024-06-15,Organic,0.6492,synthetic

@@ -21,18 +21,14 @@ SQLite SQL independently reconciled GMV, net sales, completed orders, gross prof
 
 ## Automated tests
 
-Six unittest cases passed:
+Twelve unittest cases passed. Coverage includes minimum scale; primary-key uniqueness; required fields; status-specific completed/refunded/cancelled amount equations; product/ad bounds; foreign keys; date/currency/status contracts; independent Hot and Opportunity Score recomputation; MySQL timestamp normalization; two-directory fixed-seed hash equality; portable Dashboard/RFM inputs; and SQLite/Python/dashboard KPI parity.
 
-1. Minimum dataset scale.
-2. Product, user, order and advertising-grain primary-key uniqueness.
-3. Required-field completeness.
-4. Price/rating/quantity/ad funnel bounds and order amount equations.
-5. Orders-to-users and orders-to-products foreign-key coverage.
-6. SQLite/Python/dashboard KPI parity for net sales and ROAS.
-
-Result: `Ran 6 tests ... OK`.
+Result: `Ran 12 tests ... OK`.
 
 ## Visual verification
 
-All four 1440×810 PNG previews were opened at original resolution. Titles, KPI cards, units, chart labels, insights and source/time footers were legible with no overlap or clipping. The HTML preview was generated and its embedded data/filter logic was inspected; native browser clicking was not automated in this environment.
+All four 1440×810 PNG previews were opened at original resolution. Titles, KPI cards, units, chart labels, insights and source/time footers were legible with no overlap or clipping. The HTML preview was opened in headless Microsoft Edge: four pages rendered, four filters changed KPI cards, all chart containers were non-empty and no page errors were emitted.
 
+## Clean reconstruction
+
+The committed baseline was exported into an isolated temporary directory, dependencies were installed into a new virtual environment, and `python run_pipeline.py` completed without access to the main workspace's ignored files. A second run produced identical SHA-256 hashes for all five generated source CSVs and `kpi_summary.json`. After audit repairs, a second ignored-file-free candidate copy was also rebuilt and tested successfully; details are in `pre_release_audit.md`.

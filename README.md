@@ -98,7 +98,7 @@ docs/         architecture, dictionaries, runbook, limitations and portfolio pit
 
 ## Reproducibility and quality
 
-The generator produces 800 products, 12,000 users, 60,000 orders, 2,190 daily campaign rows and 365 calendar rows. Tests cover key uniqueness, missingness, valid ranges, amount equations, foreign keys and SQL/Python/Dashboard metric parity. Results are recorded in [reports/test_results.md](reports/test_results.md).
+The generator produces 800 products, 12,000 users, 60,000 orders, 2,190 daily campaign rows and 365 calendar rows. Twelve automated tests cover scale, uniqueness, missingness, valid ranges, completed/refunded/cancelled amount equations, foreign keys, date/currency contracts, Hot and Opportunity score recomputation, MySQL timestamp normalization, fixed-seed reproducibility, portable Dashboard inputs and SQL/Python/Dashboard metric parity. Results are recorded in [reports/test_results.md](reports/test_results.md).
 
 ## Roadmap
 
@@ -110,4 +110,3 @@ The generator produces 800 products, 12,000 users, 60,000 orders, 2,190 daily ca
 ## Portfolio use
 
 The [portfolio pitch](docs/portfolio_pitch.md) contains a 60-second interview introduction and three resume-ready bullets. This repository is prepared for local review only; no remote repository has been created or pushed.
-

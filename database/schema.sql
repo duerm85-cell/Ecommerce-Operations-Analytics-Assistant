@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS products (
   data_source_type VARCHAR(32) NOT NULL,
   hot_score DECIMAL(6,2) NOT NULL,
   opportunity_score DECIMAL(6,2) NOT NULL,
-  CHECK (price > 0), CHECK (rating BETWEEN 1 AND 5)
+  CHECK (price > 0), CHECK (rating BETWEEN 1 AND 5),
+  CHECK (hot_score BETWEEN 0 AND 100), CHECK (opportunity_score BETWEEN 0 AND 100)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -61,7 +62,14 @@ CREATE TABLE IF NOT EXISTS orders (
   CONSTRAINT fk_orders_product FOREIGN KEY (product_id) REFERENCES products(product_id),
   CONSTRAINT fk_orders_date FOREIGN KEY (order_date) REFERENCES calendar(date),
   CHECK (quantity > 0), CHECK (unit_price > 0),
-  CHECK (discount_amount >= 0 AND gross_amount >= 0 AND refund_amount >= 0 AND net_sales >= 0 AND cost >= 0)
+  CHECK (discount_amount >= 0 AND discount_amount <= gross_amount),
+  CHECK (gross_amount = quantity * unit_price),
+  CHECK (refund_amount >= 0 AND net_sales >= 0 AND cost >= 0),
+  CHECK (
+    (status = 'completed' AND net_sales = gross_amount - discount_amount AND refund_amount = 0)
+    OR (status = 'refunded' AND net_sales = 0 AND cost = 0 AND refund_amount = gross_amount - discount_amount)
+    OR (status = 'cancelled' AND net_sales = 0 AND cost = 0 AND refund_amount = 0)
+  )
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS ads (
@@ -78,6 +86,6 @@ CREATE TABLE IF NOT EXISTS ads (
   data_source_type VARCHAR(32) NOT NULL,
   PRIMARY KEY (date, campaign_id),
   CONSTRAINT fk_ads_date FOREIGN KEY (date) REFERENCES calendar(date),
-  CHECK (clicks <= impressions), CHECK (conversions <= clicks), CHECK (spend >= 0)
+  CHECK (clicks <= impressions), CHECK (conversions <= clicks),
+  CHECK (spend >= 0), CHECK (attributed_revenue >= 0)
 ) ENGINE=InnoDB;
-

@@ -2,18 +2,18 @@ USE ecommerce_analytics;
 
 -- 1. Monthly GMV, completed orders, net sales, profit, margin, AOV and MoM net-sales growth.
 WITH monthly AS (
-  SELECT DATE_FORMAT(order_date,'%Y-%m') month,
+  SELECT DATE_FORMAT(order_date,'%Y-%m') month_key,
     SUM(CASE WHEN status IN ('completed','refunded') THEN gross_amount ELSE 0 END) gmv,
     COUNT(DISTINCT CASE WHEN status='completed' THEN order_id END) orders,
     SUM(net_sales) net_sales, SUM(net_sales-cost) gross_profit
   FROM orders GROUP BY 1
 ), lagged AS (
-  SELECT monthly.*, LAG(net_sales) OVER (ORDER BY month) prior_net_sales FROM monthly
+  SELECT monthly.*, LAG(net_sales) OVER (ORDER BY month_key) prior_net_sales FROM monthly
 )
 SELECT *, gross_profit/NULLIF(net_sales,0) gross_margin,
   net_sales/NULLIF(orders,0) aov,
   (net_sales-prior_net_sales)/NULLIF(prior_net_sales,0) mom_net_sales
-FROM lagged ORDER BY month;
+FROM lagged ORDER BY month_key;
 
 -- 2. Product sales rank inside category and cumulative category contribution.
 WITH product_sales AS (
@@ -83,4 +83,3 @@ SELECT c.is_weekend,c.is_promotion,COUNT(DISTINCT c.date) days,SUM(o.net_sales) 
  SUM(o.net_sales)/COUNT(DISTINCT c.date) avg_daily_net_sales
 FROM calendar c LEFT JOIN orders o ON o.order_date=c.date AND o.status='completed'
 GROUP BY c.is_weekend,c.is_promotion ORDER BY c.is_promotion DESC,c.is_weekend DESC;
-

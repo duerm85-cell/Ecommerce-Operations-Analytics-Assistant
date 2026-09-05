@@ -1,34 +1,57 @@
-# V1.0 verification record
+# V1.1 verification record
 
-Execution date: 2026-09-01 (Asia/Shanghai host). Data business calendar: 2025, Asia/Taipei.
+Execution date: 2026-09-05 (Asia/Shanghai host). Business calendar: FY2025, Asia/Taipei. All business data is synthetic.
 
 ## Environment observed
 
-- Bundled Python 3.12.13: available.
-- pandas, NumPy and Pillow: import verified.
-- MySQL 8.0.33 binaries and Windows service: available; service running.
-- MySQL schema execution: **not run** because local root authentication requires a password that was not provided. No password was guessed and no account/configuration was changed.
-- Docker: not found.
-- Power BI Desktop executable: not found/reliably invokable; PBIX not generated.
+- Bundled Python 3.12: available; pandas, NumPy and Pillow imports passed.
+- Power BI Desktop 2.157.879.0: installed and launched successfully.
+- MySQL 8 binaries/service: present, but live schema execution was not attempted because the available root account requires an unknown password. No credential was guessed and no service/account/configuration was changed.
+- SQLite: end-to-end executable validation passed.
 
-## Pipeline execution
+## End-to-end pipeline
 
-`python run_pipeline.py` completed successfully and generated 800 products, 12,000 users, 60,000 orders, 2,190 ad rows and 365 calendar rows.
+The exact project entry point was run with the available Python executable:
 
-Python KPIs: GMV NT$39,295,789.00; net sales NT$35,169,616.30; completed orders 55,890; gross profit NT$14,339,912.83; gross margin 40.7736%; AOV NT$629.26; buyers 11,381; repeat rate 89.6143%; CTR 3.2688%; CVR 7.6213%; CPA NT$93.06; ROAS 7.9159×.
+```powershell
+python run_pipeline.py
+```
 
-SQLite SQL independently reconciled GMV, net sales, completed orders, gross profit, CTR, CVR and ROAS to the Python values (floating tolerance 1e-9; monetary absolute tolerance NT$0.02).
+It regenerated 800 products, 12,000 users, 60,000 orders, 2,190 ad rows and 365 calendar rows; rebuilt analysis/SQLite/dashboard outputs; and completed the test discovery step.
+
+Core results: GMV TWD 39,295,789.00; Net Sales TWD 35,169,616.30; 55,890 completed orders; Gross Profit TWD 14,339,912.83; Gross Margin 40.7736%; AOV TWD 629.26; 11,381 purchasing users; Repeat Rate 89.6143%; CTR 3.2688%; CVR 7.6213%; CPA TWD 93.06; ROAS 7.9159×.
+
+SQLite independently reconciled GMV, Net Sales, Completed Orders, Gross Profit, CTR, CVR and ROAS to the Python results. The reopened PBIX independently reconciled 12 headline KPIs; see `powerbi_validation.md`.
 
 ## Automated tests
 
-Twelve unittest cases passed. Coverage includes minimum scale; primary-key uniqueness; required fields; status-specific completed/refunded/cancelled amount equations; product/ad bounds; foreign keys; date/currency/status contracts; independent Hot and Opportunity Score recomputation; MySQL timestamp normalization; two-directory fixed-seed hash equality; portable Dashboard/RFM inputs; and SQLite/Python/dashboard KPI parity.
+Result:
 
-Result: `Ran 12 tests ... OK`.
+```text
+Ran 16 tests in 1.162s
+OK
+```
 
-## Visual verification
+Coverage includes:
 
-All four 1440×810 PNG previews were opened at original resolution. Titles, KPI cards, units, chart labels, insights and source/time footers were legible with no overlap or clipping. The HTML preview was opened in headless Microsoft Edge: four pages rendered, four filters changed KPI cards, all chart containers were non-empty and no page errors were emitted.
+- minimum scale, primary-key uniqueness, required fields, date/currency/status contracts and foreign keys;
+- completed/refunded/cancelled amount equations and advertising count inequalities;
+- independent Hot Score and Opportunity Score recomputation;
+- two-directory fixed-seed hash equality;
+- MySQL timestamp normalization and SQLite/Python/dashboard metric parity;
+- portable interactive HTML inputs;
+- genuine PBIP/PBIX entry files, four 1440×810 PBIR pages, 44 valid visual definitions, 37 TMDL measures, four relationships, portable `DataRoot`, and four 1440×810 Desktop screenshots.
 
-## Clean reconstruction
+The final run used a new project-local `.venv` populated directly from `requirements.txt`; `pip check` reported no broken requirements. The first sandboxed run passed all data tests but could not read Desktop-generated Power BI files because their Windows ACL excludes the Codex sandbox identity. Re-running the same command with normal desktop permissions passed all 16 tests. A regular local clone does not inherit this host-only ACL artifact.
 
-The committed baseline was exported into an isolated temporary directory, dependencies were installed into a new virtual environment, and `python run_pipeline.py` completed without access to the main workspace's ignored files. A second run produced identical SHA-256 hashes for all five generated source CSVs and `kpi_summary.json`. After audit repairs, a second ignored-file-free candidate copy was also rebuilt and tested successfully; details are in `pre_release_audit.md`.
+## Power BI verification
+
+- PBIX reopened successfully in a new Desktop process.
+- Four page tabs and populated KPI cards were detected.
+- Category slicer interaction visibly changed connected KPIs/charts.
+- Read-only ADOMD returned 37 measures and matched every recorded KPI.
+- Power BI's bundled TMDL serializer parsed the checked-in model: 6 tables, 4 relationships, 1 shared `DataRoot` parameter and 37 measures.
+
+## Clean reconstruction baseline
+
+The earlier release audit exported the committed baseline into an isolated temporary directory, installed dependencies into a fresh environment and rebuilt it without ignored workspace files. V1.1 retains that deterministic pipeline and adds committed PBIP/PBIX assets plus structural tests. Full audit history is in `pre_release_audit.md`.

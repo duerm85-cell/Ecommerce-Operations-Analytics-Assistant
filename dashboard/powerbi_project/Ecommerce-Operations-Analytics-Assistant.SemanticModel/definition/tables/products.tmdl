@@ -1,0 +1,113 @@
+/// Synthetic compliant sample product catalog for portfolio demonstration.
+table products
+	lineageTag: ad22cfaf-3c89-4e96-9836-6d3b5ed376dd
+
+	/// Synthetic product key.
+	column product_id
+		dataType: string
+		lineageTag: cbb9d69f-3a24-4116-bc11-2a6f953aaefa
+		summarizeBy: none
+		sourceColumn: product_id
+
+	column product_name
+		dataType: string
+		lineageTag: 18fe4a16-0132-487b-9a8a-10d7a811d66a
+		summarizeBy: none
+		sourceColumn: product_name
+
+	column category
+		dataType: string
+		lineageTag: dbe26d65-e47c-4533-8774-2be5e879482e
+		summarizeBy: none
+		sourceColumn: category
+
+	column price
+		dataType: int64
+		formatString: #,0 "TWD"
+		lineageTag: c8fc56df-5727-4b66-8a54-6807fa0266c6
+		summarizeBy: average
+		sourceColumn: price
+
+	column price_band
+		dataType: string
+		lineageTag: cf652585-130b-40d9-821b-f3a64dcf051d
+		summarizeBy: none
+		sourceColumn: price_band
+
+	column sold_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: ac0fecc2-5435-4c73-8cb8-61d8ad0238ec
+		summarizeBy: sum
+		sourceColumn: sold_count
+
+	column rating
+		dataType: double
+		formatString: 0.00
+		lineageTag: 17408fe8-61af-45a7-a19c-90af514e3a5c
+		summarizeBy: average
+		sourceColumn: rating
+
+	column review_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: 976be0ac-dccd-4208-8455-ddd8def5bb36
+		summarizeBy: sum
+		sourceColumn: review_count
+
+	column shop_name
+		dataType: string
+		lineageTag: efa9a90c-6780-4433-9aec-4bb05ab18a16
+		summarizeBy: none
+		sourceColumn: shop_name
+
+	column location
+		dataType: string
+		lineageTag: e9d487ff-8512-4883-a787-e36b6401f6a8
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: location
+
+	column crawl_time
+		dataType: string
+		lineageTag: b3525252-626a-4698-b8a6-5a4cd9198bf0
+		summarizeBy: none
+		sourceColumn: crawl_time
+
+	column source_url
+		dataType: string
+		lineageTag: d789a4f1-7eb3-4656-ac35-a03431a21e80
+		dataCategory: WebUrl
+		summarizeBy: none
+		sourceColumn: source_url
+
+	column data_source_type
+		dataType: string
+		lineageTag: fb503a12-cab2-48da-8e72-00259d728b45
+		summarizeBy: none
+		sourceColumn: data_source_type
+
+	column hot_score
+		dataType: double
+		formatString: 0.00
+		lineageTag: 096222a5-6f88-4531-a89b-22624b3f6895
+		summarizeBy: average
+		sourceColumn: hot_score
+
+	column opportunity_score
+		dataType: double
+		formatString: 0.00
+		lineageTag: faea537c-76ba-4db4-b6a3-d626dcff903d
+		summarizeBy: average
+		sourceColumn: opportunity_score
+
+	partition products = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\products.csv"), [Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"product_id", type text}, {"product_name", type text}, {"category", type text}, {"price", Int64.Type}, {"sold_count", Int64.Type}, {"rating", type number}, {"review_count", Int64.Type}, {"shop_name", type text}, {"location", type text}, {"crawl_time", type text}, {"source_url", type text}, {"data_source_type", type text}, {"hot_score", type number}, {"opportunity_score", type number}}, "en-US"),
+				    #"Added Price Band" = Table.AddColumn(#"Changed Type", "price_band", each if [price] <= 100 then "0-100" else if [price] <= 300 then "101-300" else if [price] <= 500 then "301-500" else "501+", type text)
+				in
+				    #"Added Price Band"

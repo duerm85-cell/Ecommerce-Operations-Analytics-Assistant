@@ -15,6 +15,12 @@ data/analytics.sqlite
 dashboard/powerbi_data/*.csv
 !dashboard/powerbi_data/.gitkeep
 *.pbix
+!dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix
 *.pbit
+# Power BI Project local state and recovery artifacts
+**/.pbi/
+**/SecurityBindings.json
+*.pbix.autosave
+*.pbix~
 .coverage
 htmlcov/

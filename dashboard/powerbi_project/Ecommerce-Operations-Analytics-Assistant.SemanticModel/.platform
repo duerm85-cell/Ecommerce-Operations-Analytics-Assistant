@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Ecommerce-Operations-Analytics-Assistant"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8810a798-3220-4a3b-abb7-5bfebdc9da40"
+  }
+}

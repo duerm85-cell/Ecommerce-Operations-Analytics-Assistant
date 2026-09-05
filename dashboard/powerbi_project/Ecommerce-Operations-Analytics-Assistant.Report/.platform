@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Ecommerce-Operations-Analytics-Assistant"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8cb2cfe7-6b8f-4c6f-beca-43d5c1dce836"
+  }
+}

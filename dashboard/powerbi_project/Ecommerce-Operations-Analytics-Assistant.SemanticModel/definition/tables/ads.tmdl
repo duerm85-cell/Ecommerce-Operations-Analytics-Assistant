@@ -1,0 +1,86 @@
+/// Synthetic daily advertising performance fact table; monetary values are TWD.
+table ads
+	lineageTag: 316b4ed3-95a3-4737-aa90-936be8476ef1
+
+	column date
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: c0b16254-7dde-4253-b992-746fe09aec07
+		summarizeBy: none
+		sourceColumn: date
+
+	column campaign_id
+		dataType: string
+		lineageTag: 774727b6-4e56-493f-8413-3835770908f9
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column campaign_name
+		dataType: string
+		lineageTag: 31b1e307-3d79-4f8d-b09d-cd5a6c92919a
+		summarizeBy: none
+		sourceColumn: campaign_name
+
+	column channel
+		dataType: string
+		lineageTag: ef6099d8-3324-4291-b711-8c43a9e603e2
+		summarizeBy: none
+		sourceColumn: channel
+
+	column impressions
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0c935d8e-d850-4270-9b1d-2db34f407f46
+		summarizeBy: sum
+		sourceColumn: impressions
+
+	column clicks
+		dataType: int64
+		formatString: #,0
+		lineageTag: cd95bd19-f767-4717-ac79-347ea7c976b0
+		summarizeBy: sum
+		sourceColumn: clicks
+
+	column spend
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: cdd5a640-8bec-4ad5-880d-01e3d4e028a9
+		summarizeBy: sum
+		sourceColumn: spend
+
+	column conversions
+		dataType: int64
+		formatString: #,0
+		lineageTag: ceffa19f-af04-470b-be10-a8c04f3e34c7
+		summarizeBy: sum
+		sourceColumn: conversions
+
+	column attributed_revenue
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: 2cf0d737-eefa-404d-b5ea-dff4533adbbb
+		summarizeBy: sum
+		sourceColumn: attributed_revenue
+
+	column currency
+		dataType: string
+		lineageTag: 21cf5d31-ccdd-4386-9052-ba576ff4f455
+		summarizeBy: none
+		sourceColumn: currency
+
+	column data_source_type
+		dataType: string
+		lineageTag: 405e5cba-74ce-4dca-baa3-9cfeecd25fee
+		summarizeBy: none
+		sourceColumn: data_source_type
+
+	partition ads = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\ads.csv"), [Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"campaign_id", type text}, {"campaign_name", type text}, {"channel", type text}, {"impressions", Int64.Type}, {"clicks", Int64.Type}, {"spend", type number}, {"conversions", Int64.Type}, {"attributed_revenue", type number}, {"currency", type text}, {"data_source_type", type text}}, "en-US")
+				in
+				    #"Changed Type"

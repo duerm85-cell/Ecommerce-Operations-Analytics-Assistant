@@ -7,5 +7,4 @@ commands=[[sys.executable,"data/generate_data.py"],[sys.executable,"analysis/run
 for command in commands:
     print("\n>"," ".join(command),flush=True)
     subprocess.run(command,cwd=ROOT,check=True)
-print("\nV1.0 pipeline completed successfully.")
-
+print("\nV1.1 pipeline completed successfully.")

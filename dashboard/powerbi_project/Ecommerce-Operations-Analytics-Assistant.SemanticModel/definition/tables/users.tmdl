@@ -1,0 +1,114 @@
+/// Synthetic customer dimension with FY2025 RFM attributes.
+table users
+	lineageTag: 48972eb0-cb61-43d8-b429-e55b6416208f
+
+	/// Synthetic user key.
+	column user_id
+		dataType: string
+		lineageTag: 541797fd-7dd0-4399-9e60-aa91eee692a2
+		summarizeBy: none
+		sourceColumn: user_id
+
+	column age_group
+		dataType: string
+		lineageTag: 736b43b4-0e19-4130-9aa3-3df4c79ae28e
+		summarizeBy: none
+		sourceColumn: age_group
+
+	column region
+		dataType: string
+		lineageTag: 59a03a51-cd14-43e7-8827-b3bffca94ab1
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: region
+
+	column register_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 755bf3c7-2cd2-4c89-bd4a-d3dad0225e60
+		summarizeBy: none
+		sourceColumn: register_date
+
+	column acquisition_channel
+		dataType: string
+		lineageTag: ef45bdad-e032-4be9-b047-bf79273b3dc0
+		summarizeBy: none
+		sourceColumn: acquisition_channel
+
+	column repeat_propensity
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 655962e8-1831-44dd-9a7a-8f428819dea5
+		summarizeBy: average
+		sourceColumn: repeat_propensity
+
+	column data_source_type
+		dataType: string
+		lineageTag: 3ce03e4d-b0f8-49d9-9c7d-8bcb0b9a199a
+		summarizeBy: none
+		sourceColumn: data_source_type
+
+	column recency
+		dataType: int64
+		formatString: #,0
+		lineageTag: 10191c83-d894-4087-90cc-7cd17a82fac1
+		summarizeBy: average
+		sourceColumn: recency
+
+	column frequency
+		dataType: int64
+		formatString: 0.0
+		lineageTag: 3f946f95-9085-4c1f-bd78-bac03915cf34
+		summarizeBy: average
+		sourceColumn: frequency
+
+	column monetary
+		dataType: double
+		formatString: #,0 "TWD"
+		lineageTag: 910f0b6f-6256-4096-b807-d8af2e1eb79f
+		summarizeBy: average
+		sourceColumn: monetary
+
+	column r_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 342364ee-1390-4727-9706-668404afb7fc
+		summarizeBy: average
+		sourceColumn: r_score
+
+	column f_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 0698a213-d00f-4f35-9b3e-d8156c70dbc8
+		summarizeBy: average
+		sourceColumn: f_score
+
+	column m_score
+		dataType: int64
+		formatString: 0
+		lineageTag: b8dd2b96-546f-4c37-81e0-cf630b8ed9ee
+		summarizeBy: average
+		sourceColumn: m_score
+
+	column rfm_segment
+		dataType: string
+		lineageTag: 62f91c9e-3d64-4961-9bfa-3aa9a1e7a3d9
+		summarizeBy: none
+		sourceColumn: rfm_segment
+
+	column customer_type
+		dataType: string
+		lineageTag: 216ec237-3a69-4711-b358-97c59d9024bb
+		summarizeBy: none
+		sourceColumn: customer_type
+
+	partition users = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\users.csv"), [Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"user_id", type text}, {"age_group", type text}, {"region", type text}, {"register_date", type date}, {"acquisition_channel", type text}, {"repeat_propensity", type number}, {"data_source_type", type text}, {"recency", Int64.Type}, {"frequency", Int64.Type}, {"monetary", type number}, {"r_score", Int64.Type}, {"f_score", Int64.Type}, {"m_score", Int64.Type}, {"rfm_segment", type text}}, "en-US"),
+				    #"Added Customer Type" = Table.AddColumn(#"Changed Type", "customer_type", each if [frequency] = null then "No Purchase" else if [frequency] >= 2 then "Repeat" else "New", type text)
+				in
+				    #"Added Customer Type"

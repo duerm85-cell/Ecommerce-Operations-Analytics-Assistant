@@ -1,0 +1,108 @@
+/// Synthetic order fact table; monetary values are TWD.
+table orders
+	lineageTag: 36fd8a15-2ae1-47ed-aa9a-3a1b5c999547
+
+	column order_id
+		dataType: string
+		lineageTag: dae5013d-6c09-4744-876b-b4e1bfbd9c65
+		summarizeBy: none
+		sourceColumn: order_id
+
+	column user_id
+		dataType: string
+		isHidden
+		lineageTag: 5f58479b-28df-4e38-a05f-e12fd1008dc5
+		summarizeBy: none
+		sourceColumn: user_id
+
+	column product_id
+		dataType: string
+		isHidden
+		lineageTag: 041c67ac-5b3a-48ae-ad66-125830a50fd6
+		summarizeBy: none
+		sourceColumn: product_id
+
+	column order_date
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: a99562d2-9df4-461f-accd-4044a507ce5f
+		summarizeBy: none
+		sourceColumn: order_date
+
+	column quantity
+		dataType: int64
+		formatString: #,0
+		lineageTag: f19e9a94-2762-4ee0-8328-562cf040129d
+		summarizeBy: sum
+		sourceColumn: quantity
+
+	column unit_price
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: fc43abc1-738d-46bc-a1e9-0e2855e4d7ce
+		summarizeBy: average
+		sourceColumn: unit_price
+
+	column discount_amount
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: 4c6d3cb9-6aae-4991-8da2-1a5133a6c226
+		summarizeBy: sum
+		sourceColumn: discount_amount
+
+	column gross_amount
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: e9c6d760-c868-42c5-b001-6bfc5c64cbac
+		summarizeBy: sum
+		sourceColumn: gross_amount
+
+	column refund_amount
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: 3b32a287-315c-42c0-bd28-4db512792187
+		summarizeBy: sum
+		sourceColumn: refund_amount
+
+	column net_sales
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: 6b68b157-2900-4166-b8ca-ea7fa84d06f4
+		summarizeBy: sum
+		sourceColumn: net_sales
+
+	column cost
+		dataType: double
+		formatString: #,0.00 "TWD"
+		lineageTag: 94d7b077-f580-44ac-9567-977acb76bcb7
+		summarizeBy: sum
+		sourceColumn: cost
+
+	column status
+		dataType: string
+		lineageTag: e2824454-65ba-4548-9385-c237e4bc0db3
+		summarizeBy: none
+		sourceColumn: status
+
+	column currency
+		dataType: string
+		lineageTag: ff6413d0-1b4e-45d8-a2cb-5bdf2bb0c91a
+		summarizeBy: none
+		sourceColumn: currency
+
+	column data_source_type
+		dataType: string
+		lineageTag: 8d17351c-72ba-45af-a02d-bf41bf7f176a
+		summarizeBy: none
+		sourceColumn: data_source_type
+
+	partition orders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\orders.csv"), [Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"order_id", type text}, {"user_id", type text}, {"product_id", type text}, {"order_date", type date}, {"quantity", Int64.Type}, {"unit_price", type number}, {"discount_amount", type number}, {"gross_amount", type number}, {"refund_amount", type number}, {"net_sales", type number}, {"cost", type number}, {"status", type text}, {"currency", type text}, {"data_source_type", type text}}, "en-US")
+				in
+				    #"Changed Type"

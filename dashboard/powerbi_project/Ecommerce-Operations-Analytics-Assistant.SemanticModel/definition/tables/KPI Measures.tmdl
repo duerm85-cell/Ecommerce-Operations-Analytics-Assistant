@@ -1,0 +1,178 @@
+/// Central measure table. All portfolio KPIs are defined here.
+table 'KPI Measures'
+	lineageTag: 943171f6-2636-4fb9-82ee-b23a1db47f96
+
+	/// Gross merchandise value before discounts and refunds for completed or refunded orders.
+	measure GMV = CALCULATE(SUM(orders[gross_amount]), orders[status] IN {"completed", "refunded"})
+		formatString: #,0 "TWD"
+		lineageTag: 537fdf28-6935-42f0-9c0d-07ef07747d8a
+
+	/// Recognized completed-order sales after discount; cancelled and refunded orders are excluded.
+	measure 'Net Sales' = CALCULATE(SUM(orders[net_sales]), orders[status] = "completed")
+		formatString: #,0 "TWD"
+		lineageTag: 045ae666-d26b-4894-83b9-5ff26b9f0a83
+
+	measure 'Completed Orders' = CALCULATE(DISTINCTCOUNT(orders[order_id]), orders[status] = "completed")
+		formatString: #,0
+		lineageTag: acc7b3f7-cc8f-43f4-bb67-90c5a1f7cdc0
+
+	measure 'Gross Profit' = [Net Sales] - CALCULATE(SUM(orders[cost]), orders[status] = "completed")
+		formatString: #,0 "TWD"
+		lineageTag: c34ec2e8-d989-4027-b875-941ee213cffe
+
+	measure 'Gross Margin %' = DIVIDE([Gross Profit], [Net Sales])
+		formatString: 0.0%
+		lineageTag: d0809a21-faae-4a9e-b77a-0f6f3a68f2f9
+
+	measure AOV = DIVIDE([Net Sales], [Completed Orders])
+		formatString: #,0 "TWD"
+		lineageTag: 10630cf4-a573-4a3f-a497-8f309c35e502
+
+	measure 'Purchasing Users' = CALCULATE(DISTINCTCOUNT(orders[user_id]), orders[status] = "completed")
+		formatString: #,0
+		lineageTag: 1f907e14-9491-4301-8004-a4c1927f9379
+
+	measure 'Registered Users' = DISTINCTCOUNT(users[user_id])
+		formatString: #,0
+		lineageTag: 9dc89df2-23d1-4a22-9efb-40a0e83331b3
+
+	measure 'Purchasing Users FY2025' = CALCULATE([Purchasing Users], REMOVEFILTERS(calendar), DATESBETWEEN(calendar[date], DATE(2025, 1, 1), DATE(2025, 12, 31)))
+		formatString: #,0
+		lineageTag: 2ee5ec66-94f9-4b89-ac09-2be8d4485e85
+
+	measure 'Repeat Users FY2025' = COUNTROWS(FILTER(CALCULATETABLE(VALUES(orders[user_id]), REMOVEFILTERS(calendar), DATESBETWEEN(calendar[date], DATE(2025, 1, 1), DATE(2025, 12, 31)), orders[status] = "completed"), CALCULATE(DISTINCTCOUNT(orders[order_id]), REMOVEFILTERS(calendar), DATESBETWEEN(calendar[date], DATE(2025, 1, 1), DATE(2025, 12, 31)), orders[status] = "completed") >= 2))
+		formatString: #,0
+		lineageTag: 6a5feb37-bcb4-41db-ac45-e9b3b54795ac
+
+	measure 'Repeat Rate FY2025 %' = DIVIDE([Repeat Users FY2025], [Purchasing Users FY2025])
+		formatString: 0.0%
+		lineageTag: 27f3af64-e205-48b4-9966-9acec6da9e71
+
+	measure 'Product Count' = DISTINCTCOUNT(products[product_id])
+		formatString: #,0
+		lineageTag: 69372cb8-37f0-4861-8526-1d8985c4884c
+
+	measure 'High Opportunity Products' = CALCULATE(DISTINCTCOUNT(products[product_id]), products[opportunity_score] >= 70)
+		formatString: #,0
+		lineageTag: 755ff4f5-06e8-450a-a4ae-cc93a176f812
+
+	measure 'Units Sold' = CALCULATE(SUM(orders[quantity]), orders[status] = "completed")
+		formatString: #,0
+		lineageTag: 227aafb7-b98f-44d1-b3cc-5e977c9953cb
+
+	measure 'Average Recency' = AVERAGE(users[recency])
+		formatString: #,0
+		lineageTag: 62b1b7a7-87b4-4fb3-a4b3-226b86888f54
+
+	measure 'Average Frequency' = AVERAGE(users[frequency])
+		formatString: 0.0
+		lineageTag: 03f67e01-5bcb-496a-91a5-253625402fb4
+
+	measure 'Average Monetary' = AVERAGE(users[monetary])
+		formatString: #,0 "TWD"
+		lineageTag: b3b13c43-0000-456c-9207-a6e38fd0fb06
+
+	measure 'New Customers' = CALCULATE(DISTINCTCOUNT(users[user_id]), users[customer_type] = "New")
+		formatString: #,0
+		lineageTag: d97ff0ad-2eff-40d0-9147-3620d5ce0eff
+
+	measure 'Repeat Customers' = CALCULATE(DISTINCTCOUNT(users[user_id]), users[customer_type] = "Repeat")
+		formatString: #,0
+		lineageTag: f29fcd4f-e885-4c2a-a886-0c64e4d524e9
+
+	measure Impressions = SUM(ads[impressions])
+		formatString: #,0
+		lineageTag: d4e33da7-104f-4fb6-8560-267cc4715885
+
+	measure Clicks = SUM(ads[clicks])
+		formatString: #,0
+		lineageTag: c1badea5-7335-4370-a605-a9fe2c978220
+
+	measure 'Ad Spend' = SUM(ads[spend])
+		formatString: #,0 "TWD"
+		lineageTag: 18ae2923-df2d-45fa-83fb-d90f9ca4b350
+
+	measure Conversions = SUM(ads[conversions])
+		formatString: #,0
+		lineageTag: e83e5a49-7e5b-4a49-8f99-1e033c7be3be
+
+	measure 'Attributed Revenue' = SUM(ads[attributed_revenue])
+		formatString: #,0 "TWD"
+		lineageTag: 92525f63-daf2-4ae1-8eba-ae8325a0e488
+
+	measure 'CTR %' = DIVIDE([Clicks], [Impressions])
+		formatString: 0.00%
+		lineageTag: 8ea1289b-b840-404b-9554-b7b0fc1e81aa
+
+	measure 'CVR %' = DIVIDE([Conversions], [Clicks])
+		formatString: 0.00%
+		lineageTag: dd17af8e-22d6-4078-b50e-46c9fe4d454d
+
+	measure CPC = DIVIDE([Ad Spend], [Clicks])
+		formatString: #,0.00 "TWD"
+		lineageTag: a26e1af3-3409-4877-b2b8-bca4c692b24b
+
+	measure CPA = DIVIDE([Ad Spend], [Conversions])
+		formatString: #,0.00 "TWD"
+		lineageTag: 6f9727e5-c2c4-4234-b61b-cb44ca6d7c8d
+
+	measure ROAS = DIVIDE([Attributed Revenue], [Ad Spend])
+		formatString: 0.00x
+		lineageTag: eeeb12e9-ae41-4550-84ef-333e77f5f5b6
+
+	measure 'Net Sales PM' = CALCULATE([Net Sales], DATEADD(calendar[date], -1, MONTH))
+		formatString: #,0 "TWD"
+		lineageTag: 43238dbd-bda3-4efb-8775-41f7827a3f5b
+
+	measure 'Net Sales MoM %' = DIVIDE([Net Sales] - [Net Sales PM], [Net Sales PM])
+		formatString: 0.0%
+		lineageTag: f61a85d7-895b-4f79-90d6-b94639801caf
+
+
+	/// Average normalized product heat score in the current filter context.
+	measure 'Average Hot Score' = AVERAGE(products[hot_score])
+		formatString: 0.00
+		lineageTag: d997016a-cf51-48dc-8166-6a8a3c991751
+
+	/// Average opportunity score; higher values indicate stronger demand with lower competition and price crowding.
+	measure 'Average Opportunity Score' = AVERAGE(products[opportunity_score])
+		formatString: 0.00
+		lineageTag: a55dfd4c-59ca-46ae-bbc0-9479e135ec34
+
+	/// Net sales returned only for the ten highest-selling products in the current selection.
+	measure 'Top 10 Product Net Sales' =
+			VAR ProductRank = RANKX(ALLSELECTED(products[product_name]), [Net Sales],, DESC, DENSE)
+			RETURN IF(ProductRank <= 10, [Net Sales])
+		formatString: #,0 "TWD"
+		lineageTag: 2ab682e0-f679-4bd6-88ce-f4650fb2984d
+
+	/// Gross profit for the same ten products ranked by net sales.
+	measure 'Top 10 Product Gross Profit' =
+			VAR ProductRank = RANKX(ALLSELECTED(products[product_name]), [Net Sales],, DESC, DENSE)
+			RETURN IF(ProductRank <= 10, [Gross Profit])
+		formatString: #,0 "TWD"
+		lineageTag: f65443c7-38d0-487c-865c-6068e33decb0
+
+	/// Opportunity score returned only for the ten highest-opportunity products in the current selection.
+	measure 'Top 10 Opportunity Score' =
+			VAR OpportunityRank = RANKX(ALLSELECTED(products[product_name]), [Average Opportunity Score],, DESC, DENSE)
+			RETURN IF(OpportunityRank <= 10, [Average Opportunity Score])
+		formatString: 0.00
+		lineageTag: 53a51d42-a2e8-45bf-806e-ff310709f27e
+
+	/// Hot score for the same ten products ranked by opportunity score.
+	measure 'Hot Score for Opportunity Top 10' =
+			VAR OpportunityRank = RANKX(ALLSELECTED(products[product_name]), [Average Opportunity Score],, DESC, DENSE)
+			RETURN IF(OpportunityRank <= 10, [Average Hot Score])
+		formatString: 0.00
+		lineageTag: 48f52650-028f-498a-ae7b-44a6bc0398cc
+	column Dummy
+		dataType: string
+		isHidden
+		lineageTag: ebac575f-1ddb-486f-b25f-030bb5ff9214
+		summarizeBy: none
+		sourceColumn: [Dummy]
+
+	partition 'KPI Measures' = calculated
+		mode: import
+		source = ROW("Dummy", BLANK())

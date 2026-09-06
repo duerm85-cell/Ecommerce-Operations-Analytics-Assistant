@@ -1,22 +1,22 @@
 # Data dictionary
 
-All monetary values use TWD. Dates use the Asia/Taipei business calendar. Every distributed row is synthetic; `source_url` in products is an `example.com` placeholder.
+All monetary values use TWD. Dates use the Asia/Taipei business calendar. The validated V1.2 snapshot is synthetic. When a non-empty, validated product ODS is supplied, the six public product attributes can come from external market data while users, orders, ads and the remaining product enrichment fields stay synthetic.
 
 ## products
 
 | Field | Type | Meaning |
 |---|---|---|
-| product_id | VARCHAR(16) PK | Stable synthetic product key |
-| product_name | VARCHAR(255) | Synthetic, non-branded display name |
+| product_id | VARCHAR(16) PK | Stable source key after normalization, or synthetic fallback key |
+| product_name | VARCHAR(255) | Public product title, or synthetic fallback name |
 | category | VARCHAR(64) | Platform-neutral merchandise category |
 | price | DECIMAL(12,2) | Listed unit price, TWD |
 | sold_count | INT | Synthetic market demand proxy, not real Shopee sales |
-| rating | DECIMAL(3,2) | Synthetic score in [1,5] |
-| review_count | INT | Synthetic review volume |
+| rating | DECIMAL(3,2) | Public or synthetic score in (0,5] |
+| review_count | INT | Public or synthetic review volume |
 | shop_name | VARCHAR(128) | Synthetic shop label |
 | location | VARCHAR(64) | Taiwan region label |
-| crawl_time | DATETIME | Fixed sample snapshot time |
-| source_url | VARCHAR(512) | Non-production placeholder URL |
+| crawl_time | DATETIME | External ODS file time or fixed fallback snapshot time |
+| source_url | VARCHAR(512) | ODS lineage path or non-production fallback URL |
 | hot_score | DECIMAL(6,2) | Weighted normalized demand/quality score |
 | opportunity_score | DECIMAL(6,2) | Demand minus competition/price-density score |
 
@@ -35,4 +35,3 @@ Daily campaign grain. `impressions`, `clicks`, `spend`, `conversions`, and `attr
 ## calendar
 
 One row per date with year, quarter, month, ISO week, weekday, weekend and promotion flags.
-

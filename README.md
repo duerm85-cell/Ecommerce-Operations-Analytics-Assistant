@@ -1,80 +1,165 @@
 # Ecommerce Operations Analytics Assistant
 
-> A reproducible, platform-neutral analytics portfolio for product, sales, customer and advertising decisions. The case models Taiwan women's consumer goods; **all distributed business data is synthetic and does not represent real Shopee performance**.
+> An end-to-end ecommerce operations analytics platform covering public product-market inputs, reproducible ETL, dimensional modeling, governed business metrics, SQL/Python analysis, data-quality validation, and Power BI decision dashboards.
 
-![Validated Power BI V1.2 executive overview](dashboard/powerbi_screenshots/v1.2/01_overview.png)
+The project models a realistic enterprise analytics workflow across products, customers, orders, advertising, and calendar data. Public product attributes can enter through a controlled ODS contract, while privacy-sensitive customer, transaction, and advertising records are generated with deterministic business rules so that the complete pipeline can be reproduced without distributing confidential data.
 
-**V1.2 status:** the genuine four-page PBIP/PBIR/TMDL source was redesigned for executive storytelling and saved as a 3.17 MB PBIX with Power BI Desktop. The PBIX was closed, reopened in a new Desktop process, and all four pages were captured successfully through the Desktop bridge. The original V1.1 PBIX remains available unchanged.
+![Power BI executive overview](dashboard/powerbi_screenshots/v1.2/01_overview.png)
 
-中文完整项目说明：[`PROJECT_OVERVIEW_V1.2.md`](PROJECT_OVERVIEW_V1.2.md)
+[中文项目说明](PROJECT_OVERVIEW_V1.2.md) · [Data architecture](docs/data_architecture.md) · [ETL pipeline](docs/etl_pipeline.md) · [Data quality](docs/data_quality.md)
 
-## What the project answers
+## Project Overview
 
-- Which categories, products and price bands combine demand with attractive margin or lower modeled competition?
-- How do GMV, net sales, completed orders, gross profit, AOV and repeat behavior change over time?
-- Which RFM groups, regions and acquisition channels deserve retention or win-back actions?
-- Which campaigns win on CTR, CVR, CPA and ROAS, and where should capped test budget move next?
+Ecommerce teams need consistent answers to four connected questions:
 
-## Stack and data flow
+- How is the business performing, and where do revenue and profit come from?
+- Which products and categories deserve additional investment?
+- Which customer groups create value or show churn risk?
+- Which advertising channels and campaigns use budget efficiently?
 
-Python 3.12 · pandas · NumPy · MySQL 8 SQL · SQLite verification · Power BI Desktop · PBIP/PBIR/TMDL · DAX · HTML/CSS/JavaScript · unittest · Git
+This repository implements the data flow behind those decisions rather than treating the dashboard as an isolated artifact. The same metric definitions are applied across Python, SQL, and DAX, with automated checks for schema integrity, business equations, reproducibility, and cross-engine consistency.
+
+## Features
+
+- **Public product input:** normalize compatible public CSV/ZIP datasets into a six-field product ODS without authentication or access-control bypasses.
+- **Deterministic business data:** generate reproducible users, orders, advertising, and calendar data with explicit business constraints.
+- **Layered data architecture:** map source data through ODS, DWD, DWS, and ADS responsibilities before presentation.
+- **Governed metrics:** standardize GMV, net sales, gross profit, AOV, repeat rate, CTR, CVR, CPA, and ROAS.
+- **SQL and Python analytics:** implement product, operations, RFM customer, and advertising analysis with pandas, SQLite, and MySQL-compatible SQL.
+- **Cross-engine reconciliation:** compare Python and SQL results automatically and retain a validated DAX reconciliation record.
+- **Decision dashboards:** provide four Power BI pages organized as conclusion → KPI → evidence → action.
+- **Version-controlled BI assets:** include PBIP, PBIR, TMDL, DAX documentation, validated PBIX files, and clean screenshots.
+- **Data-quality gates:** test keys, missingness, ranges, relationships, business equations, metric consistency, and dashboard structure.
+
+## Technology stack
+
+| Area | Technologies |
+|---|---|
+| Data pipeline and ETL | Python 3.12, pandas, NumPy |
+| Storage and SQL | SQLite, MySQL 8-compatible schema and queries |
+| Data modeling | Product, customer, order, advertising, and calendar entities; ODS/DWD/DWS/ADS logical layers |
+| Business intelligence | Power BI Desktop, PBIP, PBIR, TMDL, DAX |
+| Alternative dashboard | HTML, CSS, JavaScript |
+| Quality and reproducibility | unittest, fixed random seed, SQL/Python/DAX reconciliation |
+| Version control | Git |
+
+## Architecture
 
 ```text
-compliant collector framework / fixed-seed generator
-                  ↓
-     products · users · orders · ads · calendar
-                  ↓
- MySQL 8 implementation + SQLite executable verification
-                  ↓
-      Python/SQL/DAX metric reconciliation
-                  ↓
- product · operations · RFM · advertising decisions
+External Market Data          Business Simulation Data
+        │                     users / orders / ads
+        └──────────────┬──────────────┘
+                       ↓
+                  ODS raw layer
+                       ↓
+                 DWD detail layer
+                       ↓
+                DWS summary layer
+                       ↓
+              ADS application layer
+                       ↓
+       Power BI and browser decision dashboards
 ```
 
-See the [architecture](docs/architecture.md), [data dictionary](docs/data_dictionary.md) and [metric dictionary](docs/metric_dictionary.md).
+Repository mapping:
 
-## Verified portfolio findings
+| Layer | Responsibility | Main implementation |
+|---|---|---|
+| Source | Public product inputs and deterministic business rules | `crawler/`, `data/generate_data.py` |
+| ODS | Source-aligned product input contract | `crawler/raw_data/raw_products.csv` |
+| DWD | Standardized entity-level detail | `data/processed/*.csv` |
+| DWS | Monthly, product, category, RFM, and campaign summaries | `analysis/run_analysis.py`, SQLite, `database/analysis_queries.sql` |
+| ADS | KPI and dashboard-ready outputs | `reports/`, `dashboard/powerbi_data/` |
+| Presentation | Interactive business analysis | Power BI and `dashboard/interactive_dashboard.html` |
 
-All figures below describe the generated FY2025 dataset only:
+See [docs/data_architecture.md](docs/data_architecture.md) for layer responsibilities and quality gates.
 
-- GMV is **TWD 39.30M**, completed net sales **TWD 35.17M**, gross profit **TWD 14.34M**, and gross margin **40.8%**. Promotion growth should be judged with profit and AOV, not volume alone.
-- **55,890** completed orders came from **11,381** purchasing users; AOV is **TWD 629.26** and the fixed-window repeat rate is **89.6%**.
-- Advertising delivered **3.27% CTR**, **7.62% CVR**, **TWD 93.06 CPA**, and **7.92× ROAS**. Attributed revenue is a channel attribution measure, not causal incrementality or order revenue.
-- The top 20 products contribute **11.6%** of completed net sales, so the portfolio has a broad long tail. Protect availability for proven products while pruning on margin and strategic role.
-- Hot Score and Opportunity Score create transparent shortlists; they do not substitute for real demand, landed-cost, return-risk or competitor validation.
+## Data Sources
 
-The complete fact → hypothesis → action → validation record is in [reports/insights.md](reports/insights.md).
+### External Market Data
 
-## Power BI deliverables
+The preferred product input is a license-compatible public dataset containing:
 
-| Operations overview | Product analysis |
+```text
+product_id · product_name · category · price · rating · review_count
+```
+
+`crawler/product_crawler.py` accepts a local public CSV/ZIP or a directly accessible public URL, maps common source columns, validates values, and writes the normalized ODS file to `crawler/raw_data/raw_products.csv`.
+
+The committed ODS file is header-only so the validated baseline remains reproducible and no third-party dataset is redistributed without a license review. If the file contains valid rows, the pipeline prefers those product attributes. If it is missing or header-only, the original fixed-seed product generator is used.
+
+### Internal Business Data
+
+Users, orders, and advertising rows remain simulated because real enterprise records can contain personal data, transaction details, budgets, attribution logic, and confidential operating results. The generated data preserves the relationships and constraints needed to validate the analytics workflow, but it does not represent a real company, marketplace, store, or customer.
+
+Source selection, compliance boundaries, currency handling, and fallback behavior are documented in [docs/data_source.md](docs/data_source.md) and [crawler/README.md](crawler/README.md).
+
+## Data Model
+
+| Entity | Grain | Role |
+|---|---|---|
+| `products` | One row per product | Product attributes, public-market fields, demand proxies, and opportunity scores |
+| `users` | One row per user | Region, registration, acquisition channel, and RFM inputs |
+| `orders` | One row per order | Quantity, price, discount, cost, order status, and recognized sales |
+| `ads` | One row per date and campaign | Impressions, clicks, spend, conversions, and attributed revenue |
+| `calendar` | One row per date | Year, quarter, month, week, weekday, weekend, and promotion flags |
+
+Orders reference products and users; order and advertising facts connect to the shared calendar. Field definitions are available in [docs/data_dictionary.md](docs/data_dictionary.md).
+
+## Metrics
+
+The metric layer includes:
+
+- GMV and completed net sales;
+- completed orders, gross profit, and gross margin;
+- purchasing users, fixed-window repeat rate, and AOV;
+- RFM recency, frequency, monetary value, scores, and segments;
+- advertising CTR, CVR, CPC, CPA, attributed revenue, and ROAS;
+- transparent Hot Score and Opportunity Score product shortlists.
+
+Definitions, formulas, inclusion rules, and business interpretation are documented in [docs/business_metrics.md](docs/business_metrics.md) and [docs/metric_dictionary.md](docs/metric_dictionary.md).
+
+## Dashboard
+
+| Operations overview | Product opportunity |
 |---|---|
 | ![Power BI operations overview](dashboard/powerbi_screenshots/v1.2/01_overview.png) | ![Power BI product opportunity](dashboard/powerbi_screenshots/v1.2/02_product_opportunity.png) |
-| Customer and RFM | Advertising analysis |
+| Customer value | Advertising return |
 | ![Power BI customer value](dashboard/powerbi_screenshots/v1.2/03_customer_value.png) | ![Power BI advertising return](dashboard/powerbi_screenshots/v1.2/04_advertising_return.png) |
 
-- [Download/open the validated V1.2 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.2.pbix)
-- [Keep/reference the original V1.1 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix)
-- [Open the version-controlled PBIP](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant.pbip)
-- [Review the Power BI build and refresh guide](dashboard/powerbi_build_guide.md)
-- [Review the V1.2 design report](reports/powerbi_design_v1.2.md), [DAX measures](dashboard/dax_measures.md) and [validation record](reports/powerbi_validation.md)
+The four pages are **经营总览**, **商品机会**, **用户价值**, and **广告回报**. They use synchronized business filters, native page navigation, clear-filter controls, dynamic conclusions, and a consistent TWD/FY2025 display contract.
 
-The four report pages are **经营总览**, **商品机会**, **用户价值** and **广告回报**. Each follows conclusion → KPI → evidence → action, with synchronized date/category/region filters where applicable, native navigation and clear-filter controls. Every page carries a synthetic-data notice and uses TWD consistently.
+Power BI deliverables:
 
-The PBIX embeds the validated data and opens without rebuilding the pipeline. For PBIP source-control work, regenerate the ignored import CSVs, set the single `DataRoot` Power Query parameter to the absolute `dashboard/powerbi_data` folder on your machine, and refresh. This avoids committing an author-specific path.
+- [Validated V1.2 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.2.pbix)
+- [Preserved V1.1 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix)
+- [Version-controlled PBIP](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant.pbip)
+- [Power BI build and refresh guide](dashboard/powerbi_build_guide.md)
+- [V1.2 design report](reports/powerbi_design_v1.2.md)
+- [Power BI validation record](reports/powerbi_validation.md)
 
-The dependency-free [interactive HTML dashboard](dashboard/interactive_dashboard.html) remains available for reviewers without Power BI Desktop.
+The dependency-free [interactive HTML dashboard](dashboard/interactive_dashboard.html) provides a browser-based alternative for environments without Power BI Desktop.
 
 ## Quick start
 
+### Prerequisites
+
+- Python 3.12
+- Power BI Desktop only if opening or refreshing the PBIX/PBIP assets
+- MySQL 8 only if using the optional MySQL deployment path
+
+### Run the complete local pipeline
+
 ```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python run_pipeline.py
 ```
 
-The pipeline regenerates deterministic data, builds the SQLite validation database, runs four analysis themes, exports HTML/PNG dashboard assets, reconciles SQL/Python metrics, and executes the test suite.
+The default run requires no database credentials. It generates deterministic data, builds the SQLite validation database, produces analysis and dashboard outputs, reconciles metrics, and runs the automated test suite.
 
-Run individual stages:
+### Run individual stages
 
 ```powershell
 python data/generate_data.py --products 800 --users 12000 --orders 60000
@@ -83,41 +168,90 @@ python dashboard/build_dashboard.py
 python -m unittest discover -s tests -v
 ```
 
-For MySQL 8, follow [database/README.md](database/README.md). Credentials belong in environment variables based on [.env.example](.env.example); never commit `.env`.
+For MySQL 8, follow [database/README.md](database/README.md). Credentials must be supplied through environment variables based on [.env.example](.env.example); never commit `.env`.
 
-## Repository structure
+## Pipeline
 
-```text
-crawler/      compliant public collector framework and access boundaries
-database/     MySQL 8 schema, indexes, loader and business SQL analyses
-data/         fixed-seed generator, tracked samples and local full outputs
-analysis/     product, operations, RFM and advertising analysis
-dashboard/    real PBIP/PBIX, DAX, screenshots and browser preview
-reports/      KPI summary, validation records, insights and charts
-tests/        data quality, reproducibility, metrics and PBIP/PBIR checks
-docs/         architecture, dictionaries, runbook, limits and portfolio pitch
+`run_pipeline.py` executes four fail-fast stages:
+
+1. **Extract and detail load:** `data/generate_data.py` selects the external product ODS or fixed-seed fallback, generates internal business data, and writes standardized detail files.
+2. **Transform and reconcile:** `analysis/run_analysis.py` builds SQLite, calculates KPIs and topic summaries, exports ADS outputs, and compares SQL with Python results.
+3. **Build applications:** `dashboard/build_dashboard.py` regenerates the interactive browser dashboard.
+4. **Quality gate:** unittest discovery validates data contracts, reproducibility, metrics, external product input, and Power BI structure.
+
+Detailed execution, output locations, and failure behavior are described in [docs/etl_pipeline.md](docs/etl_pipeline.md).
+
+## Testing
+
+Run all tests:
+
+```powershell
+python -m unittest discover -s tests -v
 ```
 
-## Data provenance, compliance and limits
+The current suite contains 19 tests covering:
 
-- `data/sample/*` and regenerated full datasets are **100% synthetic**, seed `20260801`; product URLs use `example.com` placeholders.
-- No password, cookie, token, personal identity or sensitive customer data is included.
-- The collector is disabled by default until a human reviews site terms and passes an acknowledgement flag. It checks robots rules, rate-limits requests, bounds retries and never bypasses access controls.
-- This project cannot establish real Taiwan category demand, competitor behavior, customer economics or advertising incrementality. Scores and findings are relative to one simulated sample.
-- MySQL 8 artifacts received static compatibility review, but the available local service could not be authenticated safely. SQLite execution and independent KPI reconciliation passed; this is not presented as a live MySQL import result.
+- minimum scale and required fields;
+- primary-key uniqueness and foreign-key consistency;
+- value ranges, order equations, dates, currency, and status contracts;
+- Hot Score and Opportunity Score recomputation;
+- external product mapping, preference, fallback, and downstream compatibility;
+- fixed-seed file reproducibility;
+- SQLite/Python/dashboard KPI consistency;
+- Power BI entry files, pages, semantic-model structure, and screenshot dimensions.
 
-## Reproducibility and quality
+The default dataset contains 800 products, 12,000 users, 60,000 orders, 2,190 daily campaign rows, and 365 calendar dates. The fixed seed is `20260801`.
 
-The default run creates 800 products, 12,000 users, 60,000 orders, 2,190 daily campaign rows and 365 dates. Tests cover scale, keys, missingness, ranges, order equations, foreign keys, dates/currency, Hot and Opportunity score recomputation, fixed-seed reproducibility, portable dashboard inputs, SQL/Python/DAX parity, and the four-page PBIR structure. Results are recorded in [reports/test_results.md](reports/test_results.md) and [reports/powerbi_validation.md](reports/powerbi_validation.md).
+The latest validated baseline includes GMV of TWD 39.30M, net sales of TWD 35.17M, gross profit of TWD 14.34M, a 40.8% gross margin, and ROAS of 7.92×. These values describe the included baseline only and are not external market benchmarks.
+
+See [docs/data_quality.md](docs/data_quality.md), [reports/test_results.md](reports/test_results.md), and [reports/powerbi_validation.md](reports/powerbi_validation.md) for the quality framework and verification evidence.
+
+## Repository Structure
+
+```text
+crawler/      public product input, ODS contract, and access boundaries
+database/     MySQL 8 schema, indexes, loader, and business SQL analyses
+data/         deterministic data generation, samples, and local detail outputs
+analysis/     product, operations, RFM, and advertising transformations
+dashboard/    PBIP/PBIX, DAX, screenshots, Power BI inputs, and browser dashboard
+reports/      KPI outputs, analysis tables, validation records, and charts
+tests/        data quality, reproducibility, metrics, ingestion, and BI checks
+docs/         architecture, ETL, data sources, dictionaries, quality, and runbooks
+```
+
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [Data architecture](docs/data_architecture.md) | Source, ODS, DWD, DWS, ADS, and Power BI responsibilities |
+| [ETL pipeline](docs/etl_pipeline.md) | Extract, transform, load, orchestration, and failure behavior |
+| [Data quality](docs/data_quality.md) | Validation rules and their automated test coverage |
+| [Data sources](docs/data_source.md) | External/public versus internal/simulated data boundaries |
+| [Data dictionary](docs/data_dictionary.md) | Entity fields, types, and meanings |
+| [Business metrics](docs/business_metrics.md) | KPI definitions, formulas, and business significance |
+| [Metric dictionary](docs/metric_dictionary.md) | Inclusion rules, scores, and RFM logic |
+| [Operations runbook](docs/runbook.md) | Operational execution guidance |
+| [Release checklist](docs/release_checklist.md) | GitHub publication readiness and verification status |
+
+## Limitations
+
+- The committed Power BI baseline uses fixed-seed generated data; it does not represent actual marketplace or store performance.
+- External product input is a capability, not a bundled claim of market coverage. Dataset licenses, currencies, collection dates, and category mappings must be reviewed before use.
+- Users, orders, and advertising remain simulated because sensitive enterprise records are not distributed.
+- Advertising revenue is attributed revenue, not causal incrementality. ROAS does not represent profit.
+- Hot Score and Opportunity Score are sample-relative screening tools, not proof of demand or low competition.
+- The default executable database is SQLite. MySQL 8 assets are included, but a live MySQL service is not required or automatically modified.
+- Refreshing PBIP on another machine requires setting the `DataRoot` Power Query parameter. The distributable PBIX embeds its validated data.
+- The pipeline is designed for local analytical workloads and does not claim distributed processing, real-time ingestion, or production orchestration.
 
 ## Roadmap
 
-- **V1.1 — preserved:** original genuine PBIP/PBIX baseline, four report pages and KPI reconciliation.
-- **V1.2 — completed:** executive-storytelling redesign, dynamic conclusions/actions, RFM blank-segment fix, validated PBIX reopen and clean 1440×810 screenshots.
-- **V1.5:** seller-authorized exports or a terms-approved public dataset; score-weight sensitivity tests; CI.
-- **V2.0:** inventory and return modeling, causal promotion tests and forecast baselines.
-- **V2.5:** user-authorized hosted demo and scheduled refresh.
+- Add a terms-approved, license-compatible public product dataset profile without redistributing restricted data.
+- Add seller-authorized export adapters and configurable field mappings.
+- Extend the model with inventory, returns, and fulfillment data.
+- Add score sensitivity analysis and causal promotion experiment templates.
+- Add continuous integration and an optional hosted demonstration environment.
 
-## Portfolio use
+## License
 
-The [portfolio pitch](docs/portfolio_pitch.md) contains a 60-second interview introduction and three resume-ready bullets. The repository is ready for local review; publishing or updating a remote is intentionally outside this V1.2 task.
+This project is licensed under the [MIT License](LICENSE).

@@ -1,4 +1,4 @@
-"""Run four-domain analysis, metric reconciliation and visual exports."""
+"""Transform DWD detail into DWS/ADS outputs and reconcile business metrics."""
 from __future__ import annotations
 
 import json
@@ -18,6 +18,7 @@ BLUE, GREEN, RED, INK, MUTED, BG = "#2563EB", "#10B981", "#EF4444", "#172033", "
 
 
 def load() -> dict[str, pd.DataFrame]:
+    # Extract standardized DWD CSVs with explicit date parsing for downstream grouping.
     parse = {"orders": ["order_date"], "users": ["register_date"], "ads": ["date"], "calendar": ["date"], "products": ["crawl_time"]}
     return {name: pd.read_csv(DATA / f"{name}.csv", parse_dates=parse.get(name, [])) for name in ["products", "users", "orders", "ads", "calendar"]}
 
@@ -26,6 +27,7 @@ def _safe_ratio(numerator: float, denominator: float) -> float:
 
 
 def build_sqlite(t: dict[str, pd.DataFrame]) -> None:
+    # Load the local validation database; production-style MySQL assets remain optional.
     if DB_PATH.exists(): DB_PATH.unlink()
     with sqlite3.connect(DB_PATH) as conn:
         for name, frame in t.items(): frame.to_sql(name, conn, index=False, if_exists="replace")
@@ -42,6 +44,7 @@ def build_sqlite(t: dict[str, pd.DataFrame]) -> None:
 
 
 def metrics(t: dict[str, pd.DataFrame]) -> dict[str, float]:
+    # Apply the governed KPI filters before any presentation-layer formatting.
     o = t["orders"]; completed = o[o.status.eq("completed")]; transacted = o[o.status.isin(["completed", "refunded"])]
     user_orders = completed.groupby("user_id").order_id.nunique()
     a = t["ads"]
@@ -57,6 +60,7 @@ def metrics(t: dict[str, pd.DataFrame]) -> dict[str, float]:
 
 
 def analyze(t: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
+    # Build reusable DWS summaries for operations, product, customer and advertising.
     p, o, u, a = t["products"], t["orders"], t["users"], t["ads"]
     co = o[o.status.eq("completed")].copy(); co["month"] = co.order_date.dt.strftime("%Y-%m")
     monthly = co.groupby("month").agg(net_sales=("net_sales","sum"), orders=("order_id","nunique"), cost=("cost","sum"), users=("user_id","nunique")).reset_index()
@@ -116,6 +120,7 @@ def dashboard_image(path: Path, title: str, subtitle: str, cards: list[tuple[str
 
 
 def export(t: dict[str,pd.DataFrame], a: dict[str,pd.DataFrame], m: dict[str,float]) -> None:
+    # Load ADS artifacts consumed by reports, the browser dashboard and Power BI.
     REPORTS.mkdir(exist_ok=True); CHARTS.mkdir(exist_ok=True)
     for name,frame in a.items():
         if name != "user_rfm":
@@ -152,6 +157,7 @@ The data is fully synthetic, scores are relative to this sample, ad revenue is a
 
 
 def reconcile_sql(m: dict[str,float]) -> dict[str,float]:
+    # Fail the pipeline if independent SQLite aggregates drift from Python metrics.
     with sqlite3.connect(DB_PATH) as conn:
         row=conn.execute("""SELECT SUM(CASE WHEN status IN ('completed','refunded') THEN gross_amount ELSE 0 END),SUM(net_sales),COUNT(DISTINCT CASE WHEN status='completed' THEN order_id END),SUM(net_sales-cost) FROM orders""").fetchone()
         ad=conn.execute("SELECT SUM(clicks)*1.0/SUM(impressions),SUM(conversions)*1.0/SUM(clicks),SUM(attributed_revenue)*1.0/SUM(spend) FROM ads").fetchone()

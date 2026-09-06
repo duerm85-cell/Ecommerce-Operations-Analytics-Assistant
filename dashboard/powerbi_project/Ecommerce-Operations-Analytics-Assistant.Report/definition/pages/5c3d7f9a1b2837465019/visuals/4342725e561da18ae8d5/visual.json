@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "4342725e561da18ae8d5",
   "position": {
-    "x": 1122,
-    "y": 78,
-    "z": 320,
-    "height": 64,
-    "width": 288,
-    "tabOrder": 320
+    "x": 1072,
+    "y": 70,
+    "z": 310,
+    "height": 76,
+    "width": 144,
+    "tabOrder": 310
   },
   "visual": {
     "visualType": "textbox",
@@ -19,11 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "归因收入 ≠ 订单收入；金额均为 TWD。",
+                    "value": "归因收入 ≠ 订单净销售额；金额均为 TWD。",
                     "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "11px",
-                      "color": "#435466"
+                      "fontFamily": "Microsoft YaHei",
+                      "fontSize": "9px",
+                      "color": "#526579"
                     }
                   }
                 ],

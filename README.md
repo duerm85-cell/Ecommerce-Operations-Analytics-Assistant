@@ -2,9 +2,9 @@
 
 > A reproducible, platform-neutral analytics portfolio for product, sales, customer and advertising decisions. The case models Taiwan women's consumer goods; **all distributed business data is synthetic and does not represent real Shopee performance**.
 
-![Validated Power BI overview](dashboard/powerbi_screenshots/powerbi_overview.png)
+![Validated Power BI V1.2 executive overview](dashboard/powerbi_screenshots/v1.2/01_overview.png)
 
-**V1.1 status:** a genuine four-page Power BI Project (PBIP) and a 3.05 MB Power BI report (PBIX) were created with Power BI Desktop 2.157.879.0, reopened, and reconciled against independently generated KPIs. The PBIX can be downloaded and opened directly; it is not a renamed archive or placeholder.
+**V1.2 status:** the genuine four-page PBIP/PBIR/TMDL source was redesigned for executive storytelling and saved as a 3.17 MB PBIX with Power BI Desktop. The PBIX was closed, reopened in a new Desktop process, and all four pages were captured successfully through the Desktop bridge. The original V1.1 PBIX remains available unchanged.
 
 ## What the project answers
 
@@ -47,16 +47,17 @@ The complete fact → hypothesis → action → validation record is in [reports
 
 | Operations overview | Product analysis |
 |---|---|
-| ![Power BI operations overview](dashboard/powerbi_screenshots/powerbi_overview.png) | ![Power BI product analysis](dashboard/powerbi_screenshots/powerbi_product.png) |
+| ![Power BI operations overview](dashboard/powerbi_screenshots/v1.2/01_overview.png) | ![Power BI product opportunity](dashboard/powerbi_screenshots/v1.2/02_product_opportunity.png) |
 | Customer and RFM | Advertising analysis |
-| ![Power BI customer analysis](dashboard/powerbi_screenshots/powerbi_customer.png) | ![Power BI advertising analysis](dashboard/powerbi_screenshots/powerbi_ads.png) |
+| ![Power BI customer value](dashboard/powerbi_screenshots/v1.2/03_customer_value.png) | ![Power BI advertising return](dashboard/powerbi_screenshots/v1.2/04_advertising_return.png) |
 
-- [Download/open the validated PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix)
+- [Download/open the validated V1.2 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.2.pbix)
+- [Keep/reference the original V1.1 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix)
 - [Open the version-controlled PBIP](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant.pbip)
 - [Review the Power BI build and refresh guide](dashboard/powerbi_build_guide.md)
-- [Review the DAX measures](dashboard/dax_measures.md) and [validation record](reports/powerbi_validation.md)
+- [Review the V1.2 design report](reports/powerbi_design_v1.2.md), [DAX measures](dashboard/dax_measures.md) and [validation record](reports/powerbi_validation.md)
 
-The four report pages are **经营总览**, **商品分析**, **用户分析** and **广告分析**. Date, category, region, acquisition-channel, RFM, advertising-channel and campaign slicers were checked through the intended one-to-many, single-direction relationships. Every page carries a synthetic-data notice and uses TWD consistently.
+The four report pages are **经营总览**, **商品机会**, **用户价值** and **广告回报**. Each follows conclusion → KPI → evidence → action, with synchronized date/category/region filters where applicable, native navigation and clear-filter controls. Every page carries a synthetic-data notice and uses TWD consistently.
 
 The PBIX embeds the validated data and opens without rebuilding the pipeline. For PBIP source-control work, regenerate the ignored import CSVs, set the single `DataRoot` Power Query parameter to the absolute `dashboard/powerbi_data` folder on your machine, and refresh. This avoids committing an author-specific path.
 
@@ -109,11 +110,12 @@ The default run creates 800 products, 12,000 users, 60,000 orders, 2,190 daily c
 
 ## Roadmap
 
-- **V1.1 — completed:** genuine PBIP/PBIX, four report pages, portable `DataRoot`, screenshots and DAX reconciliation.
+- **V1.1 — preserved:** original genuine PBIP/PBIX baseline, four report pages and KPI reconciliation.
+- **V1.2 — completed:** executive-storytelling redesign, dynamic conclusions/actions, RFM blank-segment fix, validated PBIX reopen and clean 1440×810 screenshots.
 - **V1.5:** seller-authorized exports or a terms-approved public dataset; score-weight sensitivity tests; CI.
 - **V2.0:** inventory and return modeling, causal promotion tests and forecast baselines.
 - **V2.5:** user-authorized hosted demo and scheduled refresh.
 
 ## Portfolio use
 
-The [portfolio pitch](docs/portfolio_pitch.md) contains a 60-second interview introduction and three resume-ready bullets. The repository is ready for local review; publishing or updating a remote is intentionally outside this V1.1 task.
+The [portfolio pitch](docs/portfolio_pitch.md) contains a 60-second interview introduction and three resume-ready bullets. The repository is ready for local review; publishing or updating a remote is intentionally outside this V1.2 task.

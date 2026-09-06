@@ -10,6 +10,8 @@ table ads
 		summarizeBy: none
 		sourceColumn: date
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column campaign_id
 		dataType: string
 		lineageTag: 774727b6-4e56-493f-8413-3835770908f9

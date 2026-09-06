@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "4b2c6e8f0a1928374655",
-  "displayName": "用户分析",
+  "displayName": "用户价值",
   "displayOption": "FitToPage",
   "height": 810,
   "width": 1440,
@@ -14,7 +14,7 @@
               "color": {
                 "expr": {
                   "Literal": {
-                    "Value": "'#F5F7FA'"
+                    "Value": "'#F6F8FB'"
                   }
                 }
               }

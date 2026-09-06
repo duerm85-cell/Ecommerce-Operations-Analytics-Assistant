@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "e8ac33d83435e47be888",
   "position": {
-    "x": 370,
-    "y": 74,
+    "x": 326,
+    "y": 70,
     "z": 300,
-    "height": 74,
-    "width": 250,
+    "height": 76,
+    "width": 286,
     "tabOrder": 300
   },
   "visual": {
@@ -60,7 +60,32 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'类目'"
+                  "Value": "'品类'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Microsoft YaHei'"
+                }
+              }
+            },
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#16324F'"
+                    }
+                  }
                 }
               }
             }
@@ -69,6 +94,78 @@
       ]
     },
     "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Microsoft YaHei'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#16324F'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
       "background": [
         {
           "properties": {
@@ -115,7 +212,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#DDE3EA'"
+                      "Value": "'#DDE5EE'"
                     }
                   }
                 }
@@ -137,28 +234,28 @@
             "top": {
               "expr": {
                 "Literal": {
-                  "Value": "6D"
+                  "Value": "8D"
                 }
               }
             },
             "bottom": {
               "expr": {
                 "Literal": {
-                  "Value": "6D"
+                  "Value": "8D"
                 }
               }
             },
             "left": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             },
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             }
@@ -178,6 +275,11 @@
           }
         }
       ]
+    },
+    "syncGroup": {
+      "groupName": "CategorySync",
+      "fieldChanges": true,
+      "filterChanges": true
     }
   }
 }

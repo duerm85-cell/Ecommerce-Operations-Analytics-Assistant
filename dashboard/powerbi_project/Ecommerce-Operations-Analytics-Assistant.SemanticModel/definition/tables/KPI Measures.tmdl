@@ -128,7 +128,6 @@ table 'KPI Measures'
 		formatString: 0.0%
 		lineageTag: f61a85d7-895b-4f79-90d6-b94639801caf
 
-
 	/// Average normalized product heat score in the current filter context.
 	measure 'Average Hot Score' = AVERAGE(products[hot_score])
 		formatString: 0.00
@@ -166,6 +165,114 @@ table 'KPI Measures'
 			RETURN IF(OpportunityRank <= 10, [Average Hot Score])
 		formatString: 0.00
 		lineageTag: 48f52650-028f-498a-ae7b-44a6bc0398cc
+
+	/// Dynamic executive conclusion for the overview page; responds to report filters.
+	measure 'Overview Insight Text' =
+			VAR MonthTable = TOPN(1, ADDCOLUMNS(ALLSELECTED(calendar[month]), "__Sales", [Net Sales]), [__Sales], DESC, calendar[month], ASC)
+			VAR TopMonth = MAXX(MonthTable, calendar[month])
+			RETURN "本期净销售额 " & FORMAT([Net Sales] / 1000000, "0.00") & "M TWD，毛利 " & FORMAT([Gross Profit] / 1000000, "0.00") & "M TWD，毛利率 " & FORMAT([Gross Margin %], "0.0%") & "；" & TopMonth & " 为当前筛选下净销售额最高月份。"
+		lineageTag: 0660ac10-5b7a-49f6-9a8f-47b273d17571
+
+	measure 'Overview Invest Action' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(products[category]), "__Sales", [Net Sales]), [__Sales] > 0), [__Sales], DESC, products[category], ASC)
+			RETURN "继续加码｜" & MAXX(T, products[category]) & "：净销售额 " & FORMAT(MAXX(T, [__Sales]) / 1000000, "0.00") & "M，第一。"
+		lineageTag: b9b48711-e478-4de9-ac84-1b9e59e05257
+
+	measure 'Overview Watch Action' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(products[category]), "__Margin", [Gross Margin %], "__Sales", [Net Sales]), [__Sales] > 0), [__Margin], ASC, products[category], ASC)
+			RETURN "重点观察｜" & MAXX(T, products[category]) & "：毛利率 " & FORMAT(MAXX(T, [__Margin]), "0.0%") & "，最低。"
+		lineageTag: 31776cd4-3434-4058-927a-bd332d5b3e5c
+
+	measure 'Overview Optimize Action' =
+			VAR Gap = [GMV] - [Net Sales]
+			RETURN "优化处理｜销售额差额 " & FORMAT(Gap / 1000000, "0.00") & "M，复核退货。"
+		lineageTag: 8210fc14-f753-429f-b0bf-dd70bc246696
+
+	measure 'Product Insight Text' =
+			VAR T = TOPN(1, ADDCOLUMNS(ALLSELECTED(products[product_name]), "__Opportunity", [Average Opportunity Score], "__Hot", [Average Hot Score]), [__Opportunity], DESC, [__Hot], DESC)
+			RETURN MAXX(T, products[product_name]) & " 的机会分 " & FORMAT(MAXX(T, [__Opportunity]), "0.0") & "、热度分 " & FORMAT(MAXX(T, [__Hot]), "0.0") & "；当前筛选有 " & FORMAT([High Opportunity Products], "#,0") & " 个高机会商品。"
+		lineageTag: 65a8a056-2ea6-42df-9019-f7ef54ec1c70
+
+	measure 'Product Invest Action' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(products[product_name]), "__Opportunity", [Average Opportunity Score], "__Sales", [Net Sales]), [__Opportunity] >= 70), [__Opportunity], DESC, [__Sales], DESC)
+			RETURN "值得加码｜" & MAXX(T, products[product_name]) & "：机会分 " & FORMAT(MAXX(T, [__Opportunity]), "0.0") & "，净销售额 " & FORMAT(MAXX(T, [__Sales]) / 1000, "#,0") & "K TWD。"
+		lineageTag: 31ac6bc4-f82b-46c3-a374-66950c08eb41
+
+	measure 'Product Optimize Action' =
+			VAR Base = ADDCOLUMNS(ALLSELECTED(products[product_name]), "__Sales", [Net Sales], "__Margin", [Gross Margin %])
+			VAR TopSales = TOPN(10, FILTER(Base, [__Sales] > 0), [__Sales], DESC)
+			VAR T = TOPN(1, TopSales, [__Margin], ASC, [__Sales], DESC)
+			RETURN "需要优化｜" & MAXX(T, products[product_name]) & "：Top 10 销售商品中毛利率最低，为 " & FORMAT(MAXX(T, [__Margin]), "0.0%") & "。"
+		lineageTag: 2ad8e673-8961-4053-9434-daef8118bfd5
+
+	measure 'Product Watch Action' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(products[product_name]), "__Hot", [Average Hot Score], "__Opportunity", [Average Opportunity Score]), [__Opportunity] < 70), [__Hot], DESC, [__Opportunity], DESC)
+			RETURN "继续观察｜" & MAXX(T, products[product_name]) & "：热度分 " & FORMAT(MAXX(T, [__Hot]), "0.0") & "，但机会分 " & FORMAT(MAXX(T, [__Opportunity]), "0.0") & " 尚未达到 70。"
+		lineageTag: 21e3d037-7f79-4abf-8e60-8c88c393ea5a
+
+	measure 'Customer Insight Text' =
+			VAR Champions = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "Champions")
+			VAR ChampionSales = CALCULATE([Net Sales], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "Champions")
+			VAR AtRisk = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "At Risk")
+			RETURN "Champions 共 " & FORMAT(Champions, "#,0") & " 人，贡献净销售额 " & FORMAT(ChampionSales / 1000000, "0.00") & "M TWD；At Risk 共 " & FORMAT(AtRisk, "#,0") & " 人需要召回。"
+		lineageTag: f538fa99-7c7e-498e-baa4-cb6f6b1f5ddf
+
+	measure 'Customer Maintain Action' =
+			VAR Champions = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "Champions")
+			VAR Potential = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "Potential Loyalists")
+			RETURN "价值经营｜Champions " & FORMAT(Champions, "#,0") & " 人：重点维护；Potential Loyalists " & FORMAT(Potential, "#,0") & " 人：促进复购。"
+		lineageTag: 5ea552b6-687c-4c08-a584-99db8484f59a
+
+	measure 'Customer Grow Action' =
+			VAR NewPromising = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "New & Promising")
+			VAR Loyal = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "Loyal")
+			RETURN "成长经营｜New & Promising " & FORMAT(NewPromising, "#,0") & " 人：首购培育；Loyal " & FORMAT(Loyal, "#,0") & " 人：会员深化。"
+		lineageTag: a141a4fe-b77f-4419-a5ad-8dc514bf1bbd
+
+	measure 'Customer Recover Action' =
+			VAR AtRisk = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "At Risk")
+			VAR Hibernating = CALCULATE([Registered Users], REMOVEFILTERS(users[RFM Segment Display]), users[RFM Segment Display] = "Hibernating")
+			RETURN "风险经营｜At Risk " & FORMAT(AtRisk, "#,0") & " 人：流失召回；Hibernating " & FORMAT(Hibernating, "#,0") & " 人：低成本唤醒。"
+		lineageTag: 0d65f118-4d60-4848-a78f-d1a09d6477a2
+
+	measure 'Ads Insight Text' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(ads[channel]), "__ROAS", [ROAS]), NOT ISBLANK([__ROAS])), [__ROAS], DESC, ads[channel], ASC)
+			RETURN "每 1 TWD 广告费带来 " & FORMAT([ROAS], "0.00") & " TWD 归因收入；" & MAXX(T, ads[channel]) & " 的 ROAS 最高，为 " & FORMAT(MAXX(T, [__ROAS]), "0.00") & "x。"
+		lineageTag: 378725cb-97c6-4489-91b2-eef6fe90032f
+
+	measure 'Ads Increase Action' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(ads[channel]), "__ROAS", [ROAS], "__CPA", [CPA], "__Conversions", [Conversions]), NOT ISBLANK([__ROAS])), [__ROAS], DESC)
+			RETURN "建议增加预算｜" & MAXX(T, ads[channel]) & "：ROAS " & FORMAT(MAXX(T, [__ROAS]), "0.00") & "x，CPA " & FORMAT(MAXX(T, [__CPA]), "#,0") & " TWD，转化 " & FORMAT(MAXX(T, [__Conversions]), "#,0") & "。"
+		lineageTag: 675227f0-73db-4a93-b5bf-7bb83a26bf7c
+
+	measure 'Ads Watch Action' =
+			VAR Base = ADDCOLUMNS(ALLSELECTED(ads[channel]), "__ROAS", [ROAS], "__CPA", [CPA])
+			VAR Ranked = ADDCOLUMNS(Base, "__Rank", RANKX(Base, [__ROAS],, DESC, DENSE))
+			VAR T = TOPN(1, FILTER(Ranked, [__Rank] = 2), [__ROAS], DESC)
+			RETURN "建议观察｜" & MAXX(T, ads[channel]) & "：ROAS " & FORMAT(MAXX(T, [__ROAS]), "0.00") & "x，CPA " & FORMAT(MAXX(T, [__CPA]), "#,0") & " TWD；继续验证增量效果。"
+		lineageTag: b6d953da-7f1f-4684-b73e-b0ddb2c97fc3
+
+	measure 'Ads Reduce Action' =
+			VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALLSELECTED(ads[channel]), "__ROAS", [ROAS], "__CPA", [CPA]), NOT ISBLANK([__ROAS])), [__ROAS], ASC, ads[channel], ASC)
+			RETURN "建议减少预算｜" & MAXX(T, ads[channel]) & "：ROAS " & FORMAT(MAXX(T, [__ROAS]), "0.00") & "x，CPA " & FORMAT(MAXX(T, [__CPA]), "#,0") & " TWD，为当前筛选效率最低。"
+		lineageTag: 4b434534-2f25-47b2-b1c1-4456385e9446
+
+	/// Compact display-only currency strings used by executive cards; base measures and calculation logic are unchanged.
+	measure 'GMV KPI Text' = FORMAT([GMV] / 1000000, "0.00") & "M TWD"
+		lineageTag: 143d7520-04a8-43a3-942c-fd51f094524f
+
+	measure 'Net Sales KPI Text' = FORMAT([Net Sales] / 1000000, "0.00") & "M TWD"
+		lineageTag: 418aebac-e35c-4a15-8dfe-0374c7d47404
+
+	measure 'Gross Profit KPI Text' = FORMAT([Gross Profit] / 1000000, "0.00") & "M TWD"
+		lineageTag: 52865556-58d1-4e93-ae63-aa17b73c6965
+
+	measure 'Ad Spend KPI Text' = FORMAT([Ad Spend] / 1000000, "0.00") & "M TWD"
+		lineageTag: 95c26103-1034-46a5-bbdf-0d4efaa88b71
+
+	measure 'Attributed Revenue KPI Text' = FORMAT([Attributed Revenue] / 1000000, "0.00") & "M TWD"
+		lineageTag: ebd3653c-129d-4eae-a5ee-2425c4768463
+
 	column Dummy
 		dataType: string
 		isHidden

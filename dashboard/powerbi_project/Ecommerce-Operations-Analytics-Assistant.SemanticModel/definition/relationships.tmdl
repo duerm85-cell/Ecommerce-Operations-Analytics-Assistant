@@ -13,3 +13,8 @@ relationship 22c20256-47a2-4f80-827c-fd90fd2bca08
 relationship c922ce66-743f-4508-8b10-b4d13547a58e
 	fromColumn: ads.date
 	toColumn: calendar.date
+
+relationship 210d1b37-1e3e-42eb-bf70-7fa6d46dbe96
+	joinOnDateBehavior: datePartOnly
+	fromColumn: users.register_date
+	toColumn: LocalDateTable_9ac2ff72-052d-423c-aa5e-14411008ccf9.Date

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "1d4e17d92d8584b15c3d",
   "position": {
-    "x": 860,
-    "y": 18,
+    "x": 1140,
+    "y": 14,
     "z": 20,
     "height": 44,
-    "width": 550,
+    "width": 276,
     "tabOrder": 20
   },
   "visual": {
@@ -19,16 +19,16 @@
               {
                 "textRuns": [
                   {
-                    "value": "⚠ 模拟数据 · TWD · 统计期 2025-01-01 至 2025-12-31",
+                    "value": "模拟数据 · TWD · FY2025",
                     "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "14px",
-                      "color": "#7A4E00",
+                      "fontFamily": "Microsoft YaHei",
+                      "fontSize": "13px",
+                      "color": "#16324F",
                       "fontWeight": "bold"
                     }
                   }
                 ],
-                "horizontalTextAlignment": "left"
+                "horizontalTextAlignment": "center"
               }
             ]
           }
@@ -51,7 +51,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FFF4CE'"
+                      "Value": "'#FFF8E6'"
                     }
                   }
                 }

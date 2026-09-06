@@ -3,10 +3,10 @@
   "name": "b65d0d6fedf0669dffd2",
   "position": {
     "x": 24,
-    "y": 288,
+    "y": 404,
     "z": 400,
-    "height": 472,
-    "width": 860,
+    "height": 206,
+    "width": 842,
     "tabOrder": 400
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "calendar.month",
               "nativeQueryRef": "month",
+              "displayName": "月份",
               "active": true
             }
           ]
@@ -42,11 +43,12 @@
                       "Entity": "KPI Measures"
                     }
                   },
-                  "Property": "Net Sales"
+                  "Property": "GMV"
                 }
               },
-              "queryRef": "KPI Measures.Net Sales",
-              "nativeQueryRef": "Net Sales"
+              "queryRef": "KPI Measures.GMV",
+              "nativeQueryRef": "GMV",
+              "displayName": "GMV"
             },
             {
               "field": {
@@ -56,11 +58,12 @@
                       "Entity": "KPI Measures"
                     }
                   },
-                  "Property": "GMV"
+                  "Property": "Net Sales"
                 }
               },
-              "queryRef": "KPI Measures.GMV",
-              "nativeQueryRef": "GMV"
+              "queryRef": "KPI Measures.Net Sales",
+              "nativeQueryRef": "Net Sales",
+              "displayName": "净销售额"
             }
           ]
         }
@@ -95,10 +98,42 @@
                 }
               }
             },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Microsoft YaHei'"
+                }
+              }
+            },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#526579'"
+                    }
+                  }
+                }
+              }
+            },
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "18L"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -112,6 +147,49 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#526579'"
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E9EEF4'"
+                    }
+                  }
                 }
               }
             },
@@ -137,6 +215,82 @@
             }
           }
         }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Microsoft YaHei'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#526579'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2F80ED'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KPI Measures.GMV"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#16A6A1'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KPI Measures.Net Sales"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -153,14 +307,35 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'十二个月销售趋势（TWD）'"
+                  "Value": "'1–12 月 GMV 与净销售额趋势（TWD）'"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Microsoft YaHei'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "13D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
@@ -169,7 +344,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#242424'"
+                      "Value": "'#16324F'"
                     }
                   }
                 }
@@ -237,7 +412,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#DDE3EA'"
+                      "Value": "'#DDE5EE'"
                     }
                   }
                 }
@@ -273,14 +448,14 @@
             "left": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             },
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             }

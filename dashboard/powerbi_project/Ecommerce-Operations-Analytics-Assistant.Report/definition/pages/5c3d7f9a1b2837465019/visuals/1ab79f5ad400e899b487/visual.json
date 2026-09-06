@@ -3,14 +3,14 @@
   "name": "1ab79f5ad400e899b487",
   "position": {
     "x": 24,
-    "y": 408,
-    "z": 400,
-    "height": 352,
-    "width": 450,
-    "tabOrder": 400
+    "y": 322,
+    "z": 410,
+    "height": 284,
+    "width": 650,
+    "tabOrder": 410
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "calendar.month",
               "nativeQueryRef": "month",
+              "displayName": "月份",
               "active": true
             }
           ]
@@ -46,8 +47,13 @@
                 }
               },
               "queryRef": "KPI Measures.Ad Spend",
-              "nativeQueryRef": "Ad Spend"
-            },
+              "nativeQueryRef": "Ad Spend",
+              "displayName": "广告花费（TWD）"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
             {
               "field": {
                 "Measure": {
@@ -60,7 +66,8 @@
                 }
               },
               "queryRef": "KPI Measures.Attributed Revenue",
-              "nativeQueryRef": "Attributed Revenue"
+              "nativeQueryRef": "Attributed Revenue",
+              "displayName": "归因收入（TWD）"
             }
           ]
         }
@@ -95,10 +102,35 @@
                 }
               }
             },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI'"
+                }
+              }
+            },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#526579'"
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -112,6 +144,87 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'广告花费（TWD）'"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secShowAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secTitleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'归因收入（TWD）'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "secLabelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "secLabelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E9EEF4'"
+                    }
+                  }
                 }
               }
             },
@@ -137,6 +250,57 @@
             }
           }
         }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#526579'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2F80ED'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KPI Measures.Ad Spend"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -153,14 +317,35 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'月度广告投入与归因收入（TWD）'"
+                  "Value": "'月度广告花费（柱）与归因收入（线）— 独立双轴'"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Microsoft YaHei'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "13D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
@@ -169,7 +354,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#242424'"
+                      "Value": "'#16324F'"
                     }
                   }
                 }
@@ -237,7 +422,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#DDE3EA'"
+                      "Value": "'#DDE5EE'"
                     }
                   }
                 }
@@ -273,14 +458,14 @@
             "left": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             },
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             }

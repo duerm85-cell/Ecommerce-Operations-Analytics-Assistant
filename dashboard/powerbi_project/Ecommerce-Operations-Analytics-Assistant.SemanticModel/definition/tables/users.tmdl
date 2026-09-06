@@ -29,6 +29,13 @@ table users
 		summarizeBy: none
 		sourceColumn: register_date
 
+		variation 变体
+			isDefault
+			relationship: 210d1b37-1e3e-42eb-bf70-7fa6d46dbe96
+			defaultHierarchy: LocalDateTable_9ac2ff72-052d-423c-aa5e-14411008ccf9.日期层次结构
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	column acquisition_channel
 		dataType: string
 		lineageTag: ef45bdad-e032-4be9-b047-bf79273b3dc0
@@ -39,8 +46,10 @@ table users
 		dataType: double
 		formatString: 0.0%
 		lineageTag: 655962e8-1831-44dd-9a7a-8f428819dea5
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: repeat_propensity
+
+		annotation SummarizationSetBy = Automatic
 
 	column data_source_type
 		dataType: string
@@ -52,43 +61,55 @@ table users
 		dataType: int64
 		formatString: #,0
 		lineageTag: 10191c83-d894-4087-90cc-7cd17a82fac1
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: recency
+
+		annotation SummarizationSetBy = Automatic
 
 	column frequency
 		dataType: int64
 		formatString: 0.0
 		lineageTag: 3f946f95-9085-4c1f-bd78-bac03915cf34
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: frequency
+
+		annotation SummarizationSetBy = Automatic
 
 	column monetary
 		dataType: double
 		formatString: #,0 "TWD"
 		lineageTag: 910f0b6f-6256-4096-b807-d8af2e1eb79f
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: monetary
+
+		annotation SummarizationSetBy = Automatic
 
 	column r_score
 		dataType: int64
 		formatString: 0
 		lineageTag: 342364ee-1390-4727-9706-668404afb7fc
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: r_score
+
+		annotation SummarizationSetBy = Automatic
 
 	column f_score
 		dataType: int64
 		formatString: 0
 		lineageTag: 0698a213-d00f-4f35-9b3e-d8156c70dbc8
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: f_score
+
+		annotation SummarizationSetBy = Automatic
 
 	column m_score
 		dataType: int64
 		formatString: 0
 		lineageTag: b8dd2b96-546f-4c37-81e0-cf630b8ed9ee
-		summarizeBy: average
+		summarizeBy: sum
 		sourceColumn: m_score
+
+		annotation SummarizationSetBy = Automatic
 
 	column rfm_segment
 		dataType: string
@@ -102,6 +123,19 @@ table users
 		summarizeBy: none
 		sourceColumn: customer_type
 
+	/// RFM label used by report visuals. Users without a completed purchase are identified explicitly instead of appearing as a blank segment.
+	column 'RFM Segment Display'
+		dataType: string
+		lineageTag: 0b97cda3-e7e9-4496-a414-bb6308f79c86
+		summarizeBy: none
+		sourceColumn: RFM Segment Display
+
+	column 'RFM Business Action'
+		dataType: string
+		lineageTag: 67fc19e8-708f-4fe8-b7de-9ac78732ba24
+		summarizeBy: none
+		sourceColumn: RFM Business Action
+
 	partition users = m
 		mode: import
 		source =
@@ -109,6 +143,8 @@ table users
 				    Source = Csv.Document(File.Contents(DataRoot & "\users.csv"), [Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"user_id", type text}, {"age_group", type text}, {"region", type text}, {"register_date", type date}, {"acquisition_channel", type text}, {"repeat_propensity", type number}, {"data_source_type", type text}, {"recency", Int64.Type}, {"frequency", Int64.Type}, {"monetary", type number}, {"r_score", Int64.Type}, {"f_score", Int64.Type}, {"m_score", Int64.Type}, {"rfm_segment", type text}}, "en-US"),
-				    #"Added Customer Type" = Table.AddColumn(#"Changed Type", "customer_type", each if [frequency] = null then "No Purchase" else if [frequency] >= 2 then "Repeat" else "New", type text)
+				    #"Added Customer Type" = Table.AddColumn(#"Changed Type", "customer_type", each if [frequency] = null then "No Purchase" else if [frequency] >= 2 then "Repeat" else "New", type text),
+				    #"Added RFM Segment Display" = Table.AddColumn(#"Added Customer Type", "RFM Segment Display", each if [rfm_segment] = null or Text.Trim([rfm_segment]) = "" then "未购买 / 未分群" else [rfm_segment], type text),
+				    #"Added RFM Business Action" = Table.AddColumn(#"Added RFM Segment Display", "RFM Business Action", each if [RFM Segment Display] = "Champions" then "重点维护" else if [RFM Segment Display] = "Potential Loyalists" then "促进复购" else if [RFM Segment Display] = "New & Promising" then "首购培育" else if [RFM Segment Display] = "At Risk" then "流失召回" else if [RFM Segment Display] = "Hibernating" then "低成本唤醒" else if [RFM Segment Display] = "Loyal" then "会员深化" else "未购买用户培育", type text)
 				in
-				    #"Added Customer Type"
+				    #"Added RFM Business Action"

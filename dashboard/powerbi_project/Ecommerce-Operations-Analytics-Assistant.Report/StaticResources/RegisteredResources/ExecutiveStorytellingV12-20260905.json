@@ -1,0 +1,78 @@
+{
+  "name": "ExecutiveStorytellingV12-20260905.json",
+  "dataColors": [
+    "#2F80ED",
+    "#16A6A1",
+    "#F2B84B",
+    "#E7685D",
+    "#6C7A89",
+    "#8B6FC0",
+    "#4C9F70",
+    "#D9822B"
+  ],
+  "background": "#F6F8FB",
+  "foreground": "#16324F",
+  "tableAccent": "#2F80ED",
+  "good": "#16A6A1",
+  "neutral": "#F2B84B",
+  "bad": "#E7685D",
+  "maximum": "#16A6A1",
+  "center": "#F2B84B",
+  "minimum": "#E7685D",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 28,
+      "color": "#16324F"
+    },
+    "title": {
+      "fontFace": "Microsoft YaHei",
+      "fontSize": 13,
+      "color": "#16324F"
+    },
+    "header": {
+      "fontFace": "Microsoft YaHei",
+      "fontSize": 11,
+      "color": "#16324F"
+    },
+    "label": {
+      "fontFace": "Microsoft YaHei",
+      "fontSize": 10,
+      "color": "#526579"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [
+          {
+            "show": true,
+            "fontColor": { "solid": { "color": "#16324F" } },
+            "fontFamily": "Microsoft YaHei",
+            "fontSize": 13,
+            "bold": true,
+            "background": { "solid": { "color": "#FFFFFF" } },
+            "titleWrap": true
+          }
+        ],
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#DDE5EE" } },
+            "radius": 8
+          }
+        ],
+        "visualHeader": [
+          { "show": false }
+        ]
+      }
+    }
+  }
+}

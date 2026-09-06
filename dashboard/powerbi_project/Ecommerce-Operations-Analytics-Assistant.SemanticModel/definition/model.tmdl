@@ -11,13 +11,15 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_ProTooling = ["DevMode"]
 
+annotation PBI_QueryOrder = ["products","users","orders","ads","calendar","DataRoot"]
+
 ref table products
 ref table users
 ref table orders
 ref table ads
 ref table calendar
 ref table 'KPI Measures'
-
-ref expression DataRoot
+ref table DateTableTemplate_b6dc29e4-8205-42bb-9706-3f3bef4fa50f
+ref table LocalDateTable_9ac2ff72-052d-423c-aa5e-14411008ccf9
 
 ref cultureInfo zh-CN

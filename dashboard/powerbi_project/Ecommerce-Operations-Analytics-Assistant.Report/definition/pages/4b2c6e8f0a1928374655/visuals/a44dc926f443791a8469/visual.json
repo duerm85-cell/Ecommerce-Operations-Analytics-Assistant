@@ -3,10 +3,10 @@
   "name": "a44dc926f443791a8469",
   "position": {
     "x": 24,
-    "y": 16,
+    "y": 8,
     "z": 10,
     "height": 52,
-    "width": 760,
+    "width": 452,
     "tabOrder": 10
   },
   "visual": {
@@ -19,11 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "用户分析 | Customer & RFM",
+                    "value": "用户价值",
                     "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "28px",
-                      "color": "#17324D",
+                      "fontFamily": "Microsoft YaHei",
+                      "fontSize": "25px",
+                      "color": "#16324F",
                       "fontWeight": "bold"
                     }
                   }
@@ -51,7 +51,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F5F7FA'"
+                      "Value": "'#F6F8FB'"
                     }
                   }
                 }

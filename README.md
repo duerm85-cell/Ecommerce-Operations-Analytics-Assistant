@@ -6,6 +6,8 @@
 
 **V1.2 status:** the genuine four-page PBIP/PBIR/TMDL source was redesigned for executive storytelling and saved as a 3.17 MB PBIX with Power BI Desktop. The PBIX was closed, reopened in a new Desktop process, and all four pages were captured successfully through the Desktop bridge. The original V1.1 PBIX remains available unchanged.
 
+中文完整项目说明：[`PROJECT_OVERVIEW_V1.2.md`](PROJECT_OVERVIEW_V1.2.md)
+
 ## What the project answers
 
 - Which categories, products and price bands combine demand with attractive margin or lower modeled competition?

@@ -121,11 +121,29 @@ Definitions, formulas, inclusion rules, and business interpretation are document
 
 ## Dashboard
 
-| Operations overview | Product opportunity |
-|---|---|
-| ![Power BI operations overview](dashboard/powerbi_screenshots/v1.2/01_overview.png) | ![Power BI product opportunity](dashboard/powerbi_screenshots/v1.2/02_product_opportunity.png) |
-| Customer value | Advertising return |
-| ![Power BI customer value](dashboard/powerbi_screenshots/v1.2/03_customer_value.png) | ![Power BI advertising return](dashboard/powerbi_screenshots/v1.2/04_advertising_return.png) |
+### Operations Overview
+
+Executive view of revenue, profit, margin, ROAS, monthly performance, category contribution, and recommended actions.
+
+![Power BI operations overview](dashboard/powerbi_screenshots/v1.2/01_overview.png)
+
+### Product Opportunity
+
+Product and category investment view combining opportunity, demand, revenue, margin, price bands, and action priorities.
+
+![Power BI product opportunity](dashboard/powerbi_screenshots/v1.2/02_product_opportunity.png)
+
+### Customer Value
+
+Customer portfolio view focused on purchasing users, repeat behavior, RFM value segments, churn risk, and retention actions.
+
+![Power BI customer value](dashboard/powerbi_screenshots/v1.2/03_customer_value.png)
+
+### Advertising Return
+
+Advertising efficiency view covering spend, attributed revenue, ROAS, CPA, CTR, CVR, and channel budget recommendations.
+
+![Power BI advertising return](dashboard/powerbi_screenshots/v1.2/04_advertising_return.png)
 
 The four pages are **经营总览**, **商品机会**, **用户价值**, and **广告回报**. They use synchronized business filters, native page navigation, clear-filter controls, dynamic conclusions, and a consistent TWD/FY2025 display contract.
 

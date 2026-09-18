@@ -18,6 +18,7 @@ import pandas as pd
 LOG = logging.getLogger("generate_data")
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RAW_PRODUCTS = ROOT / "crawler" / "raw_data" / "raw_products.csv"
+DEFAULT_SHOPEE_PRODUCTS = ROOT / "crawler" / "raw_data" / "shopee_products.csv"
 RAW_PRODUCT_FIELDS = ["product_id", "product_name", "category", "price", "rating", "review_count"]
 SEED = 20260801
 START = pd.Timestamp("2025-01-01")
@@ -295,7 +296,10 @@ def generate(
 ) -> dict[str, int]:
     rng = np.random.default_rng(SEED)
     # Extract and standardize the product ODS; an empty input keeps the original fallback.
-    products, product_source = make_products_prefer_external(rng, products_n, raw_products)
+    selected_raw_products = raw_products
+    if raw_products == DEFAULT_RAW_PRODUCTS and DEFAULT_SHOPEE_PRODUCTS.exists():
+        selected_raw_products = DEFAULT_SHOPEE_PRODUCTS
+    products, product_source = make_products_prefer_external(rng, products_n, selected_raw_products)
     # Build DWD-grain entities. Internal users, orders and ads remain fixed-seed simulations.
     tables = {
         "products": products,

@@ -7,6 +7,8 @@ The `crawler` module provides a conservative input layer for public product-mark
 ```text
 crawler/
 ├── product_crawler.py                 public CSV/ZIP normalizer
+├── shopee_product_crawler.py          small public Shopee category collector
+├── config.yaml                        Shopee collection settings
 ├── public_product_collector.py        minimal public JSON reference collector
 ├── raw_data/
 │   └── raw_products.csv               product ODS contract
@@ -14,6 +16,8 @@ crawler/
 ```
 
 The committed `raw_products.csv` contains only the required header. This preserves the validated Power BI baseline while making the external input contract explicit. When the file contains valid rows, `data/generate_data.py` automatically prefers those product attributes. When it is missing or header-only, the pipeline uses the original fixed-seed product generator.
+
+The optional `shopee_product_crawler.py` writes the same six-field contract to `raw_data/shopee_products.csv`. For the default pipeline this file takes precedence when it exists and contains valid rows; otherwise the existing `raw_products.csv` path and synthetic fallback remain unchanged.
 
 ## ODS contract
 
@@ -37,6 +41,15 @@ Common source columns such as `asin`, `title`, `discounted_price`, `rating_stars
 One compatible field example is the Kaggle [Amazon Sales Dataset](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset), which exposes product ID, product name, category, price, rating and rating-count fields under CC BY-NC-SA 4.0. Dataset licenses and redistribution rights must be checked before committing any rows. Product sources should also match the project's merchandise domain and category taxonomy.
 
 ## Usage
+
+Small Shopee public category collection (after reviewing terms and `robots.txt`):
+
+```powershell
+notepad crawler/config.yaml   # set category_url; keep max_products <= 1000 and interval >= 2
+python crawler/shopee_product_crawler.py
+```
+
+The collector makes one bounded public page request and stops if the page does not expose supported public metadata. It does not crawl product detail pages or collect private/user content.
 
 Normalize a previously downloaded public dataset without making a network request:
 

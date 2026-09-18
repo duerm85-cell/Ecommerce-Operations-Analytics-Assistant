@@ -4,6 +4,12 @@ Ecommerce Operations Analytics Assistant 将外部市场信息与内部经营数
 
 ## 数据流程
 
+### Shopee Public Product Data
+
+项目提供一个小规模、低频的公开商品页面输入验证模块：`crawler/shopee_product_crawler.py` 从配置的公开分类页尝试读取页面可见商品元数据，并将标准化结果写入 `crawler/raw_data/shopee_products.csv`。采集字段仅包括 `product_id`、`product_name`、`category`、`price`、`rating` 和 `review_count`；不采集用户信息、评论内容、订单、卖家联系方式或登录数据。
+
+该输入只用于商品维度分析和现有 ETL 链路验证，不提供用户、订单或广告数据。采集受 `crawler/config.yaml` 的 `max_products`（默认 500）和 `request_interval`（默认 3 秒）约束，并要求 robots.txt 允许访问；页面需要登录、验证码、私有 API 或不公开元数据时应停止。Shopee 文件存在且有效时，`data/generate_data.py` 的默认运行优先使用它；不存在或无有效记录时，原有 `raw_products.csv`/固定种子商品逻辑不变。
+
 ```text
 真实公开商品数据
         ↓

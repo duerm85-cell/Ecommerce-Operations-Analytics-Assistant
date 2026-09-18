@@ -24,3 +24,10 @@ dashboard/powerbi_data/*.csv
 *.pbix~
 .coverage
 htmlcov/
+# Generated pipeline outputs
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated sample exports
+data/sample/*
+!data/sample/.gitkeep

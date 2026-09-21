@@ -12,6 +12,7 @@ data/raw/*
 data/processed/*.csv
 !data/processed/.gitkeep
 data/analytics.sqlite
+data/olist_analytics.sqlite
 dashboard/powerbi_data/*.csv
 !dashboard/powerbi_data/.gitkeep
 *.pbix

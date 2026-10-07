@@ -7,13 +7,17 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$DatabaseName,
 
-    [string]$PowerBIBin = 'D:\Bin',
+    [string]$PowerBIBin = $env:POWERBI_DESKTOP_BIN,
 
     [switch]$ForceReplace
 )
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+
+if ([string]::IsNullOrWhiteSpace($PowerBIBin)) {
+    throw 'Pass -PowerBIBin or set POWERBI_DESKTOP_BIN to the Power BI Desktop bin directory.'
+}
 
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if ((Split-Path $repoRoot -Leaf) -ne 'Ecommerce-Operations-Analytics-Assistant') {

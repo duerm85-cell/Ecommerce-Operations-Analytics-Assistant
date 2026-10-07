@@ -322,7 +322,7 @@ python -m unittest discover -s tests -v
 可直接打开最终 PBIX：
 
 ```powershell
-& 'D:\Bin\PBIDesktop.exe' '.\dashboard\powerbi_project\Ecommerce-Operations-Analytics-Assistant-v1.2.pbix'
+Start-Process 'PBIDesktop.exe' -ArgumentList '.\dashboard\powerbi_project\Ecommerce-Operations-Analytics-Assistant-v1.2.pbix'
 ```
 
 PBIX 已嵌入验证数据。使用 PBIP 源进行开发时，需要先生成本地 `dashboard/powerbi_data` CSV，再把 `DataRoot` 参数指向该目录并刷新；版本控制中的 TMDL 不包含作者机器的绝对用户路径。
@@ -331,7 +331,7 @@ PBIX 已嵌入验证数据。使用 PBIP 源进行开发时，需要先生成本
 
 V1.2 已完成以下验证：
 
-- 使用 `D:\Bin\PBIDesktop.exe` 打开、刷新并保存最终 PBIX。
+- 使用本机 Power BI Desktop 打开、刷新并保存最终 PBIX。
 - 关闭保存进程后，在新的 Power BI Desktop 进程中重新打开 V1.2 PBIX。
 - 使用四个 page ID 分别抓取经营总览、商品机会、用户价值和广告回报，四页均成功渲染。
 - Microsoft PBIR validator：0 errors、0 warnings。

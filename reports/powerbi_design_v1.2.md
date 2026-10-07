@@ -66,7 +66,7 @@
 
 ## PBIX 与视觉验证
 
-- 使用 `D:\Bin\PBIDesktop.exe` 打开 PBIP、刷新本地 CSV 并另存为 `Ecommerce-Operations-Analytics-Assistant-v1.2.pbix`。
+- 使用本机 Power BI Desktop 打开 PBIP、刷新本地 CSV 并另存为 `Ecommerce-Operations-Analytics-Assistant-v1.2.pbix`。
 - 保存后关闭原 V1.2 进程，并在新 Power BI Desktop 进程中重新打开 V1.2 PBIX。
 - 官方 Desktop Bridge 以四个原始 page ID 分别截取经营总览、商品机会、用户价值和广告回报，四次均返回 `status: ok`，证明重开的 PBIX 四页均可渲染。
 - Microsoft PBIR validator：0 errors、0 warnings。

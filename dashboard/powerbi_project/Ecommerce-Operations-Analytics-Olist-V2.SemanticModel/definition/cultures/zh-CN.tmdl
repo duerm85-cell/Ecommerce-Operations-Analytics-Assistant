@@ -1,0 +1,712 @@
+cultureInfo zh-CN
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "kpi_measures.aov": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "AOV"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均订单金额": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.repeat_purchase_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Repeat Purchase Rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "复购率": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.merchandise_gmv": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Merchandise GMV"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "商品成交额": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.orders": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Orders"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "订单数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.category_gmv": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Category GMV"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "商品成交额（BRL）": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "品类商品成交额": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.average_review_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Average Review Score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均评分": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.monthly_gmv": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Monthly GMV"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "商品成交额（BRL）": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.monthly_orders": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Monthly Orders"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "delivered 订单数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.purchasing_customers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Purchasing Customers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "购买客户数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.category_low_rating_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Category Low Rating Rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "低评分占比": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.category_freight_ratio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Category Freight Ratio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "运费占比": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.category_freight_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Category Freight Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "运费金额": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.units_sold": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Units Sold"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "销售件数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.category_average_review_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Category Average Review Score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均评分": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.average_item_price": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Average Item Price"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均商品价格": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.category_orders": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Category Orders"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "气泡大小": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.average_recency": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Average Recency"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均 Recency（天）": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.average_monetary": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Average Monetary"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均 Monetary": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.rfm_customers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "RFM Customers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "客户数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "购买客户数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.rfm_repeat_customers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "RFM Repeat Customers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "复购客户数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.average_frequency": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Average Frequency"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均 Frequency": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.customer_monetary_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Customer Monetary Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Monetary Value（BRL）": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.rfm_repeat_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "RFM Repeat Rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "复购率": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.cancel_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Cancel Rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "取消率": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.monthly_cancel_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Monthly Cancel Rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "取消率": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.canceled_orders": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Canceled Orders"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "取消订单数": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.freight_ratio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Freight Ratio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "整体运费占比": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "kpi_measures.monthly_average_review_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "KPI Measures",
+			          "ConceptualProperty": "Monthly Average Review Score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "平均评分": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "olist_category_performance.category_display_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "olist_category_performance",
+			          "ConceptualProperty": "category_display_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "品类": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "对象": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "olist_category_performance.category_translation_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "olist_category_performance",
+			          "ConceptualProperty": "category_translation_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "分组": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "olist_monthly_performance.month_key": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "olist_monthly_performance",
+			          "ConceptualProperty": "month_key"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "月份": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "olist_customer_rfm.rfm_segment": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "olist_customer_rfm",
+			          "ConceptualProperty": "rfm_segment"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RFM 客户分群": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json

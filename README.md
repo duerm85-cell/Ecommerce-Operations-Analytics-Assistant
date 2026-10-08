@@ -1,275 +1,180 @@
-# Ecommerce Operations Analytics Assistant
+# 电商运营数据分析
 
-> An end-to-end ecommerce operations analytics platform covering public product-market inputs, reproducible ETL, dimensional modeling, governed business metrics, SQL/Python analysis, data-quality validation, and Power BI decision dashboards.
+这是一个基于 Olist Brazilian E-Commerce Public Dataset 的电商数据分析项目，覆盖数据清洗、ODS/DWD 分层建模、客户身份统一、Analytics 指标计算、RFM 客户分析和 Power BI 可视化。早期 Synthetic V1.1/V1.2 仍保留在仓库中作为历史原型，但不用于证明 Olist 指标。
 
-The project models a realistic enterprise analytics workflow across products, customers, orders, advertising, and calendar data. Public product attributes can enter through a controlled ODS contract, while privacy-sensitive customer, transaction, and advertising records are generated with deterministic business rules so that the complete pipeline can be reproduced without distributing confidential data.
+> 数据边界：Olist 是公开历史数据，不是实时业务系统或企业内部数据。所有金额为 BRL；销售与客户指标采用原始 `order_status = 'delivered'` 口径。
 
-![Power BI executive overview](dashboard/powerbi_screenshots/v1.2/01_overview.png)
+[数据准备](data/README.md) · [指标与 mart](docs/olist_analytics_layer.md) · [业务洞察](docs/olist_business_insights.md) · [Power BI 说明](docs/olist_powerbi_dashboard_spec.md) · [验证记录](reports/olist_powerbi_validation.md)
 
-[中文项目说明](PROJECT_OVERVIEW_V1.2.md) · [Data architecture](docs/data_architecture.md) · [ETL pipeline](docs/etl_pipeline.md) · [Data quality](docs/data_quality.md)
+## 当前状态
 
-## Project Overview
-
-Ecommerce teams need consistent answers to four connected questions:
-
-- How is the business performing, and where do revenue and profit come from?
-- Which products and categories deserve additional investment?
-- Which customer groups create value or show churn risk?
-- Which advertising channels and campaigns use budget efficiently?
-
-This repository implements the data flow behind those decisions rather than treating the dashboard as an isolated artifact. The same metric definitions are applied across Python, SQL, and DAX, with automated checks for schema integrity, business equations, reproducibility, and cross-engine consistency.
-
-## Features
-
-- **Public product input:** normalize compatible public CSV/ZIP datasets into a six-field product ODS without authentication or access-control bypasses.
-- **Deterministic business data:** generate reproducible users, orders, advertising, and calendar data with explicit business constraints.
-- **Layered data architecture:** map source data through ODS, DWD, DWS, and ADS responsibilities before presentation.
-- **Governed metrics:** standardize GMV, net sales, gross profit, AOV, repeat rate, CTR, CVR, CPA, and ROAS.
-- **SQL and Python analytics:** implement product, operations, RFM customer, and advertising analysis with pandas, SQLite, and MySQL-compatible SQL.
-- **Cross-engine reconciliation:** compare Python and SQL results automatically and retain a validated DAX reconciliation record.
-- **Decision dashboards:** provide four Power BI pages organized as conclusion → KPI → evidence → action.
-- **Version-controlled BI assets:** include PBIP, PBIR, TMDL, DAX documentation, validated PBIX files, and clean screenshots.
-- **Data-quality gates:** test keys, missingness, ranges, relationships, business equations, metric consistency, and dashboard structure.
-
-## Technology stack
-
-| Area | Technologies |
+| 模块 | 状态 |
 |---|---|
-| Data pipeline and ETL | Python 3.12, pandas, NumPy |
-| Storage and SQL | SQLite, MySQL 8-compatible schema and queries |
-| Data modeling | Product, customer, order, advertising, and calendar entities; ODS/DWD/DWS/ADS logical layers |
-| Business intelligence | Power BI Desktop, PBIP, PBIR, TMDL, DAX |
-| Alternative dashboard | HTML, CSS, JavaScript |
-| Quality and reproducibility | unittest, fixed random seed, SQL/Python/DAX reconciliation |
-| Version control | Git |
+| Olist 原始数据校验 | 已完成 |
+| Raw → ODS | 已完成 |
+| ODS → DWD | 已完成 |
+| Customer identity bridge | 已完成 |
+| Analytics marts 与 6 个 Power BI CSV | 已完成 |
+| RFM、复购与品类分析 | 已完成 |
+| Power BI PBIP/PBIR/TMDL | 已完成 |
+| Power BI PBIX | 已在 Power BI Desktop 中刷新、保存并重新打开验证 |
+| Synthetic V1.1/V1.2 | 保留为 Legacy，不与 Olist 混用 |
 
-## Architecture
+## Dashboard 预览
 
-```text
-External Market Data          Business Simulation Data
-        │                     users / orders / ads
-        └──────────────┬──────────────┘
-                       ↓
-                  ODS raw layer
-                       ↓
-                 DWD detail layer
-                       ↓
-                DWS summary layer
-                       ↓
-              ADS application layer
-                       ↓
-       Power BI and browser decision dashboards
+### 1. 经营总览
+
+![Olist Power BI 经营总览](docs/assets/olist_powerbi_01_overview.png)
+
+### 2. 商品与品类分析
+
+![Olist Power BI 商品与品类分析](docs/assets/olist_powerbi_02_category.png)
+
+### 3. 客户价值
+
+![Olist Power BI 客户价值](docs/assets/olist_powerbi_03_customer.png)
+
+### 4. 评价与订单体验
+
+![Olist Power BI 评价与订单体验](docs/assets/olist_powerbi_04_experience.png)
+
+第四页仅使用现有 mart 能支持的评分、低评分、取消率与运费指标。当前数据层没有交付时长 mart，因此报表不声称分析配送时效。
+
+## 业务问题
+
+项目主要回答三类问题：
+
+1. 经营表现：delivered 订单、购买客户、Merchandise GMV、Paid Value、AOV、评分和取消率如何变化？
+2. 客户价值：按 `customer_unique_id` 统一身份后，复购客户有多少，RFM 分群结构如何？
+3. 商品与体验：哪些品类贡献成交额，哪些品类同时出现较高运费占比或较低评分？
+
+## 数据架构
+
+```mermaid
+flowchart LR
+    A[Olist Public Dataset<br/>9 CSV] --> B[Source Validation]
+    B --> C[ODS<br/>source-aligned]
+    C --> D[DWD<br/>dimensions + bridge + facts]
+    D --> E[Analytics Marts<br/>overview + monthly + RFM + category]
+    E --> F[6 Power BI CSV exports]
+    F --> G[Power BI<br/>PBIP + PBIX + screenshots]
 ```
 
-Repository mapping:
+Olist 管道位于 `etl/olist/`，输出 `data/olist_analytics.sqlite`。它不会覆盖 Synthetic 使用的 `data/analytics.sqlite`。
 
-| Layer | Responsibility | Main implementation |
-|---|---|---|
-| Source | Public product inputs and deterministic business rules | `crawler/`, `data/generate_data.py` |
-| ODS | Source-aligned product input contract | `crawler/raw_data/raw_products.csv` |
-| DWD | Standardized entity-level detail | `data/processed/*.csv` |
-| DWS | Monthly, product, category, RFM, and campaign summaries | `analysis/run_analysis.py`, SQLite, `database/analysis_queries.sql` |
-| ADS | KPI and dashboard-ready outputs | `reports/`, `dashboard/powerbi_data/` |
-| Presentation | Interactive business analysis | Power BI and `dashboard/interactive_dashboard.html` |
+## 数据模型
 
-See [docs/data_architecture.md](docs/data_architecture.md) for layer responsibilities and quality gates.
-
-## Data Sources
-
-### External Market Data
-
-The preferred product input is a license-compatible public dataset containing:
-
-```text
-product_id · product_name · category · price · rating · review_count
+```mermaid
+erDiagram
+    DIM_CUSTOMER ||--o{ BRIDGE_CUSTOMER_IDENTITY : maps
+    BRIDGE_CUSTOMER_IDENTITY ||--o{ FACT_ORDERS : identifies
+    DIM_CUSTOMER ||--o{ FACT_ORDERS : owns
+    DIM_DATE ||--o{ FACT_ORDERS : purchased_on
+    FACT_ORDERS ||--o{ FACT_ORDER_ITEMS : contains
+    FACT_ORDERS ||--o{ FACT_PAYMENTS : has
+    FACT_ORDERS ||--o{ FACT_REVIEWS : receives
+    DIM_PRODUCT ||--o{ FACT_ORDER_ITEMS : describes
+    DIM_SELLER ||--o{ FACT_ORDER_ITEMS : fulfills
 ```
 
-`crawler/product_crawler.py` accepts a local public CSV/ZIP or a directly accessible public URL, maps common source columns, validates values, and writes the normalized ODS file to `crawler/raw_data/raw_products.csv`.
+关键设计是将订单、商品、支付和评价保留为独立事实表，并在合并前按 `order_id` 分别聚合，避免一对多 join 放大金额。`customer_id` 是订单级客户记录，稳定客户身份使用 `customer_unique_id`，二者通过 `bridge_customer_identity` 映射。
 
-The committed ODS file is header-only so the validated baseline remains reproducible and no third-party dataset is redistributed without a license review. If the file contains valid rows, the pipeline prefers those product attributes. If it is missing or header-only, the original fixed-seed product generator is used.
+## Analytics marts
 
-### Internal Business Data
+| Mart | 粒度 | 当前行数 |
+|---|---|---:|
+| `mart_business_overview` | 全周期快照 | 1 |
+| `mart_monthly_performance` | 购买月份 | 25 |
+| `mart_customer_rfm` | 购买客户 `customer_unique_id` | 93,358 |
+| `mart_customer_segments` | RFM 分群 | 8 |
+| `mart_category_performance` | 来源品类 | 74 |
+| `analytics_metric_definitions` | 指标定义 | 16 |
 
-Users, orders, and advertising rows remain simulated because real enterprise records can contain personal data, transaction details, budgets, attribution logic, and confidential operating results. The generated data preserves the relationships and constraints needed to validate the analytics workflow, but it does not represent a real company, marketplace, store, or customer.
+## 核心指标
 
-Source selection, compliance boundaries, currency handling, and fallback behavior are documented in [docs/data_source.md](docs/data_source.md) and [crawler/README.md](crawler/README.md).
+| 指标 | 定义 | 结果 |
+|---|---|---:|
+| Orders | delivered distinct `order_id` | 96,478 |
+| Purchasing Customers | delivered distinct `customer_unique_id` | 93,358 |
+| Merchandise GMV | delivered item `price_brl` | BRL 13,221,498.11 |
+| Paid Value | delivered payment `payment_value_brl` | BRL 15,422,461.77 |
+| Units Sold | delivered order-item records | 110,197 |
+| AOV | Merchandise GMV / Orders | BRL 137.04 |
+| Repeat Purchase Rate | 至少 2 单客户 / 购买客户 | 3.00% |
+| Average Review Score | delivered 订单关联评价 | 4.156 |
+| Cancel Rate | canceled 订单 / 全部下单 | 0.629% |
 
-## Data Model
+Merchandise GMV 不含运费，不能与 Paid Value 混称。Olist 数据不提供可靠的商品成本、广告曝光/点击/花费或确认退款结果，因此主版本不计算 ROAS、CTR、CVR、CPA、Gross Profit 或 Gross Margin。
 
-| Entity | Grain | Role |
-|---|---|---|
-| `products` | One row per product | Product attributes, public-market fields, demand proxies, and opportunity scores |
-| `users` | One row per user | Region, registration, acquisition channel, and RFM inputs |
-| `orders` | One row per order | Quantity, price, discount, cost, order status, and recognized sales |
-| `ads` | One row per date and campaign | Impressions, clicks, spend, conversions, and attributed revenue |
-| `calendar` | One row per date | Year, quarter, month, week, weekday, weekend, and promotion flags |
+## 主要发现
 
-Orders reference products and users; order and advertising facts connect to the shared calendar. Field definitions are available in [docs/data_dictionary.md](docs/data_dictionary.md).
+- 93,358 位购买客户中有 2,801 位至少完成两笔 delivered 订单，复购率为 3.00%。
+- `health_beauty` 的 delivered Merchandise GMV 为 BRL 1.23M，是当前最高品类。
+- 在至少 1,000 单的品类中，`office_furniture` 的低评分占比最高，为 22.02%；该关联不能证明运费或配送导致评分。
+- 2017-11 是 delivered Merchandise GMV 最高月份，金额为 BRL 987,765.37。
 
-## Metrics
+详细证据与解释边界见 [Olist 业务洞察](docs/olist_business_insights.md)。
 
-The metric layer includes:
+## 复现步骤
 
-- GMV and completed net sales;
-- completed orders, gross profit, and gross margin;
-- purchasing users, fixed-window repeat rate, and AOV;
-- RFM recency, frequency, monetary value, scores, and segments;
-- advertising CTR, CVR, CPC, CPA, attributed revenue, and ROAS;
-- transparent Hot Score and Opportunity Score product shortlists.
-
-Definitions, formulas, inclusion rules, and business interpretation are documented in [docs/business_metrics.md](docs/business_metrics.md) and [docs/metric_dictionary.md](docs/metric_dictionary.md).
-
-## Dashboard
-
-### Operations Overview
-
-Executive view of revenue, profit, margin, ROAS, monthly performance, category contribution, and recommended actions.
-
-![Power BI operations overview](dashboard/powerbi_screenshots/v1.2/01_overview.png)
-
-### Product Opportunity
-
-Product and category investment view combining opportunity, demand, revenue, margin, price bands, and action priorities.
-
-![Power BI product opportunity](dashboard/powerbi_screenshots/v1.2/02_product_opportunity.png)
-
-### Customer Value
-
-Customer portfolio view focused on purchasing users, repeat behavior, RFM value segments, churn risk, and retention actions.
-
-![Power BI customer value](dashboard/powerbi_screenshots/v1.2/03_customer_value.png)
-
-### Advertising Return
-
-Advertising efficiency view covering spend, attributed revenue, ROAS, CPA, CTR, CVR, and channel budget recommendations.
-
-![Power BI advertising return](dashboard/powerbi_screenshots/v1.2/04_advertising_return.png)
-
-The four pages are **经营总览**, **商品机会**, **用户价值**, and **广告回报**. They use synchronized business filters, native page navigation, clear-filter controls, dynamic conclusions, and a consistent TWD/FY2025 display contract.
-
-Power BI deliverables:
-
-- [Validated V1.2 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.2.pbix)
-- [Preserved V1.1 PBIX](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix)
-- [Version-controlled PBIP](dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant.pbip)
-- [Power BI build and refresh guide](dashboard/powerbi_build_guide.md)
-- [V1.2 design report](reports/powerbi_design_v1.2.md)
-- [Power BI validation record](reports/powerbi_validation.md)
-
-The dependency-free [interactive HTML dashboard](dashboard/interactive_dashboard.html) provides a browser-based alternative for environments without Power BI Desktop.
-
-## Quick start
-
-### Prerequisites
-
-- Python 3.12
-- Power BI Desktop only if opening or refreshing the PBIX/PBIP assets
-- MySQL 8 only if using the optional MySQL deployment path
-
-### Run the complete local pipeline
+### 1. 创建环境
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python run_pipeline.py
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-The default run requires no database credentials. It generates deterministic data, builds the SQLite validation database, produces analysis and dashboard outputs, reconciles metrics, and runs the automated test suite.
+### 2. 下载数据
 
-### Run individual stages
+按 [data/README.md](data/README.md) 将 Kaggle 数据集 `olistbr/brazilian-ecommerce` 的 9 个 CSV 放入 `data/raw/olist/`。原始数据、SQLite 和导出 CSV 均由 `.gitignore` 排除。
+
+### 3. 构建数据层
 
 ```powershell
-python data/generate_data.py --products 800 --users 12000 --orders 60000
-python analysis/run_analysis.py
-python dashboard/build_dashboard.py
-python -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m etl.olist.load_ods
+.\.venv\Scripts\python.exe -m etl.olist.build_dwd
+.\.venv\Scripts\python.exe -m etl.olist.build_analytics
 ```
 
-For MySQL 8, follow [database/README.md](database/README.md). Credentials must be supplied through environment variables based on [.env.example](.env.example); never commit `.env`.
-
-## Pipeline
-
-`run_pipeline.py` executes four fail-fast stages:
-
-1. **Extract and detail load:** `data/generate_data.py` selects the external product ODS or fixed-seed fallback, generates internal business data, and writes standardized detail files.
-2. **Transform and reconcile:** `analysis/run_analysis.py` builds SQLite, calculates KPIs and topic summaries, exports ADS outputs, and compares SQL with Python results.
-3. **Build applications:** `dashboard/build_dashboard.py` regenerates the interactive browser dashboard.
-4. **Quality gate:** unittest discovery validates data contracts, reproducibility, metrics, external product input, and Power BI structure.
-
-Detailed execution, output locations, and failure behavior are described in [docs/etl_pipeline.md](docs/etl_pipeline.md).
-
-## Testing
-
-Run all tests:
+### 4. 运行测试
 
 ```powershell
-python -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-The current suite contains 19 tests covering:
+### 5. 打开 Power BI
 
-- minimum scale and required fields;
-- primary-key uniqueness and foreign-key consistency;
-- value ranges, order equations, dates, currency, and status contracts;
-- Hot Score and Opportunity Score recomputation;
-- external product mapping, preference, fallback, and downstream compatibility;
-- fixed-seed file reproducibility;
-- SQLite/Python/dashboard KPI consistency;
-- Power BI entry files, pages, semantic-model structure, and screenshot dimensions.
+- 直接查看：`dashboard/powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbix`
+- 源码模式：打开同目录的 `Ecommerce-Operations-Analytics-Olist-V2.pbip`，将参数 `DataRoot` 设置为本机 `dashboard/powerbi_data` 的绝对路径后刷新。
 
-The default dataset contains 800 products, 12,000 users, 60,000 orders, 2,190 daily campaign rows, and 365 calendar dates. The fixed seed is `20260801`.
+PBIP 使用独立的 Olist `.Report` 与 `.SemanticModel` 目录，不会覆盖 Legacy Synthetic 项目。详细步骤见 [Power BI 构建与刷新](dashboard/powerbi_build_guide.md)。
 
-The latest validated baseline includes GMV of TWD 39.30M, net sales of TWD 35.17M, gross profit of TWD 14.34M, a 40.8% gross margin, and ROAS of 7.92×. These values describe the included baseline only and are not external market benchmarks.
-
-See [docs/data_quality.md](docs/data_quality.md), [reports/test_results.md](reports/test_results.md), and [reports/powerbi_validation.md](reports/powerbi_validation.md) for the quality framework and verification evidence.
-
-## Repository Structure
+## 项目结构
 
 ```text
-crawler/      public product input, ODS contract, and access boundaries
-database/     MySQL 8 schema, indexes, loader, and business SQL analyses
-data/         deterministic data generation, samples, and local detail outputs
-analysis/     product, operations, RFM, and advertising transformations
-dashboard/    PBIP/PBIX, DAX, screenshots, Power BI inputs, and browser dashboard
-reports/      KPI outputs, analysis tables, validation records, and charts
-tests/        data quality, reproducibility, metrics, ingestion, and BI checks
-docs/         architecture, ETL, data sources, dictionaries, quality, and runbooks
+etl/olist/                    Olist 校验、ODS、DWD、Analytics
+tests/                        数据质量与回归测试
+data/raw/olist/               用户下载的 9 个源 CSV（忽略）
+data/olist_analytics.sqlite   生成数据库（忽略）
+dashboard/powerbi_data/       6 个生成 CSV（忽略）
+dashboard/powerbi_project/    Olist 与 Legacy Power BI 资产
+docs/                         设计、指标、洞察和使用说明
+reports/                      验证记录
 ```
 
-## Documentation
+## 限制
 
-| Document | Purpose |
-|---|---|
-| [Data architecture](docs/data_architecture.md) | Source, ODS, DWD, DWS, ADS, and Power BI responsibilities |
-| [ETL pipeline](docs/etl_pipeline.md) | Extract, transform, load, orchestration, and failure behavior |
-| [Data quality](docs/data_quality.md) | Validation rules and their automated test coverage |
-| [Data sources](docs/data_source.md) | External/public versus internal/simulated data boundaries |
-| [Data dictionary](docs/data_dictionary.md) | Entity fields, types, and meanings |
-| [Business metrics](docs/business_metrics.md) | KPI definitions, formulas, and business significance |
-| [Metric dictionary](docs/metric_dictionary.md) | Inclusion rules, scores, and RFM logic |
-| [Operations runbook](docs/runbook.md) | Operational execution guidance |
-| [Release checklist](docs/release_checklist.md) | GitHub publication readiness and verification status |
+- 时间范围为历史快照，首尾月份不完整，不适合直接做朴素同比/环比结论。
+- 评价是订单级数据，品类归因不能确认具体商品或物流事件是评分原因。
+- RFM 是确定性描述规则，不是预测模型。
+- 地理数据含重复邮编前缀，必须先定义确定性聚合规则才能进入报表。
 
-## Limitations
+完整边界见 [docs/limitations.md](docs/limitations.md)。
 
-- The committed Power BI baseline uses fixed-seed generated data; it does not represent actual marketplace or store performance.
-- External product input is a capability, not a bundled claim of market coverage. Dataset licenses, currencies, collection dates, and category mappings must be reviewed before use.
-- Users, orders, and advertising remain simulated because sensitive enterprise records are not distributed.
-- Advertising revenue is attributed revenue, not causal incrementality. ROAS does not represent profit.
-- Hot Score and Opportunity Score are sample-relative screening tools, not proof of demand or low competition.
-- The default executable database is SQLite. MySQL 8 assets are included, but a live MySQL service is not required or automatically modified.
-- Refreshing PBIP on another machine requires setting the `DataRoot` Power Query parameter. The distributable PBIX embeds its validated data.
-- The pipeline is designed for local analytical workloads and does not claim distributed processing, real-time ingestion, or production orchestration.
+## Legacy Synthetic
 
-## Roadmap
-
-- Add a terms-approved, license-compatible public product dataset profile without redistributing restricted data.
-- Add seller-authorized export adapters and configurable field mappings.
-- Extend the model with inventory, returns, and fulfillment data.
-- Add score sensitivity analysis and causal promotion experiment templates.
-- Add continuous integration and an optional hosted demonstration environment.
+Synthetic V1.1/V1.2 的固定种子用户、订单、广告、成本、TWD 指标以及四页 Power BI 资产继续保留，用于展示早期工程演进和回归检查。Legacy 中的广告、利润与评分模型不属于 Olist 主版本。
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+代码采用 [MIT License](LICENSE)。Olist 数据集遵循其 Kaggle 页面所示条款，仓库不重新分发原始数据。

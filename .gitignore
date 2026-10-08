@@ -4,18 +4,25 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
 .DS_Store
 Thumbs.db
 *.log
+*.tmp
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*.csv
 !data/processed/.gitkeep
 data/analytics.sqlite
+data/olist_analytics.sqlite
 dashboard/powerbi_data/*.csv
 !dashboard/powerbi_data/.gitkeep
 *.pbix
 !dashboard/powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix
+!dashboard/powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbix
 *.pbit
 # Power BI Project local state and recovery artifacts
 **/.pbi/

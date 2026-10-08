@@ -1,40 +1,31 @@
-# GitHub Release Checklist
+# GitHub 发布检查清单
 
-This checklist records the repository's publication readiness as an open-source ecommerce operations analytics project.
+## Olist 主版本
 
-## Required release items
+- [x] README 为中文优先，并明确 Olist 是公开历史数据。
+- [x] ODS、DWD、customer identity bridge、Analytics marts 与 6 个 CSV 已完成。
+- [x] 四页 Olist PBIR/TMDL 已生成并可由 Desktop 解析。
+- [x] Olist PBIX 已刷新、保存并重新打开验证。
+- [x] 四张截图来自真实 Power BI Desktop 页面。
+- [x] Olist 不使用广告、成本、利润、毛利或模拟退款 KPI。
+- [x] Synthetic V1.1/V1.2 仍保留并明确标为 Legacy。
 
-- [x] **README complete:** project overview, features, architecture, data sources, data model, metrics, dashboard, quick start, pipeline, testing, repository structure, documentation, limitations, and license are present.
-- [x] **LICENSE complete:** the repository includes the standard MIT License with the current year and a generic contributor attribution.
-- [x] **Documentation complete:** data architecture, ETL, data quality, data sources, data dictionary, business metrics, operational guidance, and Power BI validation are documented.
-- [x] **Pipeline runnable:** `run_pipeline.py` completes the local data generation, analysis, dashboard build, and quality-gate sequence without requiring external database credentials.
-- [x] **Tests pass:** the latest full validation completed 19 of 19 automated tests successfully.
-- [x] **Data description complete:** external public product data and internal simulated business data are clearly separated, with privacy, licensing, currency, and fallback boundaries documented.
-- [x] **Dashboard display ready:** four clean Power BI screenshots, the validated V1.2 PBIX, the preserved V1.1 PBIX, and version-controlled PBIP/PBIR/TMDL sources are available.
+## 仓库卫生
 
-## Repository hygiene
+- [x] `README.md`、`LICENSE`、`docs/`、`data/`、`dashboard/`、`reports/` 与 `tests/` 存在。
+- [x] `.gitignore` 排除环境、cache、原始数据、SQLite、生成 CSV 与 Power BI 本地状态。
+- [x] Olist PBIP 提交版本不包含本机绝对路径。
+- [x] 没有发现真实凭据或 private key。
+- [x] 文档使用中性项目表述，不包含个人定位。
+- [x] Markdown 本地链接可解析。
+- [x] JSON、PowerShell 语法与 Git whitespace 检查通过。
+- [x] 完整自动化测试 67/67 通过。
 
-- [x] Required paths exist: `README.md`, `LICENSE`, `docs/`, `data/`, `analysis/`, `dashboard/`, and `tests/`.
-- [x] `.gitignore` covers virtual environments, Python caches, test caches, logs, local data outputs, Power BI local state, autosave files, and coverage outputs.
-- [x] README contains no interview, resume, recruitment, job-search, or personal-contribution positioning.
-- [x] Local Markdown links resolve.
-- [x] Python source files pass syntax parsing.
-- [x] No business logic, SQL, DAX, Power BI artifact, or baseline data result was changed during final release packaging.
+## 发布步骤
 
-## Publication steps requiring maintainer action
+- [ ] 检查 staged allowlist 与 staged diff。
+- [ ] 创建本地提交：`feat: finalize Olist Power BI presentation`。
+- [ ] 仅推送 `origin feat/olist-real-data`。
+- [ ] 推送后核对远端 branch SHA。
 
-- [ ] Review the complete Git diff and confirm that all staged files are intended for release.
-- [ ] Create a local release commit with a clear conventional commit message.
-- [ ] Push the release branch to GitHub.
-- [ ] Open and review a pull request before merging to the default branch.
-- [ ] Confirm the GitHub repository description, topics, and About links match the README positioning.
-- [ ] Optionally create a tagged release only after the merged commit has been verified.
-
-## Latest verification record
-
-- Branch at packaging time: `design/powerbi-v1.2`
-- Pipeline: passed on 2026-09-07
-- Automated tests: 19/19 passed
-- Markdown validation: local links and structure passed
-- Power BI baseline: V1.1 and V1.2 PBIX hashes unchanged during the engineering upgrades
-- Release actions: no commit, push, pull request, tag, or GitHub Release performed by this checklist
+本次任务不合并 `main`，不创建 tag 或 GitHub Release，不 force-push，也不删除任何远端分支。

@@ -1,0 +1,128 @@
+/// Delivered-order category performance mart with item value, freight and attributed order-level review metrics.
+table olist_category_performance
+	lineageTag: 9fce51da-3682-bd75-354e-9e788ccf585e
+
+	column category_id
+		dataType: string
+		isHidden
+		lineageTag: 303be31b-7cf0-49c4-5a90-5f3ccf6416a1
+		summarizeBy: none
+		sourceColumn: category_id
+
+	column category_pt
+		dataType: string
+		lineageTag: 7604f8ea-dd62-fb05-1b80-5c195ca49f79
+		summarizeBy: none
+		sourceColumn: category_pt
+
+	column category_en
+		dataType: string
+		lineageTag: 221a8504-8ae8-7320-0b53-0f236211737e
+		summarizeBy: none
+		sourceColumn: category_en
+
+	column category_display_name
+		dataType: string
+		lineageTag: d041da19-47c7-c304-6da6-69d048bfceab
+		summarizeBy: none
+		sourceColumn: category_display_name
+
+	column category_translation_status
+		dataType: string
+		lineageTag: ae6f82f9-efe5-9526-0cba-0b7feaa030d0
+		summarizeBy: none
+		sourceColumn: category_translation_status
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 72d2c077-a8a4-4afa-2477-77ce40bf4bf8
+		summarizeBy: sum
+		sourceColumn: orders
+
+	column units_sold
+		dataType: int64
+		formatString: #,0
+		lineageTag: 488c37ea-1914-cb2e-c135-ff5255b1f3b2
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+	column merchandise_gmv_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 1d0e6670-b234-6f15-2986-228b80b8444f
+		summarizeBy: sum
+		sourceColumn: merchandise_gmv_brl
+
+	column average_item_price_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 2bbc5a79-627d-d3cb-030c-56b0d72d176d
+		summarizeBy: average
+		sourceColumn: average_item_price_brl
+
+	column freight_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: a6f13bf1-be56-b8dd-a49f-be4fb9415c01
+		summarizeBy: sum
+		sourceColumn: freight_value_brl
+
+	column freight_ratio
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 6c02cf35-d5f4-6aed-c269-e1de5e319d0d
+		summarizeBy: average
+		sourceColumn: freight_ratio
+
+	column average_review_score
+		dataType: double
+		formatString: 0.00
+		lineageTag: 1d92c582-fd96-00c8-5ee0-de5578924a42
+		summarizeBy: average
+		sourceColumn: average_review_score
+
+	column low_rating_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 15c5c065-f209-3f37-d84e-e927c71597f1
+		summarizeBy: average
+		sourceColumn: low_rating_rate
+
+	column currency_code
+		dataType: string
+		isHidden
+		lineageTag: 890361a9-71eb-e400-73bd-8b69c9692dbf
+		summarizeBy: none
+		sourceColumn: currency_code
+
+	column data_mode
+		dataType: string
+		isHidden
+		lineageTag: 7a14f8d9-5cea-ae6e-369e-bfac5ee49a45
+		summarizeBy: none
+		sourceColumn: data_mode
+
+	column _analytics_build_id
+		dataType: string
+		isHidden
+		lineageTag: f2a1c568-fdb0-325c-c5b2-a95251c5ebc0
+		summarizeBy: none
+		sourceColumn: _analytics_build_id
+
+	column _built_at
+		dataType: string
+		isHidden
+		lineageTag: 45eedab2-74cf-a7d1-1428-34ace6a76ec1
+		summarizeBy: none
+		sourceColumn: _built_at
+
+	partition olist_category_performance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\olist_category_performance.csv"), [Delimiter=",", Columns=17, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"category_id", type text}, {"category_pt", type text}, {"category_en", type text}, {"category_display_name", type text}, {"category_translation_status", type text}, {"orders", Int64.Type}, {"units_sold", Int64.Type}, {"merchandise_gmv_brl", type number}, {"average_item_price_brl", type number}, {"freight_value_brl", type number}, {"freight_ratio", type number}, {"average_review_score", type number}, {"low_rating_rate", type number}, {"currency_code", type text}, {"data_mode", type text}, {"_analytics_build_id", type text}, {"_built_at", type text}}, "en-US")
+				in
+				    #"Changed Type"

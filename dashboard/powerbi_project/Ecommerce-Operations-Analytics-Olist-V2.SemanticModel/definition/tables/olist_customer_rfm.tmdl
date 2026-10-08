@@ -1,0 +1,135 @@
+/// One row per purchasing customer_unique_id with deterministic RFM values and segments.
+table olist_customer_rfm
+	lineageTag: b51c5f0b-d0b2-e449-2ab6-10487aa74be8
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: 5f3ae499-9366-4ac5-711c-d22e4ff4c00e
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+	column as_of_date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: bfcaa205-724f-50b2-3636-b69b37564d51
+		summarizeBy: none
+		sourceColumn: as_of_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_purchase_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 39f39f57-eec9-ff97-fd94-9e46e12ce221
+		summarizeBy: none
+		sourceColumn: last_purchase_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column recency_days
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7809e1ed-565f-fc2b-8ce3-dfea6df4510e
+		summarizeBy: average
+		sourceColumn: recency_days
+
+	column frequency
+		dataType: int64
+		formatString: 0.00
+		lineageTag: 66c48d6c-df51-193c-826b-b4be9670d46d
+		summarizeBy: average
+		sourceColumn: frequency
+
+	column monetary_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 443a3fb7-7334-cef6-9616-2c444f88982e
+		summarizeBy: sum
+		sourceColumn: monetary_value_brl
+
+	column orders_per_customer
+		dataType: double
+		formatString: 0.00
+		lineageTag: 34f829db-960d-793d-adbf-6c075aecb82d
+		summarizeBy: average
+		sourceColumn: orders_per_customer
+
+	column is_repeat_customer
+		dataType: int64
+		formatString: #,0
+		lineageTag: eb6906ae-c0e9-b93e-01e4-77a84332cdb9
+		summarizeBy: sum
+		sourceColumn: is_repeat_customer
+
+	column r_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 519dabd5-a2fb-9249-1d26-73cf145ad9dc
+		summarizeBy: average
+		sourceColumn: r_score
+
+	column f_score
+		dataType: int64
+		formatString: 0
+		lineageTag: c2d112bb-7ab0-4b16-aa07-b917447ef7a8
+		summarizeBy: average
+		sourceColumn: f_score
+
+	column m_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 60e2dc85-f0d5-cdae-3b62-a23883e81ddc
+		summarizeBy: average
+		sourceColumn: m_score
+
+	column rfm_score
+		dataType: int64
+		formatString: 0
+		lineageTag: e3f06f90-7ed9-832e-e977-3c47ebbac83c
+		summarizeBy: average
+		sourceColumn: rfm_score
+
+	column rfm_segment
+		dataType: string
+		lineageTag: 6e7a667e-4a55-31f3-7f1f-a01210aedc23
+		summarizeBy: none
+		sourceColumn: rfm_segment
+
+	column currency_code
+		dataType: string
+		isHidden
+		lineageTag: e86a70de-7c43-0cb9-a052-1a6a6a7fe7a8
+		summarizeBy: none
+		sourceColumn: currency_code
+
+	column data_mode
+		dataType: string
+		isHidden
+		lineageTag: 112d3bbf-1324-11d4-fb03-ec6adabb9542
+		summarizeBy: none
+		sourceColumn: data_mode
+
+	column _analytics_build_id
+		dataType: string
+		isHidden
+		lineageTag: b081f23e-7470-72f2-a091-c20d9ad06290
+		summarizeBy: none
+		sourceColumn: _analytics_build_id
+
+	column _built_at
+		dataType: string
+		isHidden
+		lineageTag: fabdef45-22a1-b4b8-42de-fca5936689af
+		summarizeBy: none
+		sourceColumn: _built_at
+
+	partition olist_customer_rfm = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\olist_customer_rfm.csv"), [Delimiter=",", Columns=17, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"customer_unique_id", type text}, {"as_of_date", type date}, {"last_purchase_date", type date}, {"recency_days", Int64.Type}, {"frequency", Int64.Type}, {"monetary_value_brl", type number}, {"orders_per_customer", type number}, {"is_repeat_customer", Int64.Type}, {"r_score", Int64.Type}, {"f_score", Int64.Type}, {"m_score", Int64.Type}, {"rfm_score", Int64.Type}, {"rfm_segment", type text}, {"currency_code", type text}, {"data_mode", type text}, {"_analytics_build_id", type text}, {"_built_at", type text}}, "en-US")
+				in
+				    #"Changed Type"

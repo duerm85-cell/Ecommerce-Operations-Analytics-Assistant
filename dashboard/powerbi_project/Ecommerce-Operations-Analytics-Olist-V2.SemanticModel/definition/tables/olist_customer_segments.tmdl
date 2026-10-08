@@ -1,0 +1,103 @@
+/// RFM segment summary derived from customer_unique_id-level customer values.
+table olist_customer_segments
+	lineageTag: 7bb1a611-d673-6915-edea-52365f6255a8
+
+	column rfm_segment
+		dataType: string
+		lineageTag: d621b93c-4b20-c775-c7f0-015b764b33f1
+		summarizeBy: none
+		sourceColumn: rfm_segment
+
+	column customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1b34fb65-3b21-4e24-b5d6-3e0594ae27cb
+		summarizeBy: sum
+		sourceColumn: customers
+
+	column repeat_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 16f2aa55-16ca-c39d-5de9-3505c2cb5b3e
+		summarizeBy: sum
+		sourceColumn: repeat_customers
+
+	column repeat_purchase_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: a2601e71-3705-3933-5962-b596e892aa00
+		summarizeBy: average
+		sourceColumn: repeat_purchase_rate
+
+	column average_recency_days
+		dataType: double
+		formatString: 0.00
+		lineageTag: 79c3340d-8873-064c-c07f-1c016a17602b
+		summarizeBy: average
+		sourceColumn: average_recency_days
+
+	column average_frequency
+		dataType: double
+		formatString: 0.00
+		lineageTag: dd907880-4e2e-e2e6-d25c-8151ccac654b
+		summarizeBy: average
+		sourceColumn: average_frequency
+
+	column total_monetary_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: bab35272-0885-f397-2965-68b3de131de1
+		summarizeBy: sum
+		sourceColumn: total_monetary_value_brl
+
+	column average_monetary_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 50793544-72b0-d791-5500-57c7f0afe907
+		summarizeBy: average
+		sourceColumn: average_monetary_value_brl
+
+	column customer_share
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 312df181-f1a6-8f0c-090e-f72ce8cb78df
+		summarizeBy: average
+		sourceColumn: customer_share
+
+	column currency_code
+		dataType: string
+		isHidden
+		lineageTag: 2ded53c0-1fc6-880e-cd59-c8eab84fb9b9
+		summarizeBy: none
+		sourceColumn: currency_code
+
+	column data_mode
+		dataType: string
+		isHidden
+		lineageTag: 40c71a56-3111-3ac6-792a-cb74587ec449
+		summarizeBy: none
+		sourceColumn: data_mode
+
+	column _analytics_build_id
+		dataType: string
+		isHidden
+		lineageTag: da2e5182-94cf-63de-d95d-4e49c0c0b929
+		summarizeBy: none
+		sourceColumn: _analytics_build_id
+
+	column _built_at
+		dataType: string
+		isHidden
+		lineageTag: affabdfc-0ef6-b57f-6447-4bfa44a7e435
+		summarizeBy: none
+		sourceColumn: _built_at
+
+	partition olist_customer_segments = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\olist_customer_segments.csv"), [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"rfm_segment", type text}, {"customers", Int64.Type}, {"repeat_customers", Int64.Type}, {"repeat_purchase_rate", type number}, {"average_recency_days", type number}, {"average_frequency", type number}, {"total_monetary_value_brl", type number}, {"average_monetary_value_brl", type number}, {"customer_share", type number}, {"currency_code", type text}, {"data_mode", type text}, {"_analytics_build_id", type text}, {"_built_at", type text}}, "en-US")
+				in
+				    #"Changed Type"

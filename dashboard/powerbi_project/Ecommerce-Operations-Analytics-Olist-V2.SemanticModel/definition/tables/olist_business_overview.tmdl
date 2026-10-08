@@ -1,0 +1,155 @@
+/// Olist all-time KPI snapshot; delivered orders are the sales scope and monetary values are BRL.
+table olist_business_overview
+	lineageTag: 5d044129-169b-3569-244c-a85c33ec06a3
+
+	column snapshot_id
+		dataType: string
+		isHidden
+		lineageTag: 50c7f0f9-abe6-6035-78cf-789990ab4cbf
+		summarizeBy: none
+		sourceColumn: snapshot_id
+
+	column as_of_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: df214f46-56d9-bf56-c820-b279b95535e9
+		summarizeBy: none
+		sourceColumn: as_of_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_scope
+		dataType: string
+		isHidden
+		lineageTag: c4accbc6-5a3c-109c-032c-a4461ddc3bf3
+		summarizeBy: none
+		sourceColumn: order_scope
+
+	column total_placed_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1112eeeb-18e2-bcef-89d3-c6723c4efb7f
+		summarizeBy: sum
+		sourceColumn: total_placed_orders
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5b0e1ec7-3e88-b882-ebdf-cc56389cbd3f
+		summarizeBy: sum
+		sourceColumn: orders
+
+	column purchasing_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: f909e6c1-8fa4-6da9-d973-c88cbd2b7452
+		summarizeBy: sum
+		sourceColumn: purchasing_customers
+
+	column repeat_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 573f130e-34ef-c635-4c7b-9f324c535e2a
+		summarizeBy: sum
+		sourceColumn: repeat_customers
+
+	column repeat_purchase_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: d6574a64-43ea-5be0-fa41-da0bb62448c4
+		summarizeBy: average
+		sourceColumn: repeat_purchase_rate
+
+	column merchandise_gmv_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: ca890703-1bd9-0b86-c138-9eed08847cda
+		summarizeBy: sum
+		sourceColumn: merchandise_gmv_brl
+
+	column paid_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: c75ace3a-9c4d-5fb1-b74a-805cfd7037b6
+		summarizeBy: sum
+		sourceColumn: paid_value_brl
+
+	column units_sold
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5a8f7323-f568-f0e0-5f8b-c7d28f606f59
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+	column freight_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 2c8efd89-7fe1-7b1f-c917-805f0e3909d8
+		summarizeBy: sum
+		sourceColumn: freight_value_brl
+
+	column aov_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 9a314a56-1394-aeef-2a50-8f8d970a14fd
+		summarizeBy: average
+		sourceColumn: aov_brl
+
+	column average_review_score
+		dataType: double
+		formatString: 0.00
+		lineageTag: 488387c2-1364-f5a2-37f9-9d6db5864a4f
+		summarizeBy: average
+		sourceColumn: average_review_score
+
+	column canceled_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7a491859-e5db-1a5c-e637-17d6a6055ee4
+		summarizeBy: sum
+		sourceColumn: canceled_orders
+
+	column cancel_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: cefd803e-78ed-ebd7-70a1-8460e80a3076
+		summarizeBy: average
+		sourceColumn: cancel_rate
+
+	column currency_code
+		dataType: string
+		isHidden
+		lineageTag: 8b6043dd-dd69-04c3-1699-4bda435ea285
+		summarizeBy: none
+		sourceColumn: currency_code
+
+	column data_mode
+		dataType: string
+		isHidden
+		lineageTag: e75d0a9d-3cd3-72cc-ef99-e50f67c43b12
+		summarizeBy: none
+		sourceColumn: data_mode
+
+	column _analytics_build_id
+		dataType: string
+		isHidden
+		lineageTag: 2a38de1c-efdd-6b61-077f-5880526e6ae2
+		summarizeBy: none
+		sourceColumn: _analytics_build_id
+
+	column _built_at
+		dataType: string
+		isHidden
+		lineageTag: 39b7ca68-73b8-6978-c055-f431ab5c8927
+		summarizeBy: none
+		sourceColumn: _built_at
+
+	partition olist_business_overview = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\olist_business_overview.csv"), [Delimiter=",", Columns=20, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"snapshot_id", type text}, {"as_of_date", type date}, {"order_scope", type text}, {"total_placed_orders", Int64.Type}, {"orders", Int64.Type}, {"purchasing_customers", Int64.Type}, {"repeat_customers", Int64.Type}, {"repeat_purchase_rate", type number}, {"merchandise_gmv_brl", type number}, {"paid_value_brl", type number}, {"units_sold", Int64.Type}, {"freight_value_brl", type number}, {"aov_brl", type number}, {"average_review_score", type number}, {"canceled_orders", Int64.Type}, {"cancel_rate", type number}, {"currency_code", type text}, {"data_mode", type text}, {"_analytics_build_id", type text}, {"_built_at", type text}}, "en-US")
+				in
+				    #"Changed Type"

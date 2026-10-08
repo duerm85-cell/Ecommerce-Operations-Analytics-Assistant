@@ -1,13 +1,15 @@
-# Dashboard deliverables
+# Dashboard 交付物
 
-- `powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.2.pbix`: validated V1.2 executive-storytelling report.
-- `powerbi_project/Ecommerce-Operations-Analytics-Assistant-v1.1.pbix`: preserved V1.1 baseline.
-- `powerbi_project/Ecommerce-Operations-Analytics-Assistant.pbip` plus `.Report` and `.SemanticModel`: version-controlled PBIP/PBIR/TMDL source.
-- `powerbi_project/generate_pbir_report_v1_2.ps1`: deterministic V1.2 report-layout generator.
-- `powerbi_theme/executive_storytelling_v1.2.json`: V1.2 native Power BI theme.
-- `powerbi_screenshots/v1.2/`: four clean 1440×810 report screenshots.
-- `interactive_dashboard.html`: dependency-free browser preview retained for reviewers without Power BI Desktop.
-- `powerbi_data/`: generated CSV imports, intentionally Git-ignored.
-- `dax_measures.md` and `powerbi_build_guide.md`: metric and refresh references.
+## Olist 真实数据主版本
 
-The V1.2 PBIX is a real Power BI package generated and reopened with `D:\Bin\PBIDesktop.exe`; it is not a renamed archive or placeholder. See [`reports/powerbi_design_v1.2.md`](../reports/powerbi_design_v1.2.md) for storytelling decisions, KPI reconciliation, reopen evidence and known limits.
+- `powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbix`：已刷新并重开验证的 PBIX。
+- `powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbip`：版本控制入口。
+- `powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.Report/`：PBIR 四页报表。
+- `powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.SemanticModel/`：TMDL 语义模型。
+- `powerbi_data/olist_*.csv`：生成的 Analytics mart 导出，Git-ignored。
+- [`../docs/olist_powerbi_dashboard_spec.md`](../docs/olist_powerbi_dashboard_spec.md)：页面、指标和验收说明。
+- [`../reports/olist_powerbi_validation.md`](../reports/olist_powerbi_validation.md)：Desktop 重开与静态验证记录。
+
+## Legacy Synthetic
+
+Synthetic V1.1/V1.2 的 PBIX、PBIP、PBIR、TMDL、主题、截图与 HTML 预览继续保留。它们包含固定种子 Synthetic 数据、TWD、成本和广告指标，只用于历史对照，不作为 Olist 指标证据。

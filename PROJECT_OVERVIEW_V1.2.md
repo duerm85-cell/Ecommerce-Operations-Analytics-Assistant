@@ -2,7 +2,7 @@
 
 ## 1. 项目概览
 
-**Ecommerce Operations Analytics Assistant** 是一个可复现、平台无关的电商运营分析作品集项目。项目围绕台湾女性消费品模拟业务，贯通数据生成、数据建模、SQL/Python 分析、Power BI 语义模型、商业看板和自动化验证，用于回答商品、经营、客户和广告四类核心决策问题。
+**Ecommerce Operations Analytics Assistant V1.2** 是保留的 Legacy Synthetic 版本，围绕台湾女性消费品模拟业务，贯通数据生成、数据建模、SQL/Python 分析、Power BI 语义模型、商业看板和自动化验证，用于回答商品、经营、客户和广告四类核心决策问题。
 
 项目不是单纯的可视化演示，而是一套完整的分析交付：
 

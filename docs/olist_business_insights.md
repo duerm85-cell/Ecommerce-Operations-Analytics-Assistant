@@ -1,77 +1,71 @@
-# Olist Business Insights
+# Olist 业务洞察
 
-These findings are calculated from the validated Olist analytics marts. Sales metrics use delivered orders, customers use `customer_unique_id`, and monetary values are BRL. The dataset is observational and historical; possible explanations are hypotheses, not causal conclusions.
+以下结果来自已验证的 Olist Analytics marts。销售指标使用 delivered 订单，客户身份使用 `customer_unique_id`，金额单位为 BRL。数据是历史观察数据，可能解释不等于因果结论。
 
-## 1. Repeat purchasing is uncommon in this snapshot
+## 1. 当前快照中的复购比例较低
 
-**Finding:** Only 3.00% of purchasing customers placed at least two delivered orders.
+**发现：** 只有 3.00% 的购买客户至少完成两笔 delivered 订单。
 
-**Evidence:** The dataset contains 93,358 purchasing customers and 2,801 repeat customers. A total of 90,557 customers, or 97.00%, have exactly one delivered order.
+**证据：** 93,358 位购买客户中有 2,801 位复购客户；90,557 位客户仅有一笔 delivered 订单。
 
-**Interpretation:** Most observed customer relationships are one-time purchases within the available history. The result may reflect marketplace shopping behavior, the observation window, or customer identity limitations outside the dataset.
+**解释边界：** 结果可能同时受市场购物习惯、可观察时间窗和数据集外身份缺失影响。
 
-**Possible action:** Prioritize first-to-second-purchase analysis and evaluate retention separately by acquisition cohort and category before designing repeat-purchase initiatives.
+**可验证方向：** 按首购 cohort 和品类分析首单到第二单的转化，不把所有一次购买客户视为同一留存问题。
 
-## 2. Customer recency segments contain most of the customer base
+## 2. RFM 客户集中在 Hibernating 与 New Customers
 
-**Finding:** Hibernating and New Customers together represent 77.95% of purchasing customers under the documented RFM rules.
+**发现：** 两个分群合计占购买客户的 77.95%。
 
-**Evidence:** Hibernating contains 36,650 customers (39.26%) and New Customers contains 36,118 (38.69%).
+**证据：** Hibernating 为 36,650 人（39.26%），New Customers 为 36,118 人（38.69%）。
 
-**Interpretation:** The customer base is concentrated at the two ends of recency while frequency remains low. Segment sizes depend on the deterministic RFM thresholds and should be treated as descriptive groupings.
+**解释边界：** 分群依赖确定性 RFM 阈值，只是描述性标签。
 
-**Possible action:** Use separate messaging and measurement for recently acquired one-time customers and older inactive one-time customers; do not treat both groups as the same retention problem.
+**可验证方向：** 对近期一次购买客户和较早流失客户使用不同的观察窗口与衡量方式。
 
-## 3. Health and beauty is the largest merchandise category
+## 3. `health_beauty` 的商品成交额最高
 
-**Finding:** `health_beauty` has the highest delivered Merchandise GMV.
+**发现：** `health_beauty` 是 delivered Merchandise GMV 最高的品类。
 
-**Evidence:** It generates BRL 1,233,131.72 from 8,647 delivered orders and 9,465 item records, equal to 9.33% of total Merchandise GMV. Its average review score is 4.23 and low-rating rate is 11.43%.
+**证据：** 该品类有 8,647 个 delivered 订单、9,465 个 item records、BRL 1,233,131.72 Merchandise GMV，占总额 9.33%；平均评分 4.23，低评分占比 11.43%。
 
-**Interpretation:** The category combines material revenue contribution with comparatively strong review outcomes in this dataset.
+**解释边界：** 当前 mart 不能判断贡献是否集中于少数商品或卖家。
 
-**Possible action:** Treat it as a priority category for assortment availability and seller-quality monitoring while checking whether its performance is concentrated among a small number of products or sellers.
+**可验证方向：** 进一步检查该品类的商品、卖家集中度与缺货情况。
 
-## 4. Office furniture combines rating and freight risk signals
+## 4. `office_furniture` 同时出现评分和运费风险信号
 
-**Finding:** Among categories with at least 1,000 delivered orders, `office_furniture` has the highest low-rating rate.
+**发现：** 在至少 1,000 个 delivered 订单的品类中，`office_furniture` 低评分占比最高。
 
-**Evidence:** It has 1,254 orders, BRL 268,154.31 Merchandise GMV, a 3.64 average review score, a 22.02% low-rating rate, and a 25.01% freight ratio.
+**证据：** 1,254 个订单、BRL 268,154.31 Merchandise GMV、平均评分 3.64、低评分占比 22.02%、运费占比 25.01%。
 
-**Interpretation:** Lower ratings and higher freight burden occur together in this category. The data does not prove that freight or delivery caused the ratings because reviews are recorded at order level.
+**解释边界：** 评价记录在订单粒度；低评分与较高运费同时出现，不能证明运费或配送导致评分。
 
-**Possible action:** Investigate seller, product, delivery-time, damage, and freight patterns within the category before selecting a remedy.
+**可验证方向：** 按卖家、商品尺寸、配送距离、损坏和实际交付时长继续调查。
 
-## 5. Freight burden varies materially across established categories
+## 5. 成熟品类间的运费负担差异明显
 
-**Finding:** `electronics` has the highest freight ratio among categories with at least 500 delivered orders.
+**发现：** 在至少 500 个 delivered 订单的品类中，`electronics` 运费占比最高。
 
-**Evidence:** Freight equals 29.46% of Merchandise GMV across 2,517 orders. `office_furniture` follows at 25.01%, while `furniture_decor` is 23.65%.
+**证据：** 2,517 个订单的运费占 Merchandise GMV 29.46%；`office_furniture` 为 25.01%，`furniture_decor` 为 23.65%。
 
-**Interpretation:** Categories with relatively low item value or heavier shipping requirements may carry a larger freight burden, but the category mart alone cannot identify the operational cause.
+**解释边界：** 品类 mart 不能单独识别商品价格、尺寸、卖家位置或距离中的具体原因。
 
-**Possible action:** Review freight ratio together with item price, product dimensions, seller location, and delivery distance when prioritizing logistics analysis.
+## 6. 2017-11 的 delivered GMV 最高
 
-## 6. November 2017 is the highest delivered-GMV month
+**证据：** 2017-11 有 7,289 个 delivered 订单、BRL 987,765.37 Merchandise GMV、BRL 1,153,528.05 Paid Value，平均评分 3.99。
 
-**Finding:** The highest monthly Merchandise GMV occurs in 2017-11.
+**解释边界：** 数据集没有广告流量或 campaign 数据，不能把峰值归因于促销。
 
-**Evidence:** November 2017 records 7,289 delivered orders and BRL 987,765.37 Merchandise GMV. Paid Value is BRL 1,153,528.05 and the average review score is 3.99.
+**可验证方向：** 与相邻月份比较品类结构、商品价格、卖家参与和客户 cohort。
 
-**Interpretation:** The month shows the strongest delivered merchandise value in the observed period. The dataset does not contain campaign or traffic data that could explain the peak.
+## 7. Merchandise GMV 与 Paid Value 必须分开
 
-**Possible action:** Compare category mix, item prices, seller participation, and customer cohorts for this month with adjacent months; avoid attributing the peak to promotions without supporting data.
+**发现：** delivered Paid Value 比 Merchandise GMV 高 BRL 2,200,963.66。
 
-## 7. Merchandise GMV and Paid Value must remain separate
+**证据：** Merchandise GMV 为 BRL 13,221,498.11，Paid Value 为 BRL 15,422,461.77，freight value 为 BRL 2,198,275.64；Paid Value 比 GMV 加运费多 BRL 2,688.02。
 
-**Finding:** Delivered Paid Value exceeds delivered Merchandise GMV by BRL 2,200,963.66.
+**解释边界：** payment totals 与 item-price totals 是不同事实。运费解释了大部分差额，剩余差异需要在订单粒度核对支付行为。
 
-**Evidence:** Merchandise GMV is BRL 13,221,498.11, Paid Value is BRL 15,422,461.77, and freight value is BRL 2,198,275.64. Paid Value exceeds Merchandise GMV plus freight by a remaining BRL 2,688.02.
+## 时间边界
 
-**Interpretation:** Payment totals and item-price totals represent different business concepts. Freight explains nearly all of the difference at aggregate level, while payment adjustments and source behavior can account for the small remainder.
-
-**Possible action:** Present both measures with explicit labels and reconcile them at order level rather than renaming Paid Value as GMV or revenue.
-
-## Data Boundary Note
-
-The first and last observed purchase months are partial. September 2016 contains four placed orders, while September and October 2018 contain only 16 and 4 placed orders and no delivered orders in the current sales scope. These boundary months should be excluded from period-over-period trend conclusions unless partial-period treatment is explicit.
+首尾月份不完整。2016-09 只有 4 个 placed orders；2018-09 和 2018-10 只有 16 和 4 个 placed orders，当前 delivered 销售口径中没有交付订单。若不显式处理 partial period，不应据此做环比结论。

@@ -10,7 +10,7 @@
 6. Geolocation contains duplicate observations and nonunique postal-code prefixes. It must be aggregated or matched under an explicit rule before geography analysis.
 7. The first and last purchase months are partial. September 2016 and September/October 2018 should not be used for naive period-over-period comparisons.
 8. RFM segments are deterministic descriptive rules for this snapshot. They are not causal predictions or machine learning outputs.
-9. The Olist Analytics layer and Power BI-ready CSVs are complete, but the Olist PBIX and screenshots require manual Power BI Desktop work.
+9. Olist PBIP/PBIR/TMDL、PBIX 和四张截图已完成 Desktop 验证；从 PBIP 重新刷新时仍需使用者设置本机 `DataRoot`。
 
 ## Legacy Synthetic Prototype
 

@@ -1,0 +1,146 @@
+/// Measures used only by the Olist V2 report. Unsupported advertising, profit and cost metrics are intentionally absent.
+table 'KPI Measures'
+	lineageTag: c050eefe-7ccb-641a-f23b-f74594cf0b51
+
+	measure 'Merchandise GMV' = SUM(olist_business_overview[merchandise_gmv_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 24945e8c-9747-714c-68d5-6472caf3995f
+
+	measure Orders = SUM(olist_business_overview[orders])
+		formatString: #,0
+		lineageTag: d42cfde3-15ea-c7b7-ec34-fb3f52978036
+
+	measure 'Purchasing Customers' = SUM(olist_business_overview[purchasing_customers])
+		formatString: #,0
+		lineageTag: b41fc64b-dbe8-a152-8acc-24c74cdc559d
+
+	measure 'Repeat Customers' = SUM(olist_business_overview[repeat_customers])
+		formatString: #,0
+		lineageTag: de05c150-b1cf-5be9-6177-3d2c35d9caba
+
+	measure AOV = AVERAGE(olist_business_overview[aov_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: bda62715-ea7d-e40d-25e5-67eb9030a9e1
+
+	measure 'Repeat Purchase Rate' = AVERAGE(olist_business_overview[repeat_purchase_rate])
+		formatString: 0.00%
+		lineageTag: 621f4574-5426-0f2b-abdf-81df5137a5f2
+
+	measure 'Average Review Score' = AVERAGE(olist_business_overview[average_review_score])
+		formatString: 0.00
+		lineageTag: 68010509-ddc1-0941-2ea1-e0be34aa3bd6
+
+	measure 'Canceled Orders' = SUM(olist_business_overview[canceled_orders])
+		formatString: #,0
+		lineageTag: 99966664-f9ab-e071-3f96-d92d16f49c36
+
+	measure 'Cancel Rate' = AVERAGE(olist_business_overview[cancel_rate])
+		formatString: 0.00%
+		lineageTag: 21ac6d5a-b815-f727-a711-0961946e2929
+
+	measure 'Freight Value' = SUM(olist_business_overview[freight_value_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 11431cad-96c0-4684-5cbc-2482d198fe3e
+
+	measure 'Freight Ratio' = DIVIDE([Freight Value], [Merchandise GMV])
+		formatString: 0.00%
+		lineageTag: 55ec93bb-9771-dcbf-818c-c1f112a05aad
+
+	measure 'Monthly GMV' = SUM(olist_monthly_performance[merchandise_gmv_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 16fb1e8d-f1a2-5137-62f2-1ff8fc4159ff
+
+	measure 'Monthly Orders' = SUM(olist_monthly_performance[orders])
+		formatString: #,0
+		lineageTag: 3ad2bd2c-56e4-a121-207d-81362d00f31a
+
+	measure 'Monthly Average Review Score' = AVERAGE(olist_monthly_performance[average_review_score])
+		formatString: 0.00
+		lineageTag: 3eb8c876-5ae5-ff89-752d-55306792d2cc
+
+	measure 'Monthly Cancel Rate' = DIVIDE(SUM(olist_monthly_performance[canceled_orders]), SUM(olist_monthly_performance[total_placed_orders]))
+		formatString: 0.00%
+		lineageTag: 3231e6bb-bf8d-ac10-4fc1-8c2861435459
+
+	measure 'Category GMV' = SUM(olist_category_performance[merchandise_gmv_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 3864655a-3ef3-1b87-9fb9-d0a4d0ea24cb
+
+	measure 'Category Orders' = SUM(olist_category_performance[orders])
+		formatString: #,0
+		lineageTag: 8616c84e-43b1-a0e6-0f83-5cd1d3355610
+
+	measure 'Units Sold' = SUM(olist_category_performance[units_sold])
+		formatString: #,0
+		lineageTag: 4cfc92b9-1de1-0d99-b828-c790ddb3e0d2
+
+	measure 'Average Item Price' = AVERAGE(olist_category_performance[average_item_price_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 2f91db10-1c7c-b831-7006-216e7f78b627
+
+	measure 'Category Freight Value' = SUM(olist_category_performance[freight_value_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 0ef44dc2-e0c4-5f27-e489-2e489e1d359e
+
+	measure 'Category Freight Ratio' = DIVIDE([Category Freight Value], [Category GMV])
+		formatString: 0.00%
+		lineageTag: d3f026df-a7d5-a09a-fe31-877920cd3462
+
+	measure 'Category Average Review Score' = AVERAGE(olist_category_performance[average_review_score])
+		formatString: 0.00
+		lineageTag: 6f05e773-ceb5-4edd-2de4-a8672d145482
+
+	measure 'Category Low Rating Rate' = AVERAGE(olist_category_performance[low_rating_rate])
+		formatString: 0.00%
+		lineageTag: e44a715b-afec-b78a-1844-c2ca734d1f20
+
+	measure 'RFM Customers' = DISTINCTCOUNT(olist_customer_rfm[customer_unique_id])
+		formatString: #,0
+		lineageTag: 2d756f5a-888e-e9af-a379-0a91dad9e8b8
+
+	measure 'RFM Repeat Customers' = SUM(olist_customer_rfm[is_repeat_customer])
+		formatString: #,0
+		lineageTag: 7e63adb3-b023-f93c-9258-5dd6f54d8515
+
+	measure 'RFM Repeat Rate' = DIVIDE([RFM Repeat Customers], [RFM Customers])
+		formatString: 0.00%
+		lineageTag: e4f9f2a0-5f91-1ffd-c445-60cf1e2d7962
+
+	measure 'Average Recency' = AVERAGE(olist_customer_rfm[recency_days])
+		formatString: #,0.00
+		lineageTag: 22fc0a0b-4ec4-9940-58d2-6a5bf1f6c39d
+
+	measure 'Average Frequency' = AVERAGE(olist_customer_rfm[frequency])
+		formatString: 0.00
+		lineageTag: dcb44fa9-693e-b85f-9f4a-dfba9d7f8016
+
+	measure 'Average Monetary' = AVERAGE(olist_customer_rfm[monetary_value_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 630113c9-1475-da28-9403-3c0b9daeee74
+
+	measure 'Customer Monetary Value' = SUM(olist_customer_rfm[monetary_value_brl])
+		formatString: #,0.00 "BRL"
+		lineageTag: 87cd03f2-e5fb-b715-bb18-86ee03f3efd7
+
+	measure 'Overview Insight Text' = "Olist 公开数据包含 " & FORMAT([Orders], "#,0") & " 个 delivered 订单，商品成交额 " & FORMAT([Merchandise GMV] / 1000000, "0.00") & "M BRL；复购率 " & FORMAT([Repeat Purchase Rate], "0.00%") & "。"
+		lineageTag: d745b8a9-cf4c-f03e-4b43-d4ad2c6b6e88
+
+	measure 'Category Insight Text' = VAR T = TOPN(1, ADDCOLUMNS(ALLSELECTED(olist_category_performance[category_display_name]), "__GMV", [Category GMV]), [__GMV], DESC, olist_category_performance[category_display_name], ASC) RETURN MAXX(T, olist_category_performance[category_display_name]) & " 为当前范围商品成交额最高品类，成交额 " & FORMAT(MAXX(T, [__GMV]) / 1000000, "0.00") & "M BRL。"
+		lineageTag: 6e8917d4-699b-00ad-8b8a-2406168a698f
+
+	measure 'Customer Insight Text' = "客户分析按 customer_unique_id 统一身份；" & FORMAT([RFM Customers], "#,0") & " 位购买客户中，" & FORMAT([RFM Repeat Customers], "#,0") & " 位至少完成两笔 delivered 订单。"
+		lineageTag: 67006eb5-bac4-4ae3-d1c3-98ca88ac862f
+
+	measure 'Experience Insight Text' = VAR T = TOPN(1, FILTER(ADDCOLUMNS(ALL(olist_category_performance[category_display_name]), "__Low", [Category Low Rating Rate], "__Orders", [Category Orders]), [__Orders] >= 1000), [__Low], DESC, olist_category_performance[category_display_name], ASC) RETURN "评价、取消与运费指标来自现有真实 mart；千单以上品类中，" & MAXX(T, olist_category_performance[category_display_name]) & " 的低评分占比最高，为 " & FORMAT(MAXX(T, [__Low]), "0.00%") & "。"
+		lineageTag: 3386af35-e847-e9b4-f3bf-4eeca9b9b801
+
+	column Dummy
+		dataType: string
+		isHidden
+		lineageTag: 947d3181-e983-f318-926e-9169114e2959
+		summarizeBy: none
+		sourceColumn: [Dummy]
+
+	partition 'KPI Measures' = calculated
+		mode: import
+		source = ROW("Dummy", BLANK())

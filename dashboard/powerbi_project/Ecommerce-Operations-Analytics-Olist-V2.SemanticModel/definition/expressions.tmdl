@@ -1,0 +1,6 @@
+expression DataRoot = "C:\path\to\Ecommerce-Operations-Analytics-Assistant\dashboard\powerbi_data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 04262b48-d240-4f53-867a-3352aeccd1c8
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text

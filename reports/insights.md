@@ -1,6 +1,6 @@
 # Core business insights
 
-All findings describe fixed-seed synthetic portfolio data, not the real Taiwan Shopee market.
+All findings describe fixed-seed synthetic legacy data, not the real Taiwan Shopee market.
 
 1. **Promotion days raised average daily completed net sales by 94.7%.** A plausible cause is simulated traffic and discount uplift. Action: retain event inventory buffers but introduce SKU margin floors. Validate with promotion gross profit, AOV and cancellation/refund rate.
 2. **Skincare generated the most net sales (NT$ 8,479,510) at a 39.1% gross margin.** Mix and demand weights explain the result. Action: protect availability for top contributors and test bundles in adjacent categories. Validate incremental margin and attach rate.

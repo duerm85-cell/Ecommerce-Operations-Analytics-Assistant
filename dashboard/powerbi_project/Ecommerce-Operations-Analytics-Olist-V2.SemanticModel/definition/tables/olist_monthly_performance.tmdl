@@ -1,0 +1,124 @@
+/// Monthly Olist performance mart using purchase month and the documented delivered-order sales scope.
+table olist_monthly_performance
+	lineageTag: a6d341bb-5177-1969-762d-9a461bd12d57
+
+	column month_key
+		dataType: string
+		lineageTag: 27ccbc38-e373-b160-36a4-01ab4dbc971c
+		summarizeBy: none
+		sourceColumn: month_key
+
+	column total_placed_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9d1c68b7-f126-1f5e-4ee3-1da9af36d133
+		summarizeBy: sum
+		sourceColumn: total_placed_orders
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: ac65c30d-530d-aeef-6f30-f551f31264f7
+		summarizeBy: sum
+		sourceColumn: orders
+
+	column purchasing_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: c38eed08-4324-78b1-89bf-3e8abcf1245d
+		summarizeBy: sum
+		sourceColumn: purchasing_customers
+
+	column merchandise_gmv_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: c779c819-2e27-1cde-2a0c-af79fd1a4a8a
+		summarizeBy: sum
+		sourceColumn: merchandise_gmv_brl
+
+	column paid_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: 38037b12-8871-68bd-b4e6-6dbdddbaffe5
+		summarizeBy: sum
+		sourceColumn: paid_value_brl
+
+	column units_sold
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6f53169a-a2d5-f3e7-9784-34891ceed6c8
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+	column freight_value_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: fc601b0a-51bb-3a57-c964-b13f55b7e735
+		summarizeBy: sum
+		sourceColumn: freight_value_brl
+
+	column aov_brl
+		dataType: double
+		formatString: #,0.00 "BRL"
+		lineageTag: cf0fa446-78ac-9352-21a9-26dc948c311a
+		summarizeBy: average
+		sourceColumn: aov_brl
+
+	column average_review_score
+		dataType: double
+		formatString: 0.00
+		lineageTag: 139423b9-3e8c-9cfd-e101-44a409ca51da
+		summarizeBy: average
+		sourceColumn: average_review_score
+
+	column canceled_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: dad962ac-4514-643d-8baf-3b2792e7b52a
+		summarizeBy: sum
+		sourceColumn: canceled_orders
+
+	column cancel_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 50c75c77-18b1-b13a-0e06-9dd007695c1e
+		summarizeBy: average
+		sourceColumn: cancel_rate
+
+	column currency_code
+		dataType: string
+		isHidden
+		lineageTag: b81fb43e-a054-0f71-d2b3-907d2332041e
+		summarizeBy: none
+		sourceColumn: currency_code
+
+	column data_mode
+		dataType: string
+		isHidden
+		lineageTag: 9a09a7ce-921a-9169-6d33-cd762f9cc259
+		summarizeBy: none
+		sourceColumn: data_mode
+
+	column _analytics_build_id
+		dataType: string
+		isHidden
+		lineageTag: 9bc622ab-6b65-5976-7285-fa8b631e63ab
+		summarizeBy: none
+		sourceColumn: _analytics_build_id
+
+	column _built_at
+		dataType: string
+		isHidden
+		lineageTag: 4462bab1-3c2c-c871-1c41-dabc2f30e434
+		summarizeBy: none
+		sourceColumn: _built_at
+
+	partition olist_monthly_performance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataRoot & "\olist_monthly_performance.csv"), [Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"month_key", type text}, {"total_placed_orders", Int64.Type}, {"orders", Int64.Type}, {"purchasing_customers", Int64.Type}, {"merchandise_gmv_brl", type number}, {"paid_value_brl", type number}, {"units_sold", Int64.Type}, {"freight_value_brl", type number}, {"aov_brl", type number}, {"average_review_score", type number}, {"canceled_orders", Int64.Type}, {"cancel_rate", type number}, {"currency_code", type text}, {"data_mode", type text}, {"_analytics_build_id", type text}, {"_built_at", type text}}, "en-US")
+				in
+				    #"Changed Type"

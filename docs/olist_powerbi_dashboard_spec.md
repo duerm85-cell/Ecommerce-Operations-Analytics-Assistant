@@ -1,155 +1,98 @@
-# Olist Power BI Dashboard Specification
+# Olist Power BI 报表说明
 
-## Delivery Status
+## 交付状态
 
-The Olist analytics database and Power BI-ready CSV inputs are implemented and validated. The Olist report pages have **not** been created or saved in Power BI Desktop in this repository.
+Olist V2 已提供真实 Power BI 资产：
 
-The existing PBIP/PBIX files are the validated Synthetic V1.1/V1.2 legacy dashboard. They must not be presented as an Olist dashboard.
+- `dashboard/powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbix`
+- `dashboard/powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbip`
+- 对应 `.Report`（PBIR）与 `.SemanticModel`（TMDL）目录
+- `docs/assets/olist_powerbi_01_overview.png` 至 `04_experience.png`
 
-## Data Inputs
+PBIX 已使用 Power BI Desktop 2.157.879.0 刷新、保存、关闭并重新打开。重开后的“评价与订单体验”页仍显示平均评分 4.16、取消订单 625、取消率 0.63% 和整体运费占比 16.63%。完整记录见 `reports/olist_powerbi_validation.md`。
 
-Run:
+## 数据输入
+
+运行：
 
 ```powershell
 .\.venv\Scripts\python.exe -m etl.olist.build_analytics
 ```
 
-This creates the following generated files in `dashboard/powerbi_data/`:
+会在 `dashboard/powerbi_data/` 生成 6 个 Git-ignored CSV：
 
-| CSV | Grain | Use |
+| CSV | 粒度 | 用途 |
 |---|---|---|
-| `olist_business_overview.csv` | One all-time snapshot | KPI cards |
-| `olist_monthly_performance.csv` | One purchase month | Monthly trends |
-| `olist_customer_rfm.csv` | One `customer_unique_id` | Customer distributions and drill-through |
-| `olist_customer_segments.csv` | One RFM segment | Segment comparison |
-| `olist_category_performance.csv` | One source category | Category performance |
-| `olist_metric_definitions.csv` | One metric | Measure documentation |
+| `olist_business_overview.csv` | 全周期快照 | 总览 KPI |
+| `olist_monthly_performance.csv` | 购买月份 | 月度趋势 |
+| `olist_customer_rfm.csv` | `customer_unique_id` | 客户分布与 RFM |
+| `olist_customer_segments.csv` | RFM 分群 | 分群对比 |
+| `olist_category_performance.csv` | 来源品类 | 成交、运费与评价 |
+| `olist_metric_definitions.csv` | 指标定义 | 口径审计 |
 
-These generated CSVs are intentionally Git-ignored. Power BI should import the marts directly instead of recreating joins across item, payment, and review facts.
+报表直接导入这些预聚合 mart，不在 Power BI 内重新拼接多粒度事实表。
 
-## Report Scope
+## 页面设计
 
-The report contains two pages. All monetary values are BRL. Sales and customer metrics use original Olist orders with `order_status = 'delivered'`. Cancel Rate uses original `canceled` orders divided by all placed orders.
+### 1. 经营总览
 
-Unsupported metrics must remain absent:
+- KPI：商品成交额、订单数、购买客户数、平均订单金额、复购率、平均评分。
+- 图表：月度商品成交额、月度订单数、品类商品成交额。
+- 口径提示明确 `delivered`、BRL、首尾月份不完整。
 
-- CTR, CVR, CPA, ROAS
-- Gross Profit and Gross Margin
-- Product cost and ad spend
-- Synthetic refund or advertising values
+### 2. 商品与品类分析
 
-## Page 1 — Executive Overview
+- 品类切片器与清除筛选按钮。
+- KPI：品类商品成交额、销售件数、平均商品价格、运费金额、运费占比。
+- 图表：品类矩阵、成交额排名、平均评分和低评分占比。
 
-### Goal
+### 3. 客户价值
 
-Allow a reviewer to understand overall order volume, customer reach, merchandise value, payment value, service quality, and trend direction within 30 seconds.
+- RFM 分群切片器。
+- KPI：购买客户、复购客户、复购率、平均 Recency、平均 Monetary。
+- 图表：分群人数、分群 Monetary、平均 Recency 与 Frequency。
+- 客户统一身份始终使用 `customer_unique_id`。
 
-### KPI Cards
+### 4. 评价与订单体验
 
-1. Merchandise GMV — `merchandise_gmv_brl`
-2. Orders — delivered `orders`
-3. Purchasing Customers — distinct `customer_unique_id`
-4. AOV — Merchandise GMV divided by delivered Orders
-5. Repeat Purchase Rate — repeat customers divided by purchasing customers
-6. Average Review Score — delivered-order review records
+- KPI：平均评分、取消订单数、取消率、整体运费占比。
+- 图表：月度平均评分、月度取消率、品类低评分占比、品类运费占比。
+- 当前 mart 没有交付时长，因此此页不展示或暗示配送时效。
 
-Optional secondary cards:
+## 复用与隔离
 
-- Paid Value
-- Units Sold
-- Cancel Rate
+Olist 报表复用了 Synthetic V1.2 已验证的 1440×810 页面尺寸、页头、导航、卡片、图表容器、配色与 footer 结构。数据模型、字段、指标和文字全部改为 Olist 真实数据语义。
 
-### Visuals
+Legacy 的“广告分析”页没有迁移到 Olist。CTR、CVR、CPA、ROAS、广告花费、Gross Profit、Gross Margin、商品成本和模拟退款只保留在 Legacy Synthetic 资产中。
 
-| Visual | Source | Fields | Purpose |
-|---|---|---|---|
-| Monthly GMV Trend | `olist_monthly_performance.csv` | `month_key`, `merchandise_gmv_brl` | Show delivered merchandise value over time |
-| Monthly Orders Trend | `olist_monthly_performance.csv` | `month_key`, `orders` | Separate order volume from value changes |
-| Top Categories | `olist_category_performance.csv` | `category_display_name`, `merchandise_gmv_brl` | Identify category concentration |
-| Order Status Distribution | DWD query or a separately exported status summary | Original `order_status`, orders | Show delivered, canceled, shipped, unavailable, and other source statuses |
-| KPI Definition Tooltip | `olist_metric_definitions.csv` | name, definition, scope | Make metric boundaries auditable |
+Olist 使用独立文件名和目录，不覆盖 Legacy 的 PBIX、PBIP、PBIR、TMDL 与截图。
 
-Geography should only be added after producing a documented state-level mart with a single deterministic customer/order geography rule. It is excluded from the current delivery to avoid using nonunique geolocation rows incorrectly.
+## 数据模型与 DataRoot
 
-### Recommended Interaction
+六张 Olist 表均为 imported mart，没有建立跨 mart relationship。每个 visual 从单张预聚合表读取，避免模糊的 many-to-many 路径。
 
-- Month slicer using `month_key`
-- Category selection cross-highlights monthly trends only if the model uses an appropriate shared category/date structure
-- Tooltip displays order scope and metric definition
-
-## Page 2 — Customer & Product Insights
-
-### Goal
-
-Connect customer retention and category quality signals to evidence-based actions.
-
-### Customer Section
-
-| Visual | Source | Fields | Question |
-|---|---|---|---|
-| RFM Segment Distribution | `olist_customer_segments.csv` | `rfm_segment`, `customers` | Which customer groups dominate? |
-| Repeat vs One-time Customers | `olist_customer_rfm.csv` | `is_repeat_customer`, customer count | How large is the repeat base? |
-| Customer Monetary Distribution | `olist_customer_rfm.csv` | `monetary_value_brl` | How concentrated is customer value? |
-| Segment Value Table | `olist_customer_segments.csv` | customers, average frequency, total and average monetary | Which segments combine value and retention? |
-
-### Product Section
-
-| Visual | Source | Fields | Question |
-|---|---|---|---|
-| Category GMV | `olist_category_performance.csv` | category, GMV | Which categories create merchandise value? |
-| Category Review Score | same | category, average review score | Which high-volume categories have weaker ratings? |
-| Freight Ratio | same | category, freight ratio | Where is freight large relative to item value? |
-| Risk Category Matrix | same | GMV, low rating rate, freight ratio, orders | Which material categories combine commercial value with quality or freight risk? |
-| Top/Bottom Category Table | same | GMV, orders, ratings, low rating rate, freight ratio | Provide exact evidence behind rankings |
-
-### Insight Narrative Pattern
-
-Every page annotation or interview statement should follow:
+PBIP 中 `DataRoot` 提交为中性占位符：
 
 ```text
-Finding → Evidence → Possible interpretation → Possible action
+C:\path\to\Ecommerce-Operations-Analytics-Assistant\dashboard\powerbi_data
 ```
 
-Use “may”, “is associated with”, or “requires investigation” for possible explanations. Order-level reviews and observational data do not prove that freight or delivery caused a rating.
+克隆后应在 Power BI Desktop 的 **Transform data → Manage parameters** 中替换为本机绝对路径，然后刷新。不要提交 `.pbi/` cache 或本机路径。
 
-## Minimal Power BI Model
+## 显示格式
 
-The first Olist PBIX can use imported mart tables without relationships because each visual can read from one pre-aggregated table. This keeps the initial report simple and avoids cross-fact ambiguity.
+- 金额：BRL，卡片按空间使用 BRL / 千 / 百万显示。
+- 比率：百分比。
+- 评分：两位小数。
+- 订单与客户：整数。
+- Footer：`Olist Brazilian E-Commerce Public Dataset · delivered 销售口径 · 历史观察数据`。
 
-If cross-filtering across pages is later required, introduce shared Date and Category dimensions from DWD with explicit one-to-many relationships. Do not connect customer RFM directly to category performance through ambiguous many-to-many paths.
+## 验收结果
 
-## Formatting
-
-- Currency: `R$ #,##0.00`
-- Rates: `0.0%` or `0.00%` for small values
-- Review score: `0.00`
-- Orders and customers: whole numbers with thousands separators
-- Titles should state “Delivered Orders” or “Delivered Merchandise GMV” when space permits
-- Add a footer: `Olist public historical data | BRL | Delivered sales scope`
-
-## Required Manual Power BI Steps
-
-1. Run the ODS, DWD, and Analytics commands to generate the six CSVs.
-2. Open Power BI Desktop and create a new Olist report; do not overwrite the legacy Synthetic PBIX.
-3. Import the six `olist_*.csv` files from `dashboard/powerbi_data/`.
-4. Set data types and BRL/percentage formats.
-5. Build the two pages according to this specification.
-6. Verify all six KPI cards against `mart_business_overview`.
-7. Save the report with an explicit Olist filename, such as `Ecommerce-Operations-Analytics-Olist-v2.pbix`.
-8. Reopen the PBIX, refresh it, and repeat KPI reconciliation.
-9. Export screenshots to:
-   - `docs/assets/olist_dashboard_overview.png`
-   - `docs/assets/olist_dashboard_customer_product.png`
-10. Only after visual and KPI validation, update the README to embed the screenshots and mark the Olist dashboard complete.
-
-## Acceptance Criteria
-
-- Two pages exist with the specified names and content.
-- KPI values reconcile to the analytics overview table.
-- Merchandise GMV and Paid Value are visibly distinct.
-- Customer visuals use `customer_unique_id`-based marts.
-- No unsupported profit or advertising metrics appear.
-- Both screenshots exist and render correctly.
-- PBIX reopen and refresh are documented.
-
-Until these criteria are met, Power BI status must be reported as **Requires manual Power BI Desktop work**.
+- 4 个指定页面存在，页面尺寸均为 1440×810。
+- PBIR 共 76 个 visual，JSON 可解析。
+- 六张 mart 与一张 `KPI Measures` 表可由 Desktop 解析。
+- 页面 KPI 与 Analytics overview 对账。
+- PBIX 已重新打开并显示已加载数据。
+- 四张截图来自真实 Power BI Desktop 页面。
+- Olist 页面未使用不受数据支持的广告、成本、利润或确认退款指标。

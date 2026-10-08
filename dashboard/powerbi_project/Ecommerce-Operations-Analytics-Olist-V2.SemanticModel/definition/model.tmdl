@@ -1,0 +1,24 @@
+model Model
+	culture: zh-CN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: zh-CN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["olist_business_overview","olist_monthly_performance","olist_category_performance","olist_customer_rfm","olist_customer_segments","olist_metric_definitions","DataRoot"]
+
+ref table olist_business_overview
+ref table olist_monthly_performance
+ref table olist_category_performance
+ref table olist_customer_rfm
+ref table olist_customer_segments
+ref table olist_metric_definitions
+ref table 'KPI Measures'
+
+ref cultureInfo zh-CN

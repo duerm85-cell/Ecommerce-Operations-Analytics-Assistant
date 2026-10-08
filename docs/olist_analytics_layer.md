@@ -1,19 +1,18 @@
-# Olist Analytics Layer
+# Olist Analytics 层
 
-## Purpose
+## 目的
 
-The analytics layer is a small set of business-facing marts built from the Olist DWD tables. It provides stable inputs for analysis and Power BI without joining order items, payments, and reviews at their original one-to-many grains.
+Analytics 层由 Olist DWD 构建少量面向分析的 marts，为 Power BI 提供稳定输入，避免在原始一对多粒度直接 join order items、payments 和 reviews。
 
-The layer is rebuilt with:
+使用以下命令重建：
 
 ```powershell
 .\.venv\Scripts\python.exe -m etl.olist.build_analytics
 ```
 
-Output database: `data/olist_analytics.sqlite`.
+输出数据库为 `data/olist_analytics.sqlite`。
 
-The same command also exports Power BI-ready CSV files to
-`dashboard/powerbi_data/`:
+同一命令还会向 `dashboard/powerbi_data/` 导出 Power BI CSV：
 
 - `olist_business_overview.csv`
 - `olist_monthly_performance.csv`
@@ -22,11 +21,9 @@ The same command also exports Power BI-ready CSV files to
 - `olist_category_performance.csv`
 - `olist_metric_definitions.csv`
 
-These are generated artifacts and are intentionally excluded from Git. Each
-CSV uses a stable filename, stable column order, deterministic row ordering,
-and UTF-8 encoding with a BOM for Power BI compatibility.
+这些文件是可重建产物，由 Git 排除。每个 CSV 使用稳定文件名、列顺序、确定性行排序和带 BOM 的 UTF-8 编码。
 
-## Business Scope
+## 业务口径
 
 Sales and customer value metrics use orders whose original Olist status is `delivered`. The source status is not renamed or changed. Cancel Rate uses `canceled` orders divided by all placed orders.
 
@@ -34,7 +31,7 @@ All customer metrics use `customer_unique_id`. The record-level `customer_id` is
 
 All monetary fields are BRL. No currency conversion, product cost, profit, margin, advertising metric, or synthetic value is introduced.
 
-## Analytics Tables
+## Analytics 表
 
 | Table | Grain | Current rows | Purpose |
 |---|---|---:|---|
@@ -45,7 +42,7 @@ All monetary fields are BRL. No currency conversion, product cost, profit, margi
 | `mart_category_performance` | One source product category | 74 | Category sales, freight, and review analysis |
 | `analytics_metric_definitions` | One metric definition | 16 | Auditable formulas and scopes |
 
-## Core Metric Definitions
+## 核心指标定义
 
 ### Orders
 
@@ -105,7 +102,7 @@ Average source review score for review records attached to delivered orders. Ord
 Orders whose original status is canceled / All placed orders
 ```
 
-## RFM Definition
+## RFM 定义
 
 RFM includes customers with at least one delivered order.
 
@@ -123,7 +120,7 @@ Scores are deterministic:
 
 Segments are assigned in a fixed rule order: Champions, Loyal Customers, Potential Loyalists, New Customers, Big Spenders, At Risk, Hibernating, and Needs Attention. This is a rule-based analytical segmentation, not a machine learning model.
 
-## Category Metrics
+## 品类指标
 
 The category mart uses `category_en` as the display name when available. Untranslated Portuguese categories and products with missing categories remain in the mart.
 
@@ -138,13 +135,13 @@ The category mart uses `category_en` as the display name when available. Untrans
 
 Reviews are associated with an order rather than a specific item. When an order contains multiple categories, its reviews are attributed once to each distinct category in that order. This supports category comparison but should not be interpreted as an item-level causal review.
 
-## Multi-Fact Join Protection
+## 多事实表防放大
 
 Order items, payments, and reviews are aggregated independently to `order_id` before they are combined for overview and monthly marts. Category monetary metrics come only from order items. Customer Monetary comes only from delivered order-item value.
 
 This prevents one order with multiple items, payments, and reviews from multiplying amounts.
 
-## Current All-Time Snapshot
+## 当前全周期快照
 
 | Metric | Value |
 |---|---:|
@@ -161,7 +158,7 @@ This prevents one order with multiple items, payments, and reviews from multiply
 | Canceled Orders | 625 |
 | Cancel Rate | 0.629% |
 
-## Quality Checks
+## 质量检查
 
 The build executes business checks before committing the transaction:
 
@@ -177,7 +174,7 @@ The build executes business checks before committing the transaction:
 - monthly, category, and segment marts reconcile to the overview;
 - required metric definitions are present.
 
-## Limitations
+## 限制
 
 - Olist is a historical public dataset and does not represent a live company system.
 - Delivered is used as the documented effective sales scope; it is not a replacement source status.

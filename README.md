@@ -1,74 +1,68 @@
-# Ecommerce Operations Analytics
+# 电商运营分析助手
 
-An end-to-end analytics portfolio project built on the public Brazilian ecommerce dataset from Olist. It turns nine source CSV files into a validated ODS layer, a grain-safe dimensional model, business analytics marts, and Power BI-ready exports.
+这是一个以 Olist 巴西电商公开历史数据为主版本的数据分析项目。项目将 9 个原始 CSV 依次构建为 ODS、DWD、Analytics marts，并提供可复核的 Power BI 四页报表。早期 Synthetic V1.1/V1.2 仍保留在仓库中作为历史原型，但不用于证明 Olist 指标。
 
-The project focuses on customer identity resolution, multi-fact modeling, auditable KPI definitions, RFM analysis, category performance, and automated reconciliation. Synthetic V1.1 remains in the repository as a legacy prototype; the primary project narrative and current development path use real Olist data.
+> 数据边界：Olist 是公开历史数据，不是实时业务系统或企业内部数据。所有金额为 BRL；销售与客户指标采用原始 `order_status = 'delivered'` 口径。
 
-[Data setup](data/README.md) · [Analytics definitions](docs/olist_analytics_layer.md) · [Business insights](docs/olist_business_insights.md) · [Power BI specification](docs/olist_powerbi_dashboard_spec.md)
+[数据准备](data/README.md) · [指标与 mart](docs/olist_analytics_layer.md) · [业务洞察](docs/olist_business_insights.md) · [Power BI 说明](docs/olist_powerbi_dashboard_spec.md) · [验证记录](reports/olist_powerbi_validation.md)
 
-## Dashboard Preview
+## 当前状态
 
-**Current status:** the Olist ODS, DWD, Analytics marts, and six Power BI-ready CSV exports are implemented. The two-page Olist PBIX has not yet been created in Power BI Desktop, so this README does not show placeholder or Synthetic screenshots as if they were Olist results.
+| 模块 | 状态 |
+|---|---|
+| Olist 原始数据校验 | 已完成 |
+| Raw → ODS | 已完成 |
+| ODS → DWD | 已完成 |
+| Customer identity bridge | 已完成 |
+| Analytics marts 与 6 个 Power BI CSV | 已完成 |
+| RFM、复购与品类分析 | 已完成 |
+| Power BI PBIP/PBIR/TMDL | 已完成 |
+| Power BI PBIX | 已在 Power BI Desktop 中刷新、保存并重新打开验证 |
+| Synthetic V1.1/V1.2 | 保留为 Legacy，不与 Olist 混用 |
 
-The required pages, visuals, acceptance criteria, and manual build steps are defined in the [Olist Power BI Dashboard Specification](docs/olist_powerbi_dashboard_spec.md). Final screenshots will be added only after the PBIX is refreshed, reconciled, saved, and reopened.
+## Dashboard 预览
 
-## Project Overview
+### 1. 经营总览
 
-The source dataset stores orders, items, payments, and reviews at different grains. A direct wide join would multiply rows and overstate GMV or payment value. Customer records also use two identifiers: `customer_id` identifies an order-specific customer record, while `customer_unique_id` identifies the same person across records.
+![Olist Power BI 经营总览](docs/assets/olist_powerbi_01_overview.png)
 
-This project solves those modeling problems before calculating business metrics:
+### 2. 商品与品类分析
 
-- validates all nine source files before loading;
-- preserves source-aligned ODS tables and lineage fields;
-- separates order, item, payment, and review facts;
-- resolves customer identity through a dedicated bridge;
-- aggregates each fact independently before combining business metrics;
-- publishes small, documented marts for Power BI;
-- reconciles overview, monthly, customer, segment, and category results to DWD facts.
+![Olist Power BI 商品与品类分析](docs/assets/olist_powerbi_02_category.png)
 
-## Business Questions
+### 3. 客户价值
 
-The analytics layer answers three groups of questions:
+![Olist Power BI 客户价值](docs/assets/olist_powerbi_03_customer.png)
 
-1. **Overall performance:** How many delivered orders and purchasing customers are present? What are Merchandise GMV, Paid Value, AOV, review score, and cancellation rate?
-2. **Customer behavior:** How many canonical customers purchase repeatedly? What are their Recency, Frequency, Monetary value, and RFM segments?
-3. **Product and category performance:** Which categories generate merchandise value? Which combine material order volume with higher freight burden or lower ratings?
+### 4. 评价与订单体验
 
-## Architecture
+![Olist Power BI 评价与订单体验](docs/assets/olist_powerbi_04_experience.png)
+
+第四页仅使用现有 mart 能支持的评分、低评分、取消率与运费指标。当前数据层没有交付时长 mart，因此报表不声称分析配送时效。
+
+## 业务问题
+
+项目主要回答三类问题：
+
+1. 经营表现：delivered 订单、购买客户、Merchandise GMV、Paid Value、AOV、评分和取消率如何变化？
+2. 客户价值：按 `customer_unique_id` 统一身份后，复购客户有多少，RFM 分群结构如何？
+3. 商品与体验：哪些品类贡献成交额，哪些品类同时出现较高运费占比或较低评分？
+
+## 数据架构
 
 ```mermaid
 flowchart LR
-    A[Olist Public Dataset<br/>9 source CSVs] --> B[Source Validation]
-    B --> C[ODS<br/>source-aligned tables]
+    A[Olist Public Dataset<br/>9 CSV] --> B[Source Validation]
+    B --> C[ODS<br/>source-aligned]
     C --> D[DWD<br/>dimensions + bridge + facts]
     D --> E[Analytics Marts<br/>overview + monthly + RFM + category]
-    E --> F[Power BI-ready CSVs]
-    F --> G[Power BI Desktop<br/>manual report build pending]
+    E --> F[6 Power BI CSV exports]
+    F --> G[Power BI<br/>PBIP + PBIX + screenshots]
 ```
 
-The Olist pipeline is isolated in `etl/olist/` and writes to `data/olist_analytics.sqlite`. It does not overwrite the legacy Synthetic database at `data/analytics.sqlite`.
+Olist 管道位于 `etl/olist/`，输出 `data/olist_analytics.sqlite`。它不会覆盖 Synthetic 使用的 `data/analytics.sqlite`。
 
-## Dataset
-
-The project uses the [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). It is public historical marketplace data, not internal company data.
-
-| Source | Rows | Grain |
-|---|---:|---|
-| Customers | 99,441 | One customer record |
-| Orders | 99,441 | One order |
-| Order items | 112,650 | One order item |
-| Payments | 103,886 | One payment record |
-| Reviews | 99,224 | One review record |
-| Products | 32,951 | One product |
-| Sellers | 3,095 | One seller |
-| Geolocation | 1,000,163 | One geographic observation |
-| Category translation | 71 | One Portuguese category mapping |
-
-Order purchase timestamps range from **2016-09-04 21:15:19** to **2018-10-17 17:30:18**. The current delivered-sales scope ends on 2018-08-29, producing a deterministic RFM as-of date of 2018-08-30. Monetary values are BRL.
-
-Raw data is downloaded by the user and excluded from Git. See [data/README.md](data/README.md) for the expected files and rebuild commands.
-
-## Data Model
+## 数据模型
 
 ```mermaid
 erDiagram
@@ -83,142 +77,58 @@ erDiagram
     DIM_SELLER ||--o{ FACT_ORDER_ITEMS : fulfills
 ```
 
-The DWD layer contains four dimensions, one customer identity bridge, and four independent facts:
+关键设计是将订单、商品、支付和评价保留为独立事实表，并在合并前按 `order_id` 分别聚合，避免一对多 join 放大金额。`customer_id` 是订单级客户记录，稳定客户身份使用 `customer_unique_id`，二者通过 `bridge_customer_identity` 映射。
 
-| Table | Grain |
-|---|---|
-| `dim_customer` | One `customer_unique_id` |
-| `dim_product` | One `product_id` |
-| `dim_seller` | One `seller_id` |
-| `dim_date` | One calendar date |
-| `bridge_customer_identity` | One `customer_id` mapping |
-| `fact_orders` | One order |
-| `fact_order_items` | One `(order_id, order_item_id)` |
-| `fact_payments` | One `(order_id, payment_sequential)` |
-| `fact_reviews` | One source review record |
+## Analytics marts
 
-The Analytics layer intentionally stays small:
-
-| Mart | Grain |
-|---|---|
-| `mart_business_overview` | One all-time snapshot |
-| `mart_monthly_performance` | One purchase month |
-| `mart_customer_rfm` | One purchasing `customer_unique_id` |
-| `mart_customer_segments` | One RFM segment |
-| `mart_category_performance` | One source category |
-| `analytics_metric_definitions` | One metric definition |
-
-## Key Metrics
-
-Current all-time values use delivered orders for sales and customer metrics:
-
-| Metric | Definition | Result |
+| Mart | 粒度 | 当前行数 |
 |---|---|---:|
-| Orders | Distinct delivered orders | 96,478 |
-| Purchasing Customers | Distinct delivered-order `customer_unique_id` | 93,358 |
-| Merchandise GMV | Delivered item `price_brl` | BRL 13,221,498.11 |
-| Paid Value | Delivered payment `payment_value_brl` | BRL 15,422,461.77 |
-| Units Sold | Delivered order-item records | 110,197 |
-| AOV | Merchandise GMV / delivered orders | BRL 137.04 |
-| Repeat Purchase Rate | Customers with at least two delivered orders / purchasing customers | 3.00% |
-| Average Review Score | Review records attached to delivered orders | 4.156 |
-| Cancel Rate | Canceled orders / all placed orders | 0.629% |
+| `mart_business_overview` | 全周期快照 | 1 |
+| `mart_monthly_performance` | 购买月份 | 25 |
+| `mart_customer_rfm` | 购买客户 `customer_unique_id` | 93,358 |
+| `mart_customer_segments` | RFM 分群 | 8 |
+| `mart_category_performance` | 来源品类 | 74 |
+| `analytics_metric_definitions` | 指标定义 | 16 |
 
-Merchandise GMV and Paid Value remain separate. Freight is excluded from Merchandise GMV. Metric formulas, sources, scopes, and RFM rules are documented in [docs/olist_analytics_layer.md](docs/olist_analytics_layer.md) and stored in `analytics_metric_definitions`.
+## 核心指标
 
-## Customer Identity Resolution
+| 指标 | 定义 | 结果 |
+|---|---|---:|
+| Orders | delivered distinct `order_id` | 96,478 |
+| Purchasing Customers | delivered distinct `customer_unique_id` | 93,358 |
+| Merchandise GMV | delivered item `price_brl` | BRL 13,221,498.11 |
+| Paid Value | delivered payment `payment_value_brl` | BRL 15,422,461.77 |
+| Units Sold | delivered order-item records | 110,197 |
+| AOV | Merchandise GMV / Orders | BRL 137.04 |
+| Repeat Purchase Rate | 至少 2 单客户 / 购买客户 | 3.00% |
+| Average Review Score | delivered 订单关联评价 | 4.156 |
+| Cancel Rate | canceled 订单 / 全部下单 | 0.629% |
 
-`customer_id` is an order-level customer record and cannot represent a stable person. The pipeline keeps all 99,441 customer records in `bridge_customer_identity` and maps them to 96,096 canonical `customer_unique_id` values.
+Merchandise GMV 不含运费，不能与 Paid Value 混称。Olist 数据不提供可靠的商品成本、广告曝光/点击/花费或确认退款结果，因此主版本不计算 ROAS、CTR、CVR、CPA、Gross Profit 或 Gross Margin。
 
-Purchasing Customers, Repeat Customers, Repeat Purchase Rate, Orders per Customer, and RFM all use `customer_unique_id`. The current delivered-order mart contains 93,358 purchasing customers and exactly one RFM row per customer.
+## 主要发现
 
-## Data Quality and Testing
+- 93,358 位购买客户中有 2,801 位至少完成两笔 delivered 订单，复购率为 3.00%。
+- `health_beauty` 的 delivered Merchandise GMV 为 BRL 1.23M，是当前最高品类。
+- 在至少 1,000 单的品类中，`office_furniture` 的低评分占比最高，为 22.02%；该关联不能证明运费或配送导致评分。
+- 2017-11 是 delivered Merchandise GMV 最高月份，金额为 BRL 987,765.37。
 
-Quality gates cover:
+详细证据与解释边界见 [Olist 业务洞察](docs/olist_business_insights.md)。
 
-- source file presence, columns, hashes, timestamps, key uniqueness, and relationships;
-- ODS row-count preservation and technical lineage;
-- DWD table existence, primary keys, foreign keys, fact grains, status preservation, BRL contracts, and GMV join safety;
-- Analytics table grains, canonical customer identity, RFM scores, valid metric ranges, and metric definitions;
-- independent reconciliation of Merchandise GMV and Paid Value;
-- monthly, category, and customer-segment reconciliation;
-- stable Power BI CSV export row counts;
-- regression checks for the legacy Synthetic and Power BI artifacts.
+## 复现步骤
 
-Run all tests with:
-
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-## Power BI Dashboard
-
-`etl.olist.build_analytics` writes six stable UTF-8 CSV files to `dashboard/powerbi_data/`. They are generated artifacts and are excluded from Git.
-
-The planned Olist report contains two pages:
-
-1. **Executive Overview:** Merchandise GMV, Orders, Purchasing Customers, AOV, Repeat Purchase Rate, Average Review Score, monthly trends, categories, and source order status.
-2. **Customer & Product Insights:** RFM segments, repeat versus one-time customers, customer monetary distribution, category GMV, reviews, freight ratio, and risk categories.
-
-The Olist PBIX still requires manual Power BI Desktop work. The repository does not claim that these pages or their screenshots already exist.
-
-## Key Insights
-
-- Only **3.00%** of purchasing customers have at least two delivered orders; 97.00% have exactly one.
-- `health_beauty` is the largest category with BRL 1.23 million in delivered Merchandise GMV, or 9.33% of the total.
-- Among categories with at least 1,000 delivered orders, `office_furniture` has the highest low-rating rate at 22.02%, alongside a 25.01% freight ratio.
-- November 2017 is the highest delivered-GMV month at BRL 987,765.37.
-- Paid Value exceeds Merchandise GMV because they represent different facts; aggregate freight explains nearly all of the difference.
-
-See [docs/olist_business_insights.md](docs/olist_business_insights.md) for evidence, interpretation limits, and possible actions.
-
-## Tech Stack
-
-| Area | Technologies |
-|---|---|
-| Data engineering | Python 3.12, pandas, SQLite |
-| Modeling | ODS, dimensional modeling, fact grains, identity bridge |
-| Analytics | SQL window functions, deterministic RFM, reconciled marts |
-| Quality | `unittest`, transactional builds, source hashing, business reconciliation |
-| BI delivery | Power BI-ready CSV, Power BI Desktop specification |
-| Version control | Git and GitHub |
-
-## Project Structure
-
-```text
-etl/olist/
-  validator.py              Source contracts and validation
-  load_ods.py               Transactional ODS loader
-  dwd_schema.py             DWD table contracts
-  build_dwd.py              ODS-to-DWD transformations
-  dwd_quality.py            DWD grain and integrity checks
-  analytics_schema.py       Analytics mart contracts
-  build_analytics.py        DWD-to-Analytics build and CSV export
-  analytics_quality.py      Business metric reconciliation
-
-tests/                       Source, ODS, DWD, Analytics, and regression tests
-docs/                        Technical design, metrics, insights, and BI spec
-data/raw/olist/              User-downloaded source CSVs, Git-ignored
-data/olist_analytics.sqlite  Generated Olist database, Git-ignored
-dashboard/powerbi_data/      Generated Power BI inputs, Git-ignored
-```
-
-Legacy Synthetic code remains under `data/generate_data.py`, `analysis/`, `database/`, and the existing `dashboard/powerbi_project/`.
-
-## How to Reproduce
-
-### 1. Create the environment
+### 1. 创建环境
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-### 2. Download the Olist dataset
+### 2. 下载数据
 
-Authenticate the official Kaggle CLI and download `olistbr/brazilian-ecommerce` into `data/raw/olist/`. Exact commands and the expected nine files are listed in [data/README.md](data/README.md).
+按 [data/README.md](data/README.md) 将 Kaggle 数据集 `olistbr/brazilian-ecommerce` 的 9 个 CSV 放入 `data/raw/olist/`。原始数据、SQLite 和导出 CSV 均由 `.gitignore` 排除。
 
-### 3. Build ODS, DWD, and Analytics
+### 3. 构建数据层
 
 ```powershell
 .\.venv\Scripts\python.exe -m etl.olist.load_ods
@@ -226,30 +136,45 @@ Authenticate the official Kaggle CLI and download `olistbr/brazilian-ecommerce` 
 .\.venv\Scripts\python.exe -m etl.olist.build_analytics
 ```
 
-### 4. Run validation
+### 4. 运行测试
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-### 5. Build the Olist Power BI report
+### 5. 打开 Power BI
 
-Open Power BI Desktop and follow [docs/olist_powerbi_dashboard_spec.md](docs/olist_powerbi_dashboard_spec.md). This step is manual and is not performed by the Python pipeline.
+- 直接查看：`dashboard/powerbi_project/Ecommerce-Operations-Analytics-Olist-V2.pbix`
+- 源码模式：打开同目录的 `Ecommerce-Operations-Analytics-Olist-V2.pbip`，将参数 `DataRoot` 设置为本机 `dashboard/powerbi_data` 的绝对路径后刷新。
 
-## Limitations
+PBIP 使用独立的 Olist `.Report` 与 `.SemanticModel` 目录，不会覆盖 Legacy Synthetic 项目。详细步骤见 [Power BI 构建与刷新](dashboard/powerbi_build_guide.md)。
 
-- Olist is public historical data and is not a live enterprise system.
-- The first and last purchase months are partial and should not be used for naive period-over-period comparisons.
-- The dataset does not provide reliable product cost, gross profit, gross margin, advertising exposure, clicks, spend, or attribution.
-- `delivered` is a documented analytics filter, not a renamed source status.
-- Reviews are order-level; category attribution cannot establish item-level causes.
-- RFM segments are deterministic descriptive rules, not predictions.
-- The Olist Power BI PBIX and screenshots require manual completion.
+## 项目结构
 
-## Legacy Synthetic Prototype
+```text
+etl/olist/                    Olist 校验、ODS、DWD、Analytics
+tests/                        数据质量与回归测试
+data/raw/olist/               用户下载的 9 个源 CSV（忽略）
+data/olist_analytics.sqlite   生成数据库（忽略）
+dashboard/powerbi_data/       6 个生成 CSV（忽略）
+dashboard/powerbi_project/    Olist 与 Legacy Power BI 资产
+docs/                         设计、指标、洞察和使用说明
+reports/                      验证记录
+```
 
-The repository retains the earlier Synthetic V1.1/V1.2 prototype for engineering history and regression coverage. It includes fixed-seed users, orders, ads, TWD metrics, and validated four-page Power BI artifacts. Those files are not used as evidence for the Olist real-data metrics and are no longer the main project narrative.
+## 限制
+
+- 时间范围为历史快照，首尾月份不完整，不适合直接做朴素同比/环比结论。
+- 评价是订单级数据，品类归因不能确认具体商品或物流事件是评分原因。
+- RFM 是确定性描述规则，不是预测模型。
+- 地理数据含重复邮编前缀，必须先定义确定性聚合规则才能进入报表。
+
+完整边界见 [docs/limitations.md](docs/limitations.md)。
+
+## Legacy Synthetic
+
+Synthetic V1.1/V1.2 的固定种子用户、订单、广告、成本、TWD 指标以及四页 Power BI 资产继续保留，用于展示早期工程演进和回归检查。Legacy 中的广告、利润与评分模型不属于 Olist 主版本。
 
 ## License
 
-Project source code is available under the [MIT License](LICENSE). The Olist dataset remains subject to the terms shown on its Kaggle dataset page and is not redistributed as part of this repository.
+代码采用 [MIT License](LICENSE)。Olist 数据集遵循其 Kaggle 页面所示条款，仓库不重新分发原始数据。

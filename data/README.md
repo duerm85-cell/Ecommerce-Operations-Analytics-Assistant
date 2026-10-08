@@ -1,16 +1,12 @@
-# Data Setup
+# 数据准备
 
-## Dataset
+## 数据集
 
-The Olist pipeline uses the **Brazilian E-Commerce Public Dataset by Olist**, published on Kaggle as [`olistbr/brazilian-ecommerce`](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
+Olist 管道使用 Kaggle 上的 [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)，标识为 `olistbr/brazilian-ecommerce`。它是公开历史市场数据，不是企业内部数据或实时生产系统。
 
-It contains historical public marketplace data for orders, customers, order items, products, sellers, payments, reviews, geolocation, and product-category translations. It is not internal company data and does not represent a live production system.
+## 为什么原始数据不进入 Git
 
-## Why the Raw Data Is Not Stored in Git
-
-The raw dataset and generated SQLite database are excluded from source control because they are downloadable/generated artifacts and add substantial repository size. The source code, table contracts, validation logic, and build instructions remain version controlled so another user can reproduce the data layers.
-
-Git-ignored locations:
+原始 CSV、生成的 SQLite 和 Power BI 导出 CSV 都可重新下载或构建，且体积较大，因此由 `.gitignore` 排除：
 
 ```text
 data/raw/olist/*.csv
@@ -18,9 +14,11 @@ data/olist_analytics.sqlite
 dashboard/powerbi_data/olist_*.csv
 ```
 
-## Download
+仓库保留表结构、校验、转换、指标定义和复现命令。
 
-Install and authenticate the official Kaggle CLI, then run from the repository root:
+## 下载
+
+安装并认证 Kaggle CLI 后，在仓库根目录运行：
 
 ```powershell
 New-Item -ItemType Directory -Force data\raw\olist
@@ -30,25 +28,23 @@ New-Item -ItemType Directory -Force data\raw\olist
   --unzip
 ```
 
-Expected files:
+需要以下 9 个文件：
 
 ```text
-data/raw/olist/olist_customers_dataset.csv
-data/raw/olist/olist_geolocation_dataset.csv
-data/raw/olist/olist_order_items_dataset.csv
-data/raw/olist/olist_order_payments_dataset.csv
-data/raw/olist/olist_order_reviews_dataset.csv
-data/raw/olist/olist_orders_dataset.csv
-data/raw/olist/olist_products_dataset.csv
-data/raw/olist/olist_sellers_dataset.csv
-data/raw/olist/product_category_name_translation.csv
+olist_customers_dataset.csv
+olist_geolocation_dataset.csv
+olist_order_items_dataset.csv
+olist_order_payments_dataset.csv
+olist_order_reviews_dataset.csv
+olist_orders_dataset.csv
+olist_products_dataset.csv
+olist_sellers_dataset.csv
+product_category_name_translation.csv
 ```
 
-Kaggle credentials must remain in the user's normal Kaggle configuration directory. Do not copy credentials, tokens, or account files into this repository.
+Kaggle 凭据必须保留在用户自己的 Kaggle 配置目录，不要复制 token 或账户文件到仓库。
 
-## Rebuild the Data Layers
-
-Run the following commands from the repository root:
+## 构建 ODS、DWD 与 Analytics
 
 ```powershell
 .\.venv\Scripts\python.exe -m etl.olist.load_ods
@@ -56,30 +52,21 @@ Run the following commands from the repository root:
 .\.venv\Scripts\python.exe -m etl.olist.build_analytics
 ```
 
-The commands produce one local database:
+命令输出 `data/olist_analytics.sqlite`，其中包含：
 
-```text
-data/olist_analytics.sqlite
-```
+- 9 个来源对齐的 ODS 表与技术 lineage；
+- dimensions、customer identity bridge 与独立 fact tables；
+- overview、monthly、customer RFM、segment 与 category marts；
+- 供 Power BI 使用的 6 个稳定 UTF-8 CSV。
 
-It contains:
-
-- ODS copies of the nine source files with technical lineage columns;
-- DWD dimensions, customer identity bridge, and independent fact tables;
-- lightweight business marts for overview, monthly, customer RFM, segments, and categories.
-
-The Analytics command also creates Power BI-ready CSV files in `dashboard/powerbi_data/`.
-
-## Validation
-
-Run:
+## 验证
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-Validation covers source files, ODS row counts and hashes, DWD primary/foreign keys and grains, customer identity, GMV duplication risk, analytics reconciliation, RFM grain, metric ranges, and Power BI legacy artifact contracts.
+测试覆盖源文件、hash、ODS 行数、DWD 主外键与粒度、客户身份、GMV 防放大、Analytics 对账、RFM 粒度和 Legacy 回归。
 
-## Separate Legacy Data
+## 与 Synthetic 隔离
 
-`data/analytics.sqlite` and `data/processed/` belong to the Synthetic V1.1 prototype. The Olist pipeline does not overwrite that database or reuse synthetic users, orders, advertising, costs, or currencies.
+`data/analytics.sqlite` 与 `data/processed/` 属于 Legacy Synthetic。Olist 管道不会覆盖它们，也不复用其中的用户、订单、广告、成本或币种。

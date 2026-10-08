@@ -1,6 +1,6 @@
-# 电商运营分析助手
+# 电商运营数据分析
 
-这是一个以 Olist 巴西电商公开历史数据为主版本的数据分析项目。项目将 9 个原始 CSV 依次构建为 ODS、DWD、Analytics marts，并提供可复核的 Power BI 四页报表。早期 Synthetic V1.1/V1.2 仍保留在仓库中作为历史原型，但不用于证明 Olist 指标。
+这是一个基于 Olist Brazilian E-Commerce Public Dataset 的电商数据分析项目，覆盖数据清洗、ODS/DWD 分层建模、客户身份统一、Analytics 指标计算、RFM 客户分析和 Power BI 可视化。早期 Synthetic V1.1/V1.2 仍保留在仓库中作为历史原型，但不用于证明 Olist 指标。
 
 > 数据边界：Olist 是公开历史数据，不是实时业务系统或企业内部数据。所有金额为 BRL；销售与客户指标采用原始 `order_status = 'delivered'` 口径。
 

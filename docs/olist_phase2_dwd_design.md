@@ -1,8 +1,8 @@
 # Olist V2.0 Phase 2-A：DWD Data Warehouse Design
 
-> 文档状态：设计评审稿  
-> 当前阶段：只做模型分析与架构设计，不实施 DWD 代码  
-> 数据模式：Olist Real Mode，与 Synthetic V1.1 保持隔离  
+> 文档状态：设计评审稿
+> 当前阶段：只做模型分析与架构设计，不实施 DWD 代码
+> 数据模式：Olist Real Mode，与 Synthetic V1.1 保持隔离
 > 设计依据：当前仓库代码、Phase 1 ODS 实现、Olist 数据画像和 V2 架构基线
 
 本文定义 Olist 从 ODS 到 DWD 的星型模型设计。它不创建 DWD 数据库表，不修改 ODS，不修改 Synthetic V1.1、Dashboard、Power BI 或 DAX，也不执行 commit 或 push。

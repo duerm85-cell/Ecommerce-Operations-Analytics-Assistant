@@ -1,7 +1,7 @@
 # Olist V2.0 Phase 1：ODS 只读加载与源数据验证
 
-> 状态：已实现并完成本地验证  
-> 范围：Raw CSV → Source Validation → ODS → Metadata / Quality Checks  
+> 状态：已实现并完成本地验证
+> 范围：Raw CSV → Source Validation → ODS → Metadata / Quality Checks
 > 边界：本阶段不进入 DWD、DWS、ADS、RFM、KPI、Power BI 或 DAX
 
 ## 1. Phase 1 范围
